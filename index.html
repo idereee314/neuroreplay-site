@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NeuroReplay — Олон камерын Instant Replay & Video Review</title>
+<meta name="description" content="NeuroReplay — Windows дээрх олон камерын instant replay программ хангамж. USB болон RTSP/IP камер зэрэг бичиж, амьд DVR ухраалт, slow-motion, кадр алхам, telestration, тэмдэглэл, MP4 экспорт. Тулааны спорт, тэмцээн, дасгалжуулалт, VR сургалтад." />
+<meta name="theme-color" content="#fbfbfc" />
+<meta name="author" content="Iderbat Myagmardorj" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="NeuroReplay — Олон камерын Instant Replay & Video Review" />
+<meta property="og:description" content="Windows дээрх олон камерын instant replay программ хангамж: USB/RTSP камер зэрэг бичиж, амьд DVR ухраалт, slow-motion, telestration, MP4 экспорт. Тулааны спорт, тэмцээнд." />
+<meta property="og:locale" content="mn_MN" />
+<meta property="og:locale:alternate" content="en_US" />
+<meta property="og:site_name" content="NeuroReplay" />
+<meta property="og:image" content="assets/og-mark.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="NeuroReplay — Multi-camera Instant Replay software" />
+<meta name="twitter:description" content="Record multiple USB/RTSP cameras on Windows, rewind a live DVR buffer, slow-mo, telestrate, tag and export MP4. Built for combat sports and tournaments." />
+<meta name="twitter:image" content="assets/og-mark.png" />
+
+<link rel="icon" href="assets/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" href="assets/neuroreplay-mark.png" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<!--
+  NeuroReplay configuration. All values are safe to expose (no secrets here).
+  - formEndpoint: POST target for the demo form (Formspree-compatible or custom API).
+                  Leave "" and the form falls back to a mailto: link — it never fakes a submit.
+  - downloadUrl:  Windows installer (.exe / setup) or a release page.
+                  Leave "" and the Download button asks visitors to request access instead.
+-->
+<script>
+  window.NR_CONFIG = {
+    // Demo requests are saved to Supabase (table: demo_requests) via the REST API.
+    // The anon key is public by design; row-level security allows anon INSERT only.
+    // Admins read the list at /admin/ (logged in). If Supabase is unreachable the
+    // form falls back to formEndpoint, then to a mailto: link — it never fakes a submit.
+    supabaseUrl: "https://emopxwgbxwibchyiklpw.supabase.co",
+    supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtb3B4d2dieHdpYmNoeWlrbHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MzA2NzIsImV4cCI6MjA5NTQwNjY3Mn0.NewSLFAHdKLk9p-leBVeRsOgP6LAWZao5aaurbm1JK8",
+    formEndpoint: "",
+    contactEmail: "idereee.engineering@gmail.com",
+    manualUrl: "#",
+    downloadUrl: "",
+    version: "",     // e.g. "1.0.0"
+    fileSize: ""     // e.g. "84 MB"
+  };
+</script>
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<a class="skip" href="#features"><span data-mn>Агуулга руу шилжих</span><span data-en>Skip to content</span></a>
+
+<!-- ══ NAV ══ -->
+<nav class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top" aria-label="NeuroReplay — home"><img class="brand__mark" src="assets/neuroreplay-mark.png" alt="" width="55" height="30" /><span>Neuro<em>Replay</em></span></a>
+    <div class="nav__spacer"></div>
+    <div class="nav__links" id="navLinks">
+      <a href="#features"><span data-mn>Боломжууд</span><span data-en>Features</span></a>
+      <a href="#how"><span data-mn>Хэрхэн ажилладаг</span><span data-en>How it works</span></a>
+      <a href="#pricing"><span data-mn>Үнэ</span><span data-en>Pricing</span></a>
+      <a href="#download"><span data-mn>Татах</span><span data-en>Download</span></a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav__tools">
+      <button class="langbtn" id="langBtn" type="button" aria-label="Switch language / Хэл солих">EN</button>
+      <a class="btn btn--primary" href="#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
+      <button class="hamb" id="hamb" type="button" aria-label="Цэс" aria-expanded="false" aria-controls="mobileMenu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features"><span data-mn>Боломжууд</span><span data-en>Features</span></a>
+    <a href="#how"><span data-mn>Хэрхэн ажилладаг</span><span data-en>How it works</span></a>
+    <a href="#pricing"><span data-mn>Үнэ</span><span data-en>Pricing</span></a>
+    <a href="#download"><span data-mn>Татах</span><span data-en>Download</span></a>
+    <a href="#faq">FAQ</a>
+    <a class="btn btn--primary" href="#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
+  </div>
+</nav>
+
+<div id="top"></div>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="wrap hero__grid">
+    <div class="hero__intro">
+      <span class="announce"><b><span class="dot"></span>Windows 10/11</b> <span data-mn>Тулааны спортод зориулав</span><span data-en>Built for combat sports</span></span>
+      <h1>
+        <span data-mn>Тулаан бүрийг <span class="grad">хормын дотор</span> ухраан шүү.</span>
+        <span data-en>Rewind every bout <span class="grad">in an instant.</span></span>
+      </h1>
+      <p class="lead">
+        <span data-mn>NeuroReplay бол бөх, жүдо, БЖЖ, MMA, самбо зэрэг тулааны спортод зориулсан олон камерын instant replay программ хангамж. Талбай бүрийг USB болон RTSP/IP камераар зэрэг бичиж, маргаантай агшныг амьд DVR-ээр шууд ухрааж, удаашруулж, зураас татаж, MP4 экспортолно.</span>
+        <span data-en>NeuroReplay is multi-camera instant replay software for combat sports — wrestling, judo, BJJ, MMA, sambo. Record every mat with USB and RTSP/IP cameras, rewind a disputed moment live, slow it down, telestrate and export MP4.</span>
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#order">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 9h8M8 12h5"/></svg>
+          <span data-mn>Demo захиалах</span><span data-en>Request a demo</span>
+        </a>
+        <a class="btn btn--ghost" href="#download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M5 19h14"/></svg>
+          <span data-mn>Татаж авах</span><span data-en>Download</span>
+        </a>
+      </div>
+      <p class="hero__note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+        <span data-mn>Интернэтгүй ажиллана · Монгол, Англи, Орос хэл · Capture карт шаардлагагүй</span>
+        <span data-en>Works fully offline · Mongolian, English, Russian · No capture card needed</span>
+      </p>
+    </div>
+
+    <div class="rig-wrap">
+      <div class="rig" role="img" aria-label="NeuroReplay software mockup: four camera feeds with REC state, timeline, replay offset and telestration">
+        <div class="rig__top">
+          <span class="rig__dots"><i></i><i></i><i></i></span>
+          <span class="rig__name">NeuroReplay · Multiview</span>
+          <span class="rig__state"><span class="chip-live">LIVE</span><span class="chip-rec">REC 12:47</span></span>
+        </div>
+        <div class="rig__grid">
+          <div class="cam"><span class="cam__tag">CAM 1 · USB</span><span class="cam__tc">00:12:47:03</span>
+            <div class="cam__mark"><svg viewBox="0 0 160 100" aria-hidden="true"><circle cx="64" cy="52" r="20" fill="none" stroke="#ffb02e" stroke-width="2"/><path d="M64 52 L96 30" stroke="#67e8f9" stroke-width="2" fill="none"/><path d="M90 28 l8 2 -3 7" stroke="#67e8f9" stroke-width="2" fill="none"/></svg></div>
+          </div>
+          <div class="cam"><span class="cam__tag">CAM 2 · USB</span><span class="cam__tc">00:12:47:03</span></div>
+          <div class="cam"><span class="cam__tag">CAM 3 · RTSP</span><span class="cam__tc">00:12:47:03</span>
+            <div class="cam__mark"><svg viewBox="0 0 160 100" aria-hidden="true"><path d="M40 70 L80 40 L120 66" fill="none" stroke="#ffb02e" stroke-width="2"/><text x="84" y="36" fill="#67e8f9" font-family="monospace" font-size="9">47.5°</text></svg></div>
+          </div>
+          <div class="cam"><span class="cam__tag">CAM 4 · RTSP</span><span class="cam__tc">00:12:47:03</span></div>
+        </div>
+        <div class="rig__bar">
+          <span class="rig__btn" aria-hidden="true">«</span>
+          <span class="rig__btn play" aria-hidden="true">▶</span>
+          <span class="rig__btn" aria-hidden="true">»</span>
+          <div class="rig__track"><div class="rig__fill"></div><div class="rig__head"></div></div>
+          <span class="rig__tc">−00:08.4</span>
+        </div>
+      </div>
+      <p class="rig__caption"><span data-mn>Дүрслэл — бүтээгдэхүүний интерфейсийн загвар</span><span data-en>Illustration — labelled product interface mockup</span></p>
+    </div>
+  </div>
+</header>
+
+<!-- ══ TAPE ══ -->
+<div class="tape" aria-hidden="true">
+  <div class="tape__in">
+    <span><b>Олон камер зэрэг</b> <i>◆</i> <b>Instant replay</b> <i>◆</i> <b>Амьд DVR ухраалт</b> <i>◆</i> <b>Slow-motion</b> <i>◆</i> <b>Telestration</b> <i>◆</i> <b>RTSP / IP</b> <i>◆</i> <b>MP4 экспорт</b> <i>◆</i> <b>Офлайн</b> <i>◆</i></span>
+    <span><b>Олон камер зэрэг</b> <i>◆</i> <b>Instant replay</b> <i>◆</i> <b>Амьд DVR ухраалт</b> <i>◆</i> <b>Slow-motion</b> <i>◆</i> <b>Telestration</b> <i>◆</i> <b>RTSP / IP</b> <i>◆</i> <b>MP4 экспорт</b> <i>◆</i> <b>Офлайн</b> <i>◆</i></span>
+  </div>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker"><span data-mn>Боломжууд</span><span data-en>Capabilities</span></span>
+        <h2><span data-mn>Талбайн хажууд хэрэгтэй бүхэн — нэг дор</span><span data-en>Everything the mat needs — in one place</span></h2>
+      </div>
+      <p><span data-mn>Тэмцээний шийдвэрээс дасгалжуулалт, техникийн шинжилгээ хүртэл. Тусдаа capture карт, свитчер, засварын программ хэрэггүй.</span><span data-en>From match-day calls to coaching and technical analysis — no separate capture card, switcher or editing suite.</span></p>
+    </div>
+
+    <div class="spotlight reveal">
+      <div class="spotlight__body">
+        <h3><span data-mn>Гол нь: олон өнцгийг зэрэг, төгс синклэн</span><span data-en>The core: every angle at once, in perfect sync</span></h3>
+        <p><span data-mn>USB болон RTSP/IP камерыг нэг timeline дээр авч, бичсээр байх зуураа тэр л агшинд буцаан харна.</span><span data-en>Pull USB and RTSP/IP cameras onto one timeline and replay the exact moment while it keeps recording.</span></p>
+        <div class="spot-list">
+          <div class="it">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="8" height="7" rx="1"/><rect x="13" y="4" width="8" height="7" rx="1"/><rect x="3" y="13" width="8" height="7" rx="1"/><rect x="13" y="13" width="8" height="7" rx="1"/></svg>
+            <div><b><span data-mn>Олон камерын бичлэг</span><span data-en>Multi-camera recording</span></b><span data-mn>Хэд хэдэн камерыг зэрэг, синклэн.</span><span data-en>Several cameras recorded and replayed in sync.</span></div>
+          </div>
+          <div class="it">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/></svg>
+            <div><b>Instant replay</b><span data-mn>Товч дарахад гол мөч шууд эргэнэ.</span><span data-en>One trigger replays the key moment.</span></div>
+          </div>
+          <div class="it">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 5v14M16 5v14"/></svg>
+            <div><b><span data-mn>Амьд DVR ухраалт</span><span data-en>Live DVR rewind</span></b><span data-mn>Бичлэг зогсохгүйгээр ухрааж review.</span><span data-en>Rewind without stopping the recording.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="spotlight__visual">
+        <div class="rig" aria-hidden="true">
+          <div class="rig__top"><span class="rig__dots"><i></i><i></i><i></i></span><span class="rig__name">Multiview</span><span class="rig__state"><span class="chip-live">LIVE</span></span></div>
+          <div class="rig__grid">
+            <div class="cam"><span class="cam__tag">CAM 1</span></div><div class="cam"><span class="cam__tag">CAM 2</span></div>
+            <div class="cam"><span class="cam__tag">CAM 3</span></div><div class="cam"><span class="cam__tag">CAM 4</span></div>
+          </div>
+          <div class="rig__bar"><span class="rig__btn play">▶</span><div class="rig__track"><div class="rig__fill"></div><div class="rig__head"></div></div><span class="rig__tc">−00:08.4</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bento reveal">
+      <div class="tile">
+        <div class="tile__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg></div>
+        <h3><span data-mn>RTSP / IP камер</span><span data-en>RTSP / IP cameras</span></h3>
+        <p><span data-mn>FFmpeg-ээр сүлжээний IP камерыг LAN-аар холбоно. Урт зайд, PoE-гээр найдвартай.</span><span data-en>Connect network IP cameras over LAN through FFmpeg — long-run and PoE-ready.</span></p>
+      </div>
+      <div class="tile">
+        <div class="tile__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 3v18l14-9z"/></svg></div>
+        <h3><span data-mn>Slow-motion, кадр алхам</span><span data-en>Slow-motion & frame step</span></h3>
+        <p><span data-mn>Удаан тоглуулж, кадр кадраар урагш/хойш алхаж техникийн нарийныг гаргана.</span><span data-en>Play slow and step frame by frame to break down the fine detail.</span></p>
+      </div>
+      <div class="tile">
+        <div class="tile__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20l6-2 9-9-4-4-9 9z"/><path d="M13 5l4 4"/></svg></div>
+        <h3><span data-mn>Telestration ба зум</span><span data-en>Telestration & zoom</span></h3>
+        <p><span data-mn>Видеон дээр сум, тойрог, зураас татаж, зум/пан хийж анхаарлаа хандуулна.</span><span data-en>Draw arrows, circles and lines on the video, then zoom and pan to focus.</span></p>
+      </div>
+      <div class="tile">
+        <div class="tile__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg></div>
+        <h3><span data-mn>Тэмдэглэл (tagging)</span><span data-en>Tagging</span></h3>
+        <p><span data-mn>Гол агшин, техникийг timeline дээр тэмдэглэж, дараа нь хурдан олж шинжилнэ.</span><span data-en>Tag key moments on the timeline — find and analyse them fast afterwards.</span></p>
+      </div>
+      <div class="tile">
+        <div class="tile__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v10m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div>
+        <h3><span data-mn>MP4 ба highlight экспорт</span><span data-en>MP4 & highlight export</span></h3>
+        <p><span data-mn>Тэмдэглэсэн агшнаас MP4 бичлэг, highlight эмхэтгэл гаргаж хуваалцана.</span><span data-en>Export MP4 clips and highlight reels from tagged moments to share.</span></p>
+      </div>
+      <div class="tile">
+        <div class="tile__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></div>
+        <h3><span data-mn>Олон хэл, офлайн</span><span data-en>Multilingual & offline</span></h3>
+        <p><span data-mn>Интерфейс Монгол, Англи, Орос. Тэмцээний талбайд интернэтгүй ажиллана.</span><span data-en>Interface in Mongolian, English and Russian. Runs on-site with no internet.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section id="how" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker"><span data-mn>Хэрхэн ажилладаг</span><span data-en>How it works</span></span>
+        <h2><span data-mn>Гурван алхам, ердөө хэдхэн минут</span><span data-en>Three steps, just a few minutes</span></h2>
+      </div>
+      <p><span data-mn>Тохиргоо энгийн: камераа залгаад л replay хийж эхэлнэ.</span><span data-en>Setup is simple: plug in your cameras and start replaying.</span></p>
+    </div>
+    <div class="timeline reveal">
+      <div class="tstep">
+        <div class="tstep__n">1</div>
+        <h3><span data-mn>Камераа холбо</span><span data-en>Connect cameras</span></h3>
+        <p><span data-mn>USB камераа залгах эсвэл RTSP/IP хаягаа оруулаад бичлэг эхлүүлнэ. Capture карт, свитчер хэрэггүй.</span><span data-en>Plug in USB cameras or add RTSP/IP addresses and start recording — no capture cards or switcher.</span></p>
+      </div>
+      <div class="tstep">
+        <div class="tstep__n">2</div>
+        <h3><span data-mn>Тэр агшныг review хий</span><span data-en>Review the moment</span></h3>
+        <p><span data-mn>Instant replay-ээр ухрааж, удаашруулж, кадр алхаж, зум хийж, зураас татаж тэмдэглэнэ.</span><span data-en>Rewind with instant replay, slow it down, step frames, zoom, telestrate and tag it.</span></p>
+      </div>
+      <div class="tstep">
+        <div class="tstep__n">3</div>
+        <h3><span data-mn>Экспортол, хуваалц</span><span data-en>Export & share</span></h3>
+        <p><span data-mn>MP4 бичлэг, highlight эмхэтгэлээ гаргаж тамирчин, дасгалжуулагч, багтайгаа хуваалцана.</span><span data-en>Export MP4 clips and highlight reels and share them with athletes, coaches and teams.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VENUE LAYOUT ══ -->
+<section id="setup">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker"><span data-mn>Талбайн байрлал</span><span data-en>Venue layout</span></span>
+        <h2><span data-mn>Камераа матны 2 буланд байрлуул</span><span data-en>Two cameras, two corners of the mat</span></h2>
+      </div>
+      <p><span data-mn>JJIF талбай: 8×8 м fighting area, тойрон 2 м safety area = 12×12 м match area. Мат нь 1×2 м tatami. 2 эсрэг буланд 2 камер тавьж бүх талбайг хамруулна — том талбайд 4 хүртэл.</span><span data-en>JJIF field: an 8×8 m fighting area with a 2 m safety area all around = a 12×12 m match area. Mats are 1×2 m tatami. Two cameras at opposite corners cover the whole area — scale up to 4 for larger venues.</span></p>
+    </div>
+    <div class="layout-card reveal">
+      <svg class="layout-svg" viewBox="0 0 800 520" role="img" aria-label="Top-down JJIF diagram: 8 by 8 metre blue fighting area, a 1 metre red safety ring and a 1 metre outer blue ring (12 by 12 metre match area), laid from 1 by 2 metre tatami mats in a basket-weave pattern, with two cameras at opposite corners feeding one computer">
+        <defs>
+          <linearGradient id="coneG1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3f5bff"/><stop offset="1" stop-color="#ff3bc7"/></linearGradient>
+        </defs>
+
+        <!-- tatami mats: 1x2 m, basket-weave (blue fighting / red safety / blue outer) -->
+        <g>
+          <rect class="m-b" x="268" y="133" width="44" height="22"/>
+          <rect class="m-b" x="268" y="375" width="44" height="22"/>
+          <rect class="m-b" x="312" y="133" width="44" height="22"/>
+          <rect class="m-b" x="312" y="375" width="44" height="22"/>
+          <rect class="m-b" x="356" y="133" width="44" height="22"/>
+          <rect class="m-b" x="356" y="375" width="44" height="22"/>
+          <rect class="m-b" x="400" y="133" width="44" height="22"/>
+          <rect class="m-b" x="400" y="375" width="44" height="22"/>
+          <rect class="m-b" x="444" y="133" width="44" height="22"/>
+          <rect class="m-b" x="444" y="375" width="44" height="22"/>
+          <rect class="m-b" x="488" y="133" width="44" height="22"/>
+          <rect class="m-b" x="488" y="375" width="44" height="22"/>
+          <rect class="m-b" x="268" y="155" width="22" height="44"/>
+          <rect class="m-b" x="510" y="155" width="22" height="44"/>
+          <rect class="m-b" x="268" y="199" width="22" height="44"/>
+          <rect class="m-b" x="510" y="199" width="22" height="44"/>
+          <rect class="m-b" x="268" y="243" width="22" height="44"/>
+          <rect class="m-b" x="510" y="243" width="22" height="44"/>
+          <rect class="m-b" x="268" y="287" width="22" height="44"/>
+          <rect class="m-b" x="510" y="287" width="22" height="44"/>
+          <rect class="m-b" x="268" y="331" width="22" height="44"/>
+          <rect class="m-b" x="510" y="331" width="22" height="44"/>
+          <rect class="m-r" x="290" y="155" width="44" height="22"/>
+          <rect class="m-r" x="290" y="353" width="44" height="22"/>
+          <rect class="m-r" x="334" y="155" width="44" height="22"/>
+          <rect class="m-r" x="334" y="353" width="44" height="22"/>
+          <rect class="m-r" x="378" y="155" width="44" height="22"/>
+          <rect class="m-r" x="378" y="353" width="44" height="22"/>
+          <rect class="m-r" x="422" y="155" width="44" height="22"/>
+          <rect class="m-r" x="422" y="353" width="44" height="22"/>
+          <rect class="m-r" x="466" y="155" width="44" height="22"/>
+          <rect class="m-r" x="466" y="353" width="44" height="22"/>
+          <rect class="m-r" x="290" y="177" width="22" height="44"/>
+          <rect class="m-r" x="488" y="177" width="22" height="44"/>
+          <rect class="m-r" x="290" y="221" width="22" height="44"/>
+          <rect class="m-r" x="488" y="221" width="22" height="44"/>
+          <rect class="m-r" x="290" y="265" width="22" height="44"/>
+          <rect class="m-r" x="488" y="265" width="22" height="44"/>
+          <rect class="m-r" x="290" y="309" width="22" height="44"/>
+          <rect class="m-r" x="488" y="309" width="22" height="44"/>
+          <rect class="m-b" x="312" y="177" width="44" height="22"/>
+          <rect class="m-b" x="312" y="199" width="44" height="22"/>
+          <rect class="m-b" x="356" y="177" width="22" height="44"/>
+          <rect class="m-b" x="378" y="177" width="22" height="44"/>
+          <rect class="m-b" x="400" y="177" width="44" height="22"/>
+          <rect class="m-b" x="400" y="199" width="44" height="22"/>
+          <rect class="m-b" x="444" y="177" width="22" height="44"/>
+          <rect class="m-b" x="466" y="177" width="22" height="44"/>
+          <rect class="m-b" x="312" y="221" width="22" height="44"/>
+          <rect class="m-b" x="334" y="221" width="22" height="44"/>
+          <rect class="m-b" x="356" y="221" width="44" height="22"/>
+          <rect class="m-b" x="356" y="243" width="44" height="22"/>
+          <rect class="m-b" x="400" y="221" width="22" height="44"/>
+          <rect class="m-b" x="422" y="221" width="22" height="44"/>
+          <rect class="m-b" x="444" y="221" width="44" height="22"/>
+          <rect class="m-b" x="444" y="243" width="44" height="22"/>
+          <rect class="m-b" x="312" y="265" width="44" height="22"/>
+          <rect class="m-b" x="312" y="287" width="44" height="22"/>
+          <rect class="m-b" x="356" y="265" width="22" height="44"/>
+          <rect class="m-b" x="378" y="265" width="22" height="44"/>
+          <rect class="m-b" x="400" y="265" width="44" height="22"/>
+          <rect class="m-b" x="400" y="287" width="44" height="22"/>
+          <rect class="m-b" x="444" y="265" width="22" height="44"/>
+          <rect class="m-b" x="466" y="265" width="22" height="44"/>
+          <rect class="m-b" x="312" y="309" width="22" height="44"/>
+          <rect class="m-b" x="334" y="309" width="22" height="44"/>
+          <rect class="m-b" x="356" y="309" width="44" height="22"/>
+          <rect class="m-b" x="356" y="331" width="44" height="22"/>
+          <rect class="m-b" x="400" y="309" width="22" height="44"/>
+          <rect class="m-b" x="422" y="309" width="22" height="44"/>
+          <rect class="m-b" x="444" y="309" width="44" height="22"/>
+          <rect class="m-b" x="444" y="331" width="44" height="22"/>
+        </g>
+        <rect class="fight-outline" x="312" y="177" width="176" height="176"/>
+
+        <!-- FOV cones from 2 diagonal corners -->
+        <polygon class="cone c1" fill="url(#coneG1)" points="250,102 512,150 300,362"/>
+        <polygon class="cone c2" fill="url(#coneG1)" points="550,398 300,352 500,158"/>
+
+        <!-- wires to PC -->
+        <path class="wire" d="M250,110 C 252,320 322,436 392,454"/>
+        <path class="wire" d="M550,396 C 540,430 470,452 410,458"/>
+
+        <!-- athletes (in fighting area) -->
+        <g transform="translate(400,265)">
+          <circle class="a1 athlete1" r="11"/>
+          <circle class="a2 athlete2" r="11"/>
+        </g>
+
+        <!-- dimension chips -->
+        <g>
+          <rect x="366" y="299" width="68" height="19" rx="6" fill="#ffffff" opacity=".92"/>
+          <text class="dimtext" x="400" y="313" text-anchor="middle">8 × 8 м</text>
+        </g>
+        <g>
+          <rect x="360" y="371" width="80" height="19" rx="6" fill="#ffffff" opacity=".94"/>
+          <text class="dimtext" x="400" y="385" text-anchor="middle">12 × 12 м</text>
+        </g>
+
+        <!-- cameras: 2 opposite corners -->
+        <g>
+          <rect class="cam-box" x="208" y="74" width="52" height="34" rx="7"/>
+          <circle class="cam-lens" cx="250" cy="98" r="6"/>
+          <text class="lbl" x="234" y="66" text-anchor="middle">CAM 1</text>
+        </g>
+        <g>
+          <rect class="cam-box" x="544" y="392" width="52" height="34" rx="7"/>
+          <circle class="cam-lens" cx="550" cy="398" r="6"/>
+          <text class="lbl" x="570" y="444" text-anchor="middle">CAM 2</text>
+        </g>
+
+        <!-- PC -->
+        <rect class="pc" x="344" y="452" width="112" height="46" rx="12"/>
+        <circle class="pc-rec" cx="364" cy="475" r="4"/>
+        <text class="pc-txt" x="408" y="480" text-anchor="middle">NeuroReplay</text>
+      </svg>
+      <p class="layout-note"><b><span data-mn>JJIF стандарт:</span><span data-en>JJIF standard:</span></b> <span data-mn>Fighting area 8×8 м (цэнхэр) + Safety area 2 м (улаан+цэнхэр ring) = Match area 12×12 м. 1×2 м tatami, basket-weave өрөлт — нийт 72 мат.</span><span data-en>Fighting area 8×8 m (blue) + 2 m safety area (red + outer blue ring) = 12×12 m match area. 1×2 m tatami in a basket-weave layout — 72 mats total.</span></p>
+      <div class="layout-legend">
+        <span class="lg"><i style="background:#2f6fd6"></i><span data-mn>Fighting area · 8×8 м</span><span data-en>Fighting area · 8×8 m</span></span>
+        <span class="lg"><i style="background:#e23c3c"></i><span data-mn>Safety area · 2 м</span><span data-en>Safety area · 2 m</span></span>
+        <span class="lg"><i style="background:linear-gradient(135deg,#3f5bff,#ff3bc7)"></i><span data-mn>Камерын өнцөг</span><span data-en>Camera FOV</span></span>
+        <span class="lg"><i style="background:#b6a6ff"></i><span data-mn>USB / LAN</span><span data-en>USB / LAN</span></span>
+        <span class="lg"><i style="background:#14151b"></i><span data-mn>Компьютер</span><span data-en>Computer</span></span>
+      </div>
+    </div>
+
+    <div class="layout-tips reveal">
+      <div class="tip">
+        <div class="tip__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v18M12 3l-4 4M12 3l4 4M5 21h14"/></svg></div>
+        <div>
+          <b><span data-mn>Өндөр</span><span data-en>Height</span> · <span class="val">2.5–3 м</span></b>
+          <span class="t"><span data-mn>Тамирчид бие биедээ халхлахгүй, бүх хивс харагдахуйц өндөрт суурилуул.</span><span data-en>Mount high enough that athletes don't block each other and the whole mat stays visible.</span></span>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 18h16M4 18L16 6M4 18a12 12 0 0 1 3.5-8.5"/></svg></div>
+        <div>
+          <b><span data-mn>Доош налуу</span><span data-en>Down-tilt</span> · <span class="val">15–30°</span></b>
+          <span class="t"><span data-mn>Камераа матны төв рүү бага зэрэг доош налуулж чиглүүл.</span><span data-en>Angle each camera slightly downward, pointed at the centre of the mat.</span></span>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <div>
+          <b><span data-mn>Байрлал ба зай</span><span data-en>Position & distance</span></b>
+          <span class="t"><span data-mn>2 эсрэг булан (диагональ), матнаас 1–2 м зайд — сохор бүсгүй, бүх хивс багтана.</span><span data-en>Two opposite (diagonal) corners, 1–2 m back — no blind spots, full mat coverage.</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ USE CASES ══ -->
+<section id="usecases">
+  <div class="wrap uc-split">
+    <div class="reveal">
+      <span class="kicker"><span data-mn>Хэнд зориулав</span><span data-en>Who it's for</span></span>
+      <h2><span data-mn>Тэмцээний талбайгаас өдөр тутмын дасгал хүртэл</span><span data-en>From the competition floor to daily training</span></h2>
+      <p class="lead"><span data-mn>Бөх, жүдо, БЖЖ, MMA, самбо зэрэг тулааны спортын тэмцээн, клуб, дасгалжуулалт, VR сургалтад тохирно.</span><span data-en>Built for combat-sport competitions and clubs, coaching, technical review and VR training.</span></p>
+    </div>
+    <div class="uc-grid reveal">
+      <div class="uc">
+        <div class="uc__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h12v4a6 6 0 0 1-12 0z"/><path d="M9 15h6M8 21h8M12 15v6"/></svg></div>
+        <h3><span data-mn>Тэмцээн ба шүүгчид</span><span data-en>Competitions & officials</span></h3>
+        <p><span data-mn>Талбай бүрийг зэрэг бичиж, маргаантай оноог шүүгчдэд instant replay-ээр харуулна.</span><span data-en>Record every mat and show disputed scores to officials with instant replay.</span></p>
+      </div>
+      <div class="uc">
+        <div class="uc__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg></div>
+        <h3><span data-mn>Тулааны спортын клуб</span><span data-en>Combat gyms & academies</span></h3>
+        <p><span data-mn>Тулаан, дасгал, sparring-ийг олон өнцгөөс бичиж, дахин үзэж, ахицыг хэмжинэ.</span><span data-en>Record bouts, drills and sparring, review them back and measure progress.</span></p>
+      </div>
+      <div class="uc">
+        <div class="uc__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l3 3-3 3-3-3z"/><path d="M6 21v-3l6-3 6 3v3"/><path d="M12 12v6"/></svg></div>
+        <h3><span data-mn>Дасгалжуулагчид</span><span data-en>Coaches</span></h3>
+        <p><span data-mn>Техникийг кадр кадраар задалж, зураас татаж, тамирчиндаа тэр дороо харуулна.</span><span data-en>Break down technique frame by frame and show athletes on the spot.</span></p>
+      </div>
+      <div class="uc">
+        <div class="uc__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="7" width="20" height="10" rx="3"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="12" r="2"/></svg></div>
+        <h3><span data-mn>VR сургалтын төв</span><span data-en>VR training facilities</span></h3>
+        <p><span data-mn>VR дасгалжуулалт ба гүйцэтгэлийг олон өнцгөөс бичиж, техникийн шинжилгээ хийнэ.</span><span data-en>Capture VR training from multiple angles for technical review.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COMPARISON ══ -->
+<section id="compare" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker"><span data-mn>Яагаад NeuroReplay</span><span data-en>Why NeuroReplay</span></span>
+        <h2><span data-mn>Ердийн бичлэгээс юугаараа илүү вэ</span><span data-en>Beyond a normal recording workflow</span></h2>
+      </div>
+      <p><span data-mn>Ердийн камер зөвхөн дараа үзэх файл үлдээдэг. NeuroReplay яг тэр агшинд review, анализ, экспортыг өгнө.</span><span data-en>A normal recording just leaves a file to watch later. NeuroReplay gives you review, analysis and export in the moment.</span></p>
+    </div>
+    <div class="cmp-table reveal">
+      <div class="cmp-row header">
+        <div class="cmp-cell head label"><span data-mn>Чадвар</span><span data-en>Capability</span></div>
+        <div class="cmp-cell head nr">NeuroReplay</div>
+        <div class="cmp-cell head old"><span data-mn>Ердийн бичлэг</span><span data-en>Normal recording</span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-cell label"><span data-mn>Бичсээр байхад буцаан үзэх</span><span data-en>Review while still recording</span></div>
+        <div class="cmp-cell nr"><span class="yes">✓</span> <span data-mn>Амьд DVR ухраалт</span><span data-en>Live DVR rewind</span></div>
+        <div class="cmp-cell old"><span class="no">✕</span> <span data-mn>Зогсоож, файлаа нээнэ</span><span data-en>Must stop and open the file</span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-cell label"><span data-mn>Олон өнцөг синклэн</span><span data-en>Multiple angles in sync</span></div>
+        <div class="cmp-cell nr"><span class="yes">✓</span> <span data-mn>Нэг timeline дээр</span><span data-en>On one timeline</span></div>
+        <div class="cmp-cell old"><span class="no">✕</span> <span data-mn>Гараар тааруулна</span><span data-en>Aligned by hand</span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-cell label"><span data-mn>Тэр агшинд instant replay</span><span data-en>Instant replay on the spot</span></div>
+        <div class="cmp-cell nr"><span class="yes">✓</span> <span data-mn>Товч дарахад</span><span data-en>One trigger</span></div>
+        <div class="cmp-cell old"><span class="no">✕</span> <span data-mn>Боломжгүй</span><span data-en>Not possible</span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-cell label"><span data-mn>Зураас, тэмдэглэл</span><span data-en>Telestration & tags</span></div>
+        <div class="cmp-cell nr"><span class="yes">✓</span> <span data-mn>Дотор нь</span><span data-en>Built in</span></div>
+        <div class="cmp-cell old"><span class="no">✕</span> <span data-mn>Тусдаа программ</span><span data-en>Separate tool</span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-cell label"><span data-mn>Highlight гаргах</span><span data-en>Produce highlights</span></div>
+        <div class="cmp-cell nr"><span class="yes">✓</span> <span data-mn>Тэмдэглэлээс шууд MP4</span><span data-en>MP4 straight from tags</span></div>
+        <div class="cmp-cell old"><span class="no">✕</span> <span data-mn>Гараар зүсэж эмхэтгэнэ</span><span data-en>Manual editing</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ══ -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker"><span data-mn>Үнэ</span><span data-en>Pricing</span></span>
+        <h2><span data-mn>Тэмцээний өдрийн багц</span><span data-en>The event-day package</span></h2>
+      </div>
+      <p><span data-mn>Нэг тодорхой үнэ: 1 view горим, 4 камер, тэмцээний үеийн техникийн туслалцаа багтсан. Нэмэлт хэрэгцээгээ доороос сонгоно.</span><span data-en>One clear price: one view mode, 4 cameras and on-site technical support during the event. Add extras below.</span></p>
+    </div>
+    <!--
+      PRICING — main event-day package 180,000₮/day (1 view mode, 4 cameras, on-site support).
+      TODO(owner): fill real add-on prices (currently "on request").
+    -->
+    <div class="pkg-wrap reveal">
+      <div class="pkg" data-badge="Санал болгох">
+        <div class="pkg__head">
+          <div class="pkg__name"><span data-mn>Тэмцээний өдөр</span><span data-en>Event day</span><span class="s"><span data-mn>1 view горим — Legacy / Minimal / Multiview-с сонгоно</span><span data-en>One view mode — choose Legacy / Minimal / Multiview</span></span></div>
+          <div class="pkg__price">180,000₮ <small>/ <span data-mn>тэмцээний өдөр</span><span data-en>per event day</span></small></div>
+        </div>
+        <ul class="pkg__list">
+          <li><span data-mn>4 камер хүртэл (USB/RTSP)</span><span data-en>Up to 4 cameras (USB/RTSP)</span></li>
+          <li><span data-mn>Сонгосон 1 view горим</span><span data-en>One chosen view mode</span></li>
+          <li><span data-mn>Instant replay, амьд DVR ухраалт</span><span data-en>Instant replay & live DVR rewind</span></li>
+          <li><span data-mn>Slow-mo, кадр алхам, зум/пан</span><span data-en>Slow-mo, frame step, zoom/pan</span></li>
+          <li><span data-mn>Telestration, тэмдэглэл</span><span data-en>Telestration & tagging</span></li>
+          <li><span data-mn>MP4 / highlight экспорт</span><span data-en>MP4 / highlight export</span></li>
+          <li class="wide"><span data-mn>Тэмцээний үеийн техникийн туслалцаа (газар дээр нь)</span><span data-en>On-site technical support during the event</span></li>
+        </ul>
+        <a class="btn btn--primary" href="#order" style="width:100%"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:38px 0 18px" class="reveal"><span class="kicker" style="justify-content:center"><span data-mn>Нэмэлт сонголт</span><span data-en>Add-ons</span></span></div>
+    <!-- ADD-ONS — fill real prices; currently "on request" -->
+    <div class="addon-grid reveal">
+      <div class="addon">
+        <div class="addon__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="8" height="7" rx="1"/><rect x="13" y="4" width="8" height="7" rx="1"/><rect x="3" y="13" width="8" height="7" rx="1"/><rect x="13" y="13" width="8" height="7" rx="1"/></svg></div>
+        <b><span data-mn>Нэмэлт view горим</span><span data-en>Extra view mode</span></b>
+        <div class="p"><span data-mn>тохиролцоно</span><span data-en>on request</span></div>
+      </div>
+      <div class="addon">
+        <div class="addon__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 7h14v10H2zM16 10l6-3v10l-6-3z"/></svg></div>
+        <b><span data-mn>Нэмэлт камер (4-өөс дээш)</span><span data-en>Extra cameras (beyond 4)</span></b>
+        <div class="p"><span data-mn>тохиролцоно</span><span data-en>on request</span></div>
+      </div>
+      <div class="addon">
+        <div class="addon__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div>
+        <b><span data-mn>Олон өдрийн багц</span><span data-en>Multi-day package</span></b>
+        <div class="p"><span data-mn>тохиролцоно</span><span data-en>on request</span></div>
+      </div>
+      <div class="addon">
+        <div class="addon__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19V5M9 19V9M14 19v-6M19 19V7"/></svg></div>
+        <b><span data-mn>Analyze модуль</span><span data-en>Analyze module</span></b>
+        <div class="p"><span data-mn>тохиролцоно</span><span data-en>on request</span></div>
+      </div>
+    </div>
+    <p class="price-note"><span data-mn>Багц Windows 10/11, олон хэлний интерфейс (MN·EN·RU), офлайн ажиллагааг агуулна.</span><span data-en>The package includes Windows 10/11, the multilingual interface (MN·EN·RU) and offline operation.</span></p>
+  </div>
+</section>
+
+<!-- ══ DOWNLOAD ══ -->
+<section id="download" class="band">
+  <div class="wrap">
+    <div class="dl-card reveal">
+      <div class="dl-body">
+        <span class="kicker"><span data-mn>Татаж авах</span><span data-en>Download</span></span>
+        <h2 style="margin-top:16px"><span data-mn>NeuroReplay-г Windows дээр татаж суулга</span><span data-en>Get NeuroReplay for Windows</span></h2>
+        <p><span data-mn>Суулгацыг татаж аваад Windows 10/11 дээр суулгана. Ажиллуулахын тулд лицензээр идэвхжүүлнэ — demo хүсвэл бид түлхүүрийг өгнө.</span><span data-en>Download the installer and set it up on Windows 10/11. Activation needs a license — request a demo and we'll issue a key.</span></p>
+        <div class="dl-actions">
+          <a class="btn btn--primary" id="downloadBtn" href="#order">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M5 19h14"/></svg>
+            <span class="dl-label"><span data-mn>Windows-д татах</span><span data-en>Download for Windows</span></span>
+          </a>
+          <a class="btn btn--ghost" href="#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
+        </div>
+        <div class="dl-meta">
+          <span><b>Windows 10 / 11</b> · 64-bit</span>
+          <span id="dlVersion" hidden><b><span data-mn>Хувилбар</span><span data-en>Version</span></b> <span class="v"></span></span>
+          <span id="dlSize" hidden><b><span data-mn>Хэмжээ</span><span data-en>Size</span></b> <span class="v"></span></span>
+        </div>
+      </div>
+      <div class="dl-side">
+        <div class="dl-file">
+          <div class="dl-file__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 3v5h5"/><path d="M6 3h9l5 5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 15l2 2 4-4"/></svg></div>
+          <div><b>NeuroReplay-Setup.exe</b><span data-mn>Windows суулгац</span><span data-en>Windows installer</span></div>
+        </div>
+        <div class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span data-mn>Интернэтгүй ажиллана</span><span data-en>Runs fully offline</span></div>
+        <div class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span data-mn>Capture карт шаардлагагүй</span><span data-en>No capture card required</span></div>
+        <div class="req"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span data-mn>MN · EN · RU интерфейс</span><span data-en>MN · EN · RU interface</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ORDER / DEMO ══ -->
+<section id="order">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></span>
+        <h2><span data-mn>Demo захиалах / үнийн санал авах</span><span data-en>Request a demo / get a quote</span></h2>
+      </div>
+      <p><span data-mn>Формыг бөглөхөд бид тантай эргэн холбогдож demo, үнэ, суурилуулалтыг тохирно.</span><span data-en>Fill in the form and we'll get back to you to arrange a demo, pricing and setup.</span></p>
+    </div>
+    <div class="order-grid reveal">
+      <form id="orderForm" class="form-card" novalidate>
+        <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+        <div class="form-2">
+          <div class="field">
+            <label for="fullname"><span data-mn>Бүтэн нэр</span><span data-en>Full name</span> <span class="req" aria-hidden="true">*</span></label>
+            <input id="fullname" name="fullname" autocomplete="name" required aria-required="true" />
+            <span class="err" data-err></span>
+          </div>
+          <div class="field">
+            <label for="org"><span data-mn>Байгууллага / клуб</span><span data-en>Organisation / club</span> <span class="req" aria-hidden="true">*</span></label>
+            <input id="org" name="organization" autocomplete="organization" required aria-required="true" />
+            <span class="err" data-err></span>
+          </div>
+          <div class="field">
+            <label for="email"><span data-mn>И-мэйл</span><span data-en>Email</span> <span class="req" aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" required aria-required="true" />
+            <span class="err" data-err></span>
+          </div>
+          <div class="field">
+            <label for="phone"><span data-mn>Утас</span><span data-en>Phone</span> <span class="req" aria-hidden="true">*</span></label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" required aria-required="true" />
+            <span class="err" data-err></span>
+          </div>
+          <div class="field">
+            <label for="usecase"><span data-mn>Хэрэглээ</span><span data-en>Use case</span> <span class="req" aria-hidden="true">*</span></label>
+            <select id="usecase" name="usecase" required aria-required="true">
+              <option value=""></option><option value="coach"></option><option value="club"></option>
+              <option value="competition"></option><option value="vr"></option><option value="other"></option>
+            </select>
+            <span class="err" data-err></span>
+          </div>
+          <div class="field">
+            <label for="cameras"><span data-mn>Камерын тоо</span><span data-en>Camera count</span> <span class="req" aria-hidden="true">*</span></label>
+            <input id="cameras" name="cameras" type="number" min="1" max="64" step="1" inputmode="numeric" required aria-required="true" />
+            <span class="err" data-err></span>
+          </div>
+          <div class="field">
+            <label for="prefLang"><span data-mn>Харилцах хэл</span><span data-en>Preferred language</span> <span class="req" aria-hidden="true">*</span></label>
+            <select id="prefLang" name="preferred_language" required aria-required="true">
+              <option value=""></option><option value="mn">Монгол</option><option value="en">English</option><option value="ru">Русский</option>
+            </select>
+            <span class="err" data-err></span>
+          </div>
+          <div class="field">
+            <label for="plan"><span data-mn>Сонирхож буй горим</span><span data-en>View mode of interest</span></label>
+            <select id="plan" name="plan">
+              <option value="Legacy">Legacy</option><option value="Minimal">Minimal</option>
+              <option value="Multiview" selected>Multiview</option><option value="undecided"></option>
+            </select>
+            <span class="err" data-err></span>
+          </div>
+          <div class="field full">
+            <label for="msg"><span data-mn>Нэмэлт мэдээлэл</span><span data-en>Message</span></label>
+            <textarea id="msg" name="message"></textarea>
+            <span class="err" data-err></span>
+          </div>
+        </div>
+        <div class="consent">
+          <input id="consent" name="consent" type="checkbox" required aria-required="true" />
+          <label for="consent">
+            <span data-mn>Миний өгсөн мэдээллийг зөвхөн энэ хүсэлттэй холбоотойгоор надтай холбогдоход ашиглахыг зөвшөөрч байна.</span>
+            <span data-en>I agree that the details I provide may be used only to contact me about this request.</span>
+          </label>
+        </div>
+        <span class="err" data-err="consent" style="display:block;margin:-10px 0 12px"></span>
+        <button class="btn btn--primary" id="submitBtn" type="submit" style="width:100%">
+          <span class="btn-label"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></span>
+        </button>
+        <p class="formnote">
+          <span data-mn>Таны мэдээллийг зөвхөн энэ хүсэлтэд ашиглана; гуравдагч этгээдэд зардаггүй. Форм тохируулаагүй бол товч дарахад и-мэйл клиент нээгдэнэ.</span>
+          <span data-en>Your details are used only for this request and never sold. If no endpoint is configured, the button opens your email client instead.</span>
+        </p>
+      </form>
+
+      <div class="contact-card">
+        <h3 style="font-size:19px;margin-bottom:8px"><span data-mn>Шууд холбоо</span><span data-en>Direct contact</span></h3>
+        <div class="contact-row"><span class="k">Email</span><a class="v" href="mailto:idereee.engineering@gmail.com">idereee.engineering@gmail.com</a></div>
+        <div class="contact-row"><span class="k"><span data-mn>Утас</span><span data-en>Phone</span></span><a class="v" href="tel:+97685551511">+976 8555 1511</a></div>
+        <div class="contact-row"><span class="k">Facebook</span><a class="v" href="https://www.facebook.com/iderbat314/" target="_blank" rel="noopener">facebook.com/iderbat314</a></div>
+        <div class="contact-row"><span class="k"><span data-mn>Байршил</span><span data-en>Location</span></span><span class="v"><span data-mn>Улаанбаатар, Монгол</span><span data-en>Ulaanbaatar, Mongolia</span></span></div>
+        <div class="contact-row"><span class="k"><span data-mn>Систем</span><span data-en>System</span></span><span class="v">Windows 10 / 11</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section id="faq" class="band">
+  <div class="wrap">
+    <div class="sec-head reveal" style="grid-template-columns:1fr;text-align:center;justify-items:center">
+      <div>
+        <span class="kicker" style="justify-content:center">FAQ</span>
+        <h2 style="margin-top:16px"><span data-mn>Түгээмэл асуултууд</span><span data-en>Frequently asked questions</span></h2>
+      </div>
+    </div>
+    <div class="faq reveal">
+      <details>
+        <summary><span data-mn>Ямар камер тохирох вэ?</span><span data-en>Which cameras are compatible?</span></summary>
+        <p><span data-mn>Windows-д таних USB камер, мөн RTSP/IP урсгал дэмждэг сүлжээний камерууд (FFmpeg-ээр). USB болон IP камерыг зэрэг холбож болно.</span><span data-en>Any USB camera Windows recognises, plus network cameras that provide an RTSP/IP stream (via FFmpeg). You can mix USB and IP cameras at once.</span></p>
+      </details>
+      <details>
+        <summary><span data-mn>Заавал Windows дээр ажиллах уу?</span><span data-en>Does it require Windows?</span></summary>
+        <p><span data-mn>Тийм. NeuroReplay бол Windows 10/11 дээр ажилладаг desktop программ хангамж. macOS, Linux хувилбар одоогоор байхгүй.</span><span data-en>Yes. NeuroReplay is Windows 10/11 desktop software. There is no macOS or Linux build at this time.</span></p>
+      </details>
+      <details>
+        <summary><span data-mn>Лиценз хэрхэн идэвхждэг вэ?</span><span data-en>How does license activation work?</span></summary>
+        <p><span data-mn>Лиценз таны машинд уягддаг. Захиалгын дараа бид идэвхжүүлэлтийн заавар, түлхүүрийг өгнө. Дэлгэрэнгүйг гарын авлагаас үзнэ үү.</span><span data-en>Each license binds to your specific machine. After ordering we provide an activation key and instructions — see the user manual for details.</span></p>
+      </details>
+      <details>
+        <summary><span data-mn>Интернэтгүй ажиллах уу?</span><span data-en>Can it run offline?</span></summary>
+        <p><span data-mn>Тийм. Бичлэг, replay, анализ, экспорт бүгд интернэтгүй, дотоод сүлжээгээр ажиллана.</span><span data-en>Yes. Recording, replay, analysis and export all work offline over your local network.</span></p>
+      </details>
+      <details>
+        <summary><span data-mn>Хадгалалт, дискний зай хэр их вэ?</span><span data-en>How much storage do I need?</span></summary>
+        <p><span data-mn>Зай нь камерын тоо, нягтрал, бичлэгийн урт, DVR буферээс хамаарна. Тэмцээний өдрийн бичлэгт хурдан SSD зөвлөж байна; тодорхой тооцоог demo дээр гаргана.</span><span data-en>It depends on the number of cameras, resolution, recording length and DVR buffer. We recommend a fast SSD for match-day capture and will size it with you during the demo.</span></p>
+      </details>
+      <details>
+        <summary><span data-mn>RTSP камерыг хэрхэн тохируулах вэ?</span><span data-en>How do I set up an RTSP camera?</span></summary>
+        <p><span data-mn>IP камераа LAN-д холбож, RTSP хаяг (rtsp://…), нэвтрэх мэдээллийг программ хангамжид оруулна. FFmpeg урсгалыг задалж бусад камертай синклэнэ. Суурилуулалтад бид тусална.</span><span data-en>Connect the IP camera to your LAN and enter its RTSP URL (rtsp://…) and credentials in the software. FFmpeg decodes the stream and syncs it with your other cameras. We help with setup.</span></p>
+      </details>
+      <details>
+        <summary><span data-mn>Ямар дэмжлэг үзүүлдэг вэ?</span><span data-en>What support do you offer?</span></summary>
+        <p><span data-mn>Багцаас хамааран и-мэйл эсвэл тэргүүлэх дэмжлэг, тэмцээний өдрийн туслалцаа, суурилуулалт, сургалт. Дэмжлэг Монгол, Англи, Орос хэлээр.</span><span data-en>Depending on your plan: email or priority support, match-day assistance, on-site setup and training. Support in Mongolian, English and Russian.</span></p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BAND ══ -->
+<section>
+  <div class="wrap">
+    <div class="cta-inner reveal">
+      <h2><span data-mn>Тэмцээнээ дараагийн түвшинд гаргах уу?</span><span data-en>Ready to level up your event?</span></h2>
+      <p><span data-mn>Demo захиалж, NeuroReplay яаж ажилладгийг өөрийн камер, тохиргоон дээр үзээрэй.</span><span data-en>Request a demo and see NeuroReplay working with your own cameras and setup.</span></p>
+      <a class="btn btn--white" href="#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-col">
+        <a class="brand" href="#top" style="font-size:16px;margin-bottom:12px" aria-label="NeuroReplay — home"><img class="brand__mark" src="assets/neuroreplay-mark.png" alt="" width="48" height="26" style="height:26px" /><span>Neuro<em>Replay</em></span></a>
+        <p style="max-width:34em"><span data-mn>Windows дээрх олон камерын instant replay ба видео шинжилгээний программ хангамж. Тулааны спортын тэмцээн, клуб, дасгалжуулалт, VR сургалтад.</span><span data-en>Multi-camera instant replay & video review software for Windows. For combat-sport competitions, gyms, coaching and VR training.</span></p>
+      </div>
+      <div class="foot-col">
+        <h4><span data-mn>Холбоос</span><span data-en>Links</span></h4>
+        <a href="#features"><span data-mn>Боломжууд</span><span data-en>Features</span></a>
+        <a href="#how"><span data-mn>Хэрхэн ажилладаг</span><span data-en>How it works</span></a>
+        <a href="#pricing"><span data-mn>Үнэ</span><span data-en>Pricing</span></a>
+        <a href="#download"><span data-mn>Татах</span><span data-en>Download</span></a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="foot-col">
+        <h4><span data-mn>Холбоо барих</span><span data-en>Contact</span></h4>
+        <a href="mailto:idereee.engineering@gmail.com">idereee.engineering@gmail.com</a>
+        <a href="tel:+97685551511">+976 8555 1511</a>
+        <a href="https://www.facebook.com/iderbat314/" target="_blank" rel="noopener">Facebook — iderbat314</a>
+        <p><span data-mn>Улаанбаатар, Монгол</span><span data-en>Ulaanbaatar, Mongolia</span></p>
+        <a id="manualLink" href="#"><span data-mn>Хэрэглэгчийн гарын авлага</span><span data-en>User manual</span></a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="dim">© <span id="yr"></span> NeuroReplay · <span data-mn>Бүтээгч</span><span data-en>Created by</span> Iderbat Myagmardorj · <span data-mn>Бүх эрх хуулиар хамгаалагдсан</span><span data-en>All rights reserved</span></span>
+      <div class="nav__spacer"></div>
+      <span class="flag">🇲🇳 <span data-mn>Монголд бүтээв</span><span data-en>Made in Mongolia</span></span>
+      <button class="linklike" type="button" data-modal="doc-privacy"><span data-mn>Нууцлал</span><span data-en>Privacy</span></button>
+      <button class="linklike" type="button" data-modal="doc-terms"><span data-mn>Нөхцөл</span><span data-en>Terms</span></button>
+      <button class="linklike" type="button" data-modal="doc-ip"><span data-mn>Оюуны өмч</span><span data-en>IP</span></button>
+    </div>
+    <div class="legal-src" hidden>
+      <div id="doc-privacy">
+        <h4><span data-mn>Нууцлалын бодлого</span><span data-en>Privacy policy</span></h4>
+        <p>
+          <span data-mn>Захиалгын формоор өгсөн мэдээллийг (нэр, байгууллага, и-мэйл, утас, хэрэглээ, камерын тоо, зурвас) зөвхөн таны demo/захиалгын хүсэлтэд хариу өгөх, үнэ, суурилуулалт тохирох зорилгоор ашиглана. Мэдээллийг гуравдагч этгээдэд зарж, дамжуулахгүй. Вэб сайт нь tracking, analytics, cookie ашигладаггүй. NeuroReplay программ хангамж офлайн ажилладаг тул таны бичлэгийн дата зөвхөн таны компьютерт хадгалагдаж, бид хандахгүй. Хүсэлт гаргавал таны мэдээллийг устгана: idereee.engineering@gmail.com.</span>
+          <span data-en>Details you submit via the order form (name, organisation, email, phone, use case, camera count, message) are used only to respond to your demo/order request and arrange pricing and setup. We never sell or share your data with third parties. This website uses no tracking, analytics or cookies. NeuroReplay runs offline, so your recording data stays only on your computer — we have no access to it. On request we will delete your data: idereee.engineering@gmail.com.</span>
+        </p>
+      </div>
+      <div id="doc-terms">
+        <h4><span data-mn>Үйлчилгээний нөхцөл</span><span data-en>Terms of service</span></h4>
+        <p>
+          <span data-mn>NeuroReplay-г ашигласнаар та лицензийн нөхцөлийг зөвшөөрнө. Лиценз нь худалдан авсан багц, хугацаа, тоног төхөөрөмжид уягдана; түүнийг хуулбарлах, дахин борлуулах, хуваалцах, задлан шинжлэх (reverse engineer) хориотой. Үнэ, багцын агуулга урьдчилан мэдэгдэлгүй өөрчлөгдөж болох ба эцсийн үнийг захиалгаар баталгаажуулна. Программ хангамжийг «байгаа байдлаар» нь нийлүүлэх бөгөөд тасралтгүй, алдаагүй ажиллагааг бүрэн баталгаажуулахгүй. Бичлэг хийхдээ оролцогчид/тамирчдын зөвшөөрөл авах, орон нутгийн хууль дүрмийг мөрдөх нь хэрэглэгчийн хариуцлага.</span>
+          <span data-en>By using NeuroReplay you accept the licence terms. A licence is bound to the purchased plan, period and machine; copying, reselling, sharing or reverse-engineering it is prohibited. Prices and plan contents may change without notice, and final pricing is confirmed on order. The software is provided "as is" without a guarantee of uninterrupted or error-free operation. Obtaining consent from participants/athletes when recording and complying with local laws is the user's responsibility.</span>
+        </p>
+      </div>
+      <div id="doc-ip">
+        <h4><span data-mn>Оюуны өмч</span><span data-en>Intellectual property</span></h4>
+        <p>
+          <span data-mn>NeuroReplay программ хангамж, түүний нэр, лого, эх код, интерфейс, дизайн болон энэхүү вэб сайт нь зохиогчийн эрхээр хамгаалагдсан, бүх эрхийг Iderbat Myagmardorj эзэмшинэ. «NeuroReplay» нэр, лого нь тухайн эзэмшигчийн барааны тэмдэг болно. Урьдчилан бичгээр зөвшөөрөл авалгүйгээр хуулбарлах, түгээх, өөрчлөх, арилжааны зорилгоор ашиглахыг хориглоно.</span>
+          <span data-en>The NeuroReplay software, its name, logo, source code, interface, design and this website are protected by copyright, all rights owned by Iderbat Myagmardorj. The "NeuroReplay" name and logo are trademarks of their owner. Reproducing, distributing, modifying or using them commercially without prior written permission is prohibited.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ LEGAL MODAL ══ -->
+<div class="modal" id="legalModal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="modalBody" tabindex="-1">
+    <button class="modal__x" type="button" data-close aria-label="Хаах / Close">&times;</button>
+    <div class="modal__body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="app.js" defer></script>
+</body>
+</html>

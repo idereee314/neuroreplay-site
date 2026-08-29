@@ -1,0 +1,171 @@
+# NeuroReplay Keygen — Supabase + GitHub Pages тохиргооны заавар
+
+---
+
+## 1. Supabase Project үүсгэх
+
+1. https://supabase.com → **Start your project**
+2. GitHub-аар нэвтэр
+3. **New project** → нэр өг (жишээ: `neuroreplay-keygen`)
+4. Database Password хадгалаад **Create new project** дар
+
+---
+
+## 2. Database Table үүсгэх
+
+**SQL Editor** хэсэгт доорх SQL-г ажиллуул:
+
+```sql
+create table keygen_history (
+  id          bigserial primary key,
+  type        text not null,           -- 'lic' эсвэл 'key'
+  event_name  text,                    -- .lic tab-ийн тэмцээний нэр
+  hwid        text,                    -- key tab-ийн Machine ID
+  start_date  date not null,
+  end_date    date not null,
+  created_by  text,                    -- хэрэглэгчийн email
+  created_at  timestamptz default now()
+);
+
+-- Зөвхөн нэвтэрсэн хэрэглэгч уншиж, бичих боломжтой
+alter table keygen_history enable row level security;
+
+create policy "auth users can read"
+  on keygen_history for select
+  using (auth.role() = 'authenticated');
+
+create policy "auth users can insert"
+  on keygen_history for insert
+  with check (auth.role() = 'authenticated');
+
+create policy "auth users can delete"
+  on keygen_history for delete
+  using (auth.role() = 'authenticated');
+```
+
+---
+
+## 2b. Features багана нэмэх (Analyze mode тусдаа лиценз)
+
+Competition/Analyze-ийг тусдаа эрхээр олгохын тулд `keygen_history`-д нэг
+багана нэмнэ (одоо байгаа мөрүүдэд нөлөөлөхгүй, зөвхөн нэмэлт багана):
+
+```sql
+alter table keygen_history add column if not exists features text;
+```
+
+---
+
+## 2c. Max cameras багана нэмэх (камерын тоогоор лиценз ялгах)
+
+Камерын дээд тоог лицензээр зарахын тулд мөн нэг багана нэмнэ (мөн адил
+нэмэлт багана, одоо байгаа мөрүүдэд нөлөөлөхгүй):
+
+```sql
+alter table keygen_history add column if not exists max_cameras integer;
+```
+
+---
+
+## 3. Хэрэглэгч нэмэх
+
+**Authentication → Users → Add user** → и-мэйл + нууц үг оруулна.
+
+> Ideree-ийн ажилтан бүрт нэг нэг хэрэглэгч үүсгэж өг.
+
+**Чухал:** Supabase dashboard-аас "Confirm email" checkbox-ийг арилгах:
+**Authentication → Settings → Email Auth → Confirm email** → OFF болгох
+(тэгэхгүй бол хэрэглэгч email баталгаажуулах шаардлагатай болно)
+
+---
+
+## 4. API Keys авах
+
+**Settings → API** хэсэгт:
+- `Project URL` → copy
+- `anon public` key → copy
+
+---
+
+## 5. index.html тохиргоо
+
+`index.html` файлын эхний хэсэгт:
+
+```javascript
+const SUPABASE_URL  = 'https://xxxxxxxxxxxxxx.supabase.co';  // чинийх
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR...';          // anon key
+```
+
+Эдгээр 2 утгыг Supabase-аас авсан зүйлсээр солино.
+
+---
+
+## 6. GitHub Pages-д байрлуулах
+
+### 6a. Repository үүсгэх
+1. https://github.com → **New repository**
+2. Нэр: `neuroreplay-keygen` (эсвэл хүссэн нэр)
+3. **Private** болгох (**чухал** — public бол код харагдана!)
+4. Create repository
+
+### 6b. Файл upload хийх
+1. Repository-д орж **Add file → Upload files**
+2. `index.html` нэг файлыг л upload хийнэ
+3. Commit
+
+### 6c. GitHub Pages асаах
+1. Repository → **Settings → Pages**
+2. Source: **Deploy from a branch**
+3. Branch: `main`, folder: `/ (root)`
+4. **Save**
+
+Хэдэн минутын дараа:
+`https://your-username.github.io/neuroreplay-keygen/`
+
+---
+
+## 7. Supabase CORS тохиргоо
+
+**Supabase → Settings → API → CORS allowed origins** хэсэгт:
+```
+https://your-username.github.io
+```
+нэм.
+
+---
+
+## 8. Edge Function — серверийн гарын үсэг (ЗААВАЛ)
+
+⚠️ Лицензийг **browser дотор биш, Supabase Edge Function дотор** гарын үсэг
+зурдаг. Хувийн түлхүүр browser руу хэзээ ч хүрэхгүй. Тохиргоог
+`LICENSE_GENERATION_GUIDE.md`-ийн **1-р хэсгээс** дэлгэрэнгүй үзнэ үү. Товчоор:
+
+```bash
+supabase login
+supabase link --project-ref emopxwgbxwibchyiklpw
+supabase secrets set NR_PRIVATE_KEY_B64="<nr-private.pem-ээс гаргасан base64>"
+supabase functions deploy sign-license
+```
+
+Function-ий код: `supabase/functions/sign-license/index.ts`.
+
+---
+
+## Дуусгавар
+
+| Зүйл | Байдал |
+|------|--------|
+| Login | Supabase Auth (email + нууц үг) |
+| Гарын үсэг | **Edge Function (сервер тал)** — Ed25519, хувийн түлхүүр secret |
+| .lic файл | Edge Function-аас token авч browser-д download |
+| License Key | Edge Function-аас token авч clipboard |
+| History | Supabase DB, бүх хэрэглэгч харна |
+| Хамгаалалт | RLS + зөвхөн нэвтэрсэн хэрэглэгч function дуудна |
+
+---
+
+## Асуудал гарвал
+
+**"Invalid API key"** → SUPABASE_URL / SUPABASE_ANON буруу байна, дахин шалга  
+**Login ажиллахгүй** → Email confirm OFF болсон эсэхийг шалга  
+**History харагдахгүй** → SQL-д RLS policy зөв үүссэн эсэхийг шалга  

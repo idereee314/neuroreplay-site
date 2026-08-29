@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Supabase local temp / linked project (contains project refs & pooler URL)
+**/supabase/.temp/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Scratch / screenshots
+s_*.png
+_dbg.html

@@ -1,0 +1,124 @@
+# NeuroReplay — Demo / order site
+
+Production-ready landing + demo-request site for **NeuroReplay**, a Windows
+desktop app for multi-camera instant replay & video review (sports, combat
+sports, coaching, competitions, VR training).
+
+No build step, no dependencies to install. Bilingual **MN / EN** (default
+Mongolian), light minimal design, accessible, responsive, works offline once loaded.
+
+## Project structure
+
+```
+neuroreplay-site/
+├── index.html        # public marketing / demo-request page (markup only)
+├── styles.css        # all site styles (split out of index.html)
+├── app.js            # all site behaviour: i18n, form, nav, reveal, layout
+├── assets/           # logo, favicons, OG image
+├── robots.txt        # allows the site, disallows /admin/
+└── admin/            # INTERNAL license keygen — NOT linked from the public site
+    ├── index.html    # Supabase-auth login + .lic / license-key generator
+    ├── assets/images/
+    └── supabase/functions/sign-license/index.ts   # edge function (deployed via Supabase CLI)
+```
+
+The public page (`index.html`) links `styles.css` + `app.js`; the `NR_CONFIG`
+block stays inline in the `<head>` so business settings live in one obvious place.
+
+### admin/ — license keygen (internal)
+
+`admin/` is the license-generation tool, moved here so everything lives in one
+repo. It is **not** linked from any public page, carries `noindex, nofollow`, and
+is excluded from crawlers via `robots.txt`. Access is gated by Supabase login.
+The Ed25519 **private signing key never lives in this repo** — it's a Supabase
+secret (`NR_PRIVATE_KEY_B64`) used only by the `sign-license` edge function. The
+`SUPABASE_ANON` key in `admin/index.html` is the public client key by design.
+Local Supabase temp files (`supabase/.temp/`) are git-ignored. See
+`admin/SETUP_GUIDE.md` and `admin/LICENSE_GENERATION_GUIDE.md`.
+
+## Run locally
+
+It's a static file — just open it, or serve it so relative links behave:
+
+```bash
+cd neuroreplay-site
+# option A: open the file directly
+start index.html            # Windows
+# option B: serve it (any static server works)
+python -m http.server 8080  # then visit http://localhost:8080
+```
+
+## Configure the demo / order form
+
+The form submission target lives in a **config variable** near the top of
+`index.html` — never inline a secret in this client-side file:
+
+```html
+<script>
+  window.NR_CONFIG = {
+    formEndpoint: "",                               // POST endpoint, or "" for mailto fallback
+    contactEmail: "idereee.engineering@gmail.com",  // used by the form + mailto fallback
+    manualUrl: "#"                                  // user-manual URL
+  };
+</script>
+```
+
+- **`formEndpoint` empty (`""`)** — the default. Submitting a *valid* form opens
+  the visitor's email client pre-filled (honest mailto fallback; the site never
+  pretends a submission succeeded when there is no backend).
+- **Formspree** — set `formEndpoint: "https://formspree.io/f/xxxxxxxx"` with your
+  own form ID (free at [formspree.io](https://formspree.io)). The form POSTs JSON
+  with `Accept: application/json`, which Formspree accepts.
+- **Custom API** — point `formEndpoint` at any endpoint that accepts a JSON
+  `POST`. Payload keys: `fullname, organization, email, phone, usecase, cameras,
+  preferred_language, plan, message, consent`.
+
+The form validates every field, shows loading / success / validation / network-
+error states, blocks duplicate identical submissions, and requires a privacy
+consent checkbox.
+
+## Before going live — fill in the real business info
+
+- **Contact** — email, phone (+976 8555 1511) and Facebook (iderbat314) are set
+  in the Direct-contact card and footer.
+- **`manualUrl`** / footer **User manual** link — currently `#`.
+- **`downloadUrl`** — Windows installer link is empty for now (Download button
+  routes to the demo form until it's set).
+- **Demo requests → Supabase** — the public form saves each request to the
+  Supabase table `demo_requests`, and admins read them in `/admin/` → **Захиалгууд**
+  tab. **One-time setup:** open Supabase → SQL Editor and run
+  `admin/supabase/demo_requests.sql` (creates the table + row-level security:
+  anon can INSERT, logged-in admins can read/update). Until you run it, the
+  form shows a network error and the admin list shows a "table not found" hint.
+  If Supabase is unreachable the form falls back to `formEndpoint`, then to a
+  `mailto:` link — it never fakes a submit.
+- **`formEndpoint`** — optional fallback POST endpoint if you don't use Supabase.
+- **Pricing** — the site shows one main event-day package: **180,000 MNT per
+  event day** for 1 view mode (Legacy / Minimal / Multiview), up to 4 cameras,
+  and on-site technical support during the event. Add-ons (extra view mode,
+  extra cameras, multi-day package, Analyze module) are listed below the card as
+  "on request" — fill in real add-on prices before accepting payment.
+- **Terms of service** — footer has a placeholder; link the final document.
+- **Screenshots** — the hero uses a clearly labelled interactive product mockup;
+  swap in real product screenshots when available (keep stable dimensions).
+
+## Deploy on GitHub Pages
+
+1. Create a repo and push these files:
+   ```bash
+   git init && git add . && git commit -m "NeuroReplay demo site"
+   git branch -M main
+   git remote add origin https://github.com/<username>/<repo>.git
+   git push -u origin main
+   ```
+2. GitHub → **Settings → Pages** → Source: `Deploy from a branch` →
+   Branch `main` / `/ (root)` → Save.
+3. Live at `https://<username>.github.io/<repo>/`.
+
+## Notes
+
+- Fonts load from Google Fonts (Archivo, IBM Plex Sans/Mono).
+- No analytics, no tracking, no fabricated testimonials, logos or statistics.
+- Respects `prefers-reduced-motion`; keyboard-navigable with visible focus.
+- `.nojekyll` disables Jekyll processing on GitHub Pages.
+```
