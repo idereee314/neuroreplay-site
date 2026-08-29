@@ -1152,8 +1152,12 @@ async function deleteOrder(btn, id) {
     }, 3000);
     return;
   }
-  const { error } = await sb.from('demo_requests').delete().eq('id', id);
+  const { data, error } = await sb.from('demo_requests').delete().eq('id', id).select();
   if (error) { showToast('Алдаа: ' + error.message); return; }
+  if (!data || data.length === 0) {
+    showToast('Устгах эрх алга — delete SQL-ээ Supabase дээр ажиллуулна уу');
+    return;
+  }
   showToast('Устгалаа');
   loadOrders();
 }
