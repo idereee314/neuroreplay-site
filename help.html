@@ -407,13 +407,10 @@
       var idx = l === 'ru' ? 0 : l === 'uz' ? 1 : -1;
       enEls.forEach(function (o) { var t = idx >= 0 && dict[o.key]; o.el.innerHTML = t ? t[idx] : o.html; });
       btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-l') === l ? 'true' : 'false'); });
-      if (idx < 0) { pdf.setAttribute('href', 'assets/NeuroReplay-User-Manual-' + l + '.pdf'); pdf.setAttribute('download', ''); }
-      else { pdf.setAttribute('href', '#'); pdf.removeAttribute('download'); }
+      pdf.setAttribute('href', 'assets/NeuroReplay-User-Manual-' + l + '.pdf'); pdf.setAttribute('download', '');
       document.title = TITLES[l];
       if (persist) { try { localStorage.setItem('nr.help.lang', l); if (l === 'mn' || l === 'en') localStorage.setItem('nr.site.lang', l); } catch (e) {} }
     }
-    // ru/uz have no ready-made PDF: use the browser's print-to-PDF (the page has a print stylesheet).
-    pdf.addEventListener('click', function (e) { if (lang === 'ru' || lang === 'uz') { e.preventDefault(); window.print(); } });
     var q = new URLSearchParams(location.search).get('lang'), saved = 'mn';
     try { saved = localStorage.getItem('nr.help.lang') || localStorage.getItem('nr.site.lang') || 'mn'; } catch (e) {}
     setLang(LANGS.indexOf(q) >= 0 ? q : (LANGS.indexOf(saved) >= 0 ? saved : 'mn'), false);
