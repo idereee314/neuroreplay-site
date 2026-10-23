@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NeuroReplay — Хэрэглэгчийн гарын авлага / User guide</title>
+<meta name="description" content="NeuroReplay хэрэглэгчийн гарын авлага: суулгах, license идэвхжүүлэх, camera тохируулах, бичлэг, Instant Replay, tag, Library, export, гарын товчлуурууд." />
+<meta name="theme-color" content="#060912" />
+<link rel="icon" href="assets/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" href="assets/neuroreplay-mark.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .help { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 56px; padding: 56px 0 96px; align-items: start; }
+  .toc { position: sticky; top: 92px; display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+  .toc h4 { font: 500 12px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--brand-ink); margin-bottom: 10px; }
+  .toc a { padding: 7px 12px; border-left: 2px solid var(--line); color: var(--muted); transition: color .15s, border-color .15s; }
+  .toc a:hover, .toc a.on { color: #fff; border-left-color: var(--brand-b); }
+  .doc > header { margin-bottom: 40px; }
+  .doc > header h1 { font-size: clamp(32px, 4.6vw, 52px); line-height: 1.05; margin: 16px 0 14px; }
+  .doc > header p { color: var(--muted); font-size: 17px; max-width: 46em; margin: 0 0 20px; }
+  .doc-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .doc section { padding: 0; margin-top: 56px; scroll-margin-top: 92px; }
+  .doc h2 { font-size: 28px; margin-bottom: 14px; padding-top: 8px; }
+  .doc h2 .n { font: 500 13px var(--mono); color: var(--brand-ink); letter-spacing: .1em; margin-right: 10px; vertical-align: middle; }
+  .doc h3 { font-size: 18px; margin: 26px 0 8px; }
+  .doc p, .doc li { color: var(--muted); }
+  .doc ul, .doc ol { padding-left: 22px; margin: 10px 0 14px; }
+  .doc li { margin: 6px 0; }
+  .doc li b, .doc p b { color: var(--ink); font-weight: 600; }
+  code, kbd { font-family: var(--mono); font-size: .88em; }
+  code { background: rgba(255,255,255,.07); padding: 2px 7px; border-radius: 6px; color: var(--ink); }
+  kbd { background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.05)); border: 1px solid var(--line-2, rgba(255,255,255,.14)); border-bottom-width: 2px; padding: 1px 7px; border-radius: 6px; color: var(--ink); white-space: nowrap; }
+  figure { margin: 22px 0 8px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #000; }
+  figure img { display: block; width: 100%; height: auto; }
+  figcaption { padding: 11px 16px; font-size: 13.5px; color: var(--muted); background: var(--card); border-top: 1px solid var(--line); }
+  .note { border-left: 3px solid var(--amber); background: rgba(255,176,46,.08); padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 16px 0; }
+  .note p { margin: 0; color: var(--ink); }
+  .tbl { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+  .tbl th, .tbl td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .tbl th { font: 500 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--brand-ink); }
+  .tbl td:first-child { white-space: nowrap; }
+  .tbl td { color: var(--muted); }
+  pre { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; overflow-x: auto; color: var(--ink); font: 400 14px var(--mono); }
+  @media (max-width: 900px) {
+    .help { grid-template-columns: 1fr; gap: 24px; padding-top: 32px; }
+    .toc { position: static; flex-direction: row; flex-wrap: wrap; gap: 6px; }
+    .toc h4 { width: 100%; }
+    .toc a { border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
+    .tbl td:first-child { white-space: normal; }
+  }
+
+  /* ── Print / PDF: light, A4, no site chrome ── */
+  @media print {
+    @page { size: A4; }
+    :root { --bg: #fff; --ink: #14171f; --muted: #3a4152; --card: #f3f4f8; --line: #d9dce6; --brand-ink: #5b3fd6; }
+    html, body { background: #fff !important; color: #14171f; font-size: 11pt; }
+    .nav, .toc, .doc-actions, footer, .skip, .noprint { display: none !important; }
+    .help { display: block; padding: 0; }
+    .doc section { margin-top: 22pt; break-inside: auto; }
+    .doc h2 { break-after: avoid; font-size: 17pt; }
+    figure, .tbl tr, .note { break-inside: avoid; }
+    figure { border-color: #c9ccd8; }
+    figcaption { background: #f3f4f8; color: #3a4152; }
+    code, kbd { background: #eceef5; border-color: #c9ccd8; color: #14171f; }
+    .grad { -webkit-text-fill-color: #5b3fd6; color: #5b3fd6; background: none; }
+    a { color: #14171f; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav scrolled" id="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="index.html" aria-label="NeuroReplay — home"><img class="brand__mark" src="assets/neuroreplay-mark.png" alt="" width="55" height="30" /><span>Neuro<em>Replay</em></span></a>
+    <div class="nav__spacer"></div>
+    <div class="nav__links">
+      <a href="index.html#features"><span data-mn>Боломжууд</span><span data-en>Features</span></a>
+      <a href="index.html#download"><span data-mn>Татах</span><span data-en>Download</span></a>
+      <a href="index.html#faq">FAQ</a>
+    </div>
+    <div class="nav__tools">
+      <button class="langbtn" id="langBtn" type="button" aria-label="Switch language / Хэл солих">EN</button>
+      <a class="btn btn--primary" href="index.html#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap help">
+  <aside class="toc" aria-label="Contents">
+    <h4><span data-mn>Агуулга</span><span data-en>Contents</span></h4>
+    <a href="#start"><span data-mn>Эхлэхээс өмнө</span><span data-en>Before you start</span></a>
+    <a href="#install"><span data-mn>Суулгах</span><span data-en>Install</span></a>
+    <a href="#license"><span data-mn>License</span><span data-en>License</span></a>
+    <a href="#cameras"><span data-mn>Camera тохиргоо</span><span data-en>Camera setup</span></a>
+    <a href="#record"><span data-mn>Бичлэг хийх</span><span data-en>Recording</span></a>
+    <a href="#tags"><span data-mn>Tag нэмэх</span><span data-en>Tagging</span></a>
+    <a href="#replay"><span data-mn>Instant Replay</span><span data-en>Instant Replay</span></a>
+    <a href="#library"><span data-mn>Library</span><span data-en>Library</span></a>
+    <a href="#export"><span data-mn>Export ба highlight</span><span data-en>Export &amp; highlights</span></a>
+    <a href="#keys"><span data-mn>Гарын товчлуур</span><span data-en>Keyboard shortcuts</span></a>
+    <a href="#trouble"><span data-mn>Асуудал шийдэх</span><span data-en>Troubleshooting</span></a>
+    <a href="#contact"><span data-mn>Холбоо барих</span><span data-en>Contact</span></a>
+  </aside>
+
+  <article class="doc">
+    <header>
+      <span class="kicker"><span data-mn>Гарын авлага</span><span data-en>User guide</span></span>
+      <h1><span data-mn>NeuroReplay <span class="grad">хэрэглэгчийн гарын авлага</span></span><span data-en>NeuroReplay <span class="grad">user guide</span></span></h1>
+      <p data-mn>Олон камерын дүрсийг зэрэг бичиж, instant replay, DVR ухраалт, frame-by-frame шинжилгээ, tag болон telestration хийх Windows программын өдөр тутмын заавар.</p>
+      <p data-en>Day-to-day instructions for the Windows app that records several cameras at once and gives you instant replay, DVR rewind, frame-by-frame review, tags and telestration.</p>
+      <div class="doc-actions noprint">
+        <a class="btn btn--primary" id="pdfBtn" href="assets/NeuroReplay-User-Manual-mn.pdf" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+          <span data-mn>PDF татах</span><span data-en>Download PDF</span>
+        </a>
+        <a class="btn btn--ghost" href="index.html#download"><span data-mn>Программ татах</span><span data-en>Download the app</span></a>
+      </div>
+    </header>
+
+    <section id="start">
+      <h2><span class="n">01</span><span data-mn>Эхлэхээс өмнө</span><span data-en>Before you start</span></h2>
+      <ul data-mn>
+        <li>Windows 10 эсвэл Windows 11 компьютер</li>
+        <li>Нэг буюу хэд хэдэн USB камер, эсвэл тохируулсан RTSP/IP камер</li>
+        <li>Бичлэг хадгалах хангалттай сул дискний зай</li>
+        <li>Идэвхтэй NeuroReplay license</li>
+      </ul>
+      <ul data-en>
+        <li>A Windows 10 or Windows 11 computer</li>
+        <li>One or more USB cameras, or a configured RTSP/IP camera</li>
+        <li>Enough free disk space for recordings</li>
+        <li>An active NeuroReplay license</li>
+      </ul>
+      <p data-mn>Windows-ийн <b>Settings → Privacy &amp; security → Camera</b> хэсэгт desktop application-д camera access зөвшөөрсөн эсэхийг шалгана.</p>
+      <p data-en>In Windows, check <b>Settings → Privacy &amp; security → Camera</b> and make sure desktop apps are allowed to use the camera.</p>
+    </section>
+
+    <section id="install">
+      <h2><span class="n">02</span><span data-mn>Суулгах ба анх нээх</span><span data-en>Install and first launch</span></h2>
+      <ol data-mn>
+        <li><code>NeuroReplay-Setup.exe</code> installer-ийг ажиллуул.</li>
+        <li>Суулгах хавтсаа сонгоод <b>Next → Install</b> дар.</li>
+        <li>Start цэс эсвэл desktop shortcut-аас NeuroReplay-ийг нээ.</li>
+      </ol>
+      <ol data-en>
+        <li>Run the <code>NeuroReplay-Setup.exe</code> installer.</li>
+        <li>Choose an install folder and click <b>Next → Install</b>.</li>
+        <li>Open NeuroReplay from the Start menu or the desktop shortcut.</li>
+      </ol>
+      <div class="note">
+        <p data-mn>Windows <code>Unknown Publisher</code> анхааруулга гарвал installer код гарын үсэггүй байж болно. Файлыг зөв эх сурвалжаас авсан эсэхээ баталгаажуулаад <b>More info → Run anyway</b> сонгоно.</p>
+        <p data-en>If Windows shows an <code>Unknown Publisher</code> warning, the installer may be unsigned. Once you have confirmed the file came from the right source, choose <b>More info → Run anyway</b>.</p>
+      </div>
+    </section>
+
+    <section id="license">
+      <h2><span class="n">03</span><span data-mn>License идэвхжүүлэх</span><span data-en>Activate your license</span></h2>
+      <p data-mn>Анх нээхэд license цонх гарна. Доорх хоёр аргын аль нэгийг ашиглана.</p>
+      <p data-en>A license window opens on first launch. Use either of the two methods below.</p>
+      <h3><span data-mn><code>.lic</code> файл суулгах</span><span data-en>Install a <code>.lic</code> file</span></h3>
+      <ol data-mn>
+        <li><b>Install .lic file</b> товч дар.</li>
+        <li>Имэйлээр ирсэн <code>.lic</code> файлыг сонго.</li>
+        <li>License хүчинтэй бол программ үндсэн цонхоо нээнэ.</li>
+      </ol>
+      <ol data-en>
+        <li>Click <b>Install .lic file</b>.</li>
+        <li>Pick the <code>.lic</code> file you received by email.</li>
+        <li>If the license is valid, the app opens its main window.</li>
+      </ol>
+      <h3><span data-mn>License key ашиглах</span><span data-en>Use a license key</span></h3>
+      <ol data-mn>
+        <li><b>License Key</b> tab руу ор.</li>
+        <li>Гарсан <b>Machine ID</b>-г <b>Copy</b> дарж хуул.</li>
+        <li>Machine ID-г license олгогчид илгээж key аваарай.</li>
+        <li>Key-г талбарт буулгаад <b>Activate</b> дар.</li>
+      </ol>
+      <ol data-en>
+        <li>Open the <b>License Key</b> tab.</li>
+        <li>Click <b>Copy</b> next to your <b>Machine ID</b>.</li>
+        <li>Send the Machine ID to your license provider to receive a key.</li>
+        <li>Paste the key into the field and click <b>Activate</b>.</li>
+      </ol>
+      <p data-mn>License нь эхлэх, дуусах огноотой байж болно, мөн таны license-ийн хязгаар (жишээ нь camera-ийн дээд тоо) layout сонголтод нөлөөлнө. Идэвхжихгүй бол компьютерийн огноо, цаг, Machine ID болон key-г дахин шалга.</p>
+      <p data-en>A license can have start and end dates, and its limits (for example the maximum number of cameras) affect which layouts you can pick. If activation fails, re-check the computer's date and time, the Machine ID and the key.</p>
+    </section>
+
+    <section id="cameras">
+      <h2><span class="n">04</span><span data-mn>Camera тохиргоо</span><span data-en>Camera setup</span></h2>
+      <ol data-mn>
+        <li>USB camera-уудаа холбоно, эсвэл RTSP/IP camera-гаа сүлжээнд бэлэн болгоно.</li>
+        <li>Доод самбарын <b>1 / 2 / 4 / 6 / 8</b> товчоор camera-ийн тоог (layout) сонгоно. <kbd>Ctrl</kbd>+<kbd>1</kbd>/<kbd>2</kbd>/<kbd>4</kbd>/<kbd>6</kbd>/<kbd>8</kbd> товчоор ч болно.</li>
+        <li>Slot бүр дээрх selector-оос camera, resolution-оо сонгоно.</li>
+        <li><b>START</b> дарж бүх сонгосон camera-г нэг дор асаана, эсвэл slot бүрийн <b>Start</b> товчийг тусад нь ашиглана.</li>
+      </ol>
+      <ol data-en>
+        <li>Connect your USB cameras, or make your RTSP/IP camera reachable on the network.</li>
+        <li>Pick the camera count (layout) with the <b>1 / 2 / 4 / 6 / 8</b> buttons in the bottom bar, or use <kbd>Ctrl</kbd>+<kbd>1</kbd>/<kbd>2</kbd>/<kbd>4</kbd>/<kbd>6</kbd>/<kbd>8</kbd>.</li>
+        <li>Choose the camera and resolution in each slot's selectors.</li>
+        <li>Press <b>START</b> to start every selected camera at once, or use each slot's own <b>Start</b> button.</li>
+      </ol>
+      <p data-mn>Layout-ийг camera ажиллаж эсвэл бичиж байх үед солих боломжгүй — эхлээд <b>STOP</b> дарна.</p>
+      <p data-en>You can't change the layout while cameras are running or recording — press <b>STOP</b> first.</p>
+      <figure>
+        <img src="assets/help/01-setup-4cams.png" alt="NeuroReplay 4-camera layout with camera selectors" loading="lazy" />
+        <figcaption><span data-mn>4 camera-ийн layout: slot бүрт camera ба resolution-ийн selector, доор START / REPLAY / REC / TAG самбар.</span><span data-en>4-camera layout: camera and resolution selectors per slot, with the START / REPLAY / REC / TAG bar below.</span></figcaption>
+      </figure>
+      <p data-mn>RTSP camera ашиглах бол IP address, stream URL болон нэвтрэх мэдээллийг зөв оруулна. Нэвтрэх мэдээллийг нийтийн screenshot, log, website-д бүү оруул.</p>
+      <p data-en>For RTSP cameras, enter the IP address, stream URL and credentials correctly. Never put credentials in public screenshots, logs or websites.</p>
+    </section>
+
+    <section id="record">
+      <h2><span class="n">05</span><span data-mn>Бичлэг хийх</span><span data-en>Recording</span></h2>
+      <p data-mn>Camera ажиллаж байх үед slot дээр шууд дүрс, доод талд <b>LIVE</b> төлөв болон fps харагдана.</p>
+      <p data-en>While a camera is running its slot shows the live picture, with a <b>LIVE</b> badge and fps readout.</p>
+      <figure>
+        <img src="assets/help/02-live-4cams.png" alt="Live camera in the 4-camera layout" loading="lazy" />
+        <figcaption><span data-mn>CAM 1 ажиллаж байна: товчны самбар дээр START нь STOP болж, slot дээр LIVE гарна.</span><span data-en>CAM 1 running: START becomes STOP and the slot shows LIVE.</span></figcaption>
+      </figure>
+      <ul data-mn>
+        <li><b>Нэг camera:</b> тухайн slot-ийн <b>Rec</b> товч дарж эхлүүлж, дахин дарж зогсооно.</li>
+        <li><b>Бүх camera:</b> <b>REC</b> товч эсвэл <kbd>R</kbd> дарж бүх асаалттай camera-г зэрэг эхлүүлж / зогсооно.</li>
+      </ul>
+      <ul data-en>
+        <li><b>One camera:</b> press that slot's <b>Rec</b> button to start, press again to stop.</li>
+        <li><b>All cameras:</b> press <b>REC</b> or <kbd>R</kbd> to start or stop every running camera together.</li>
+      </ul>
+      <p data-mn>Бичлэг зогсоход файл автоматаар Library-д нэмэгдэнэ. Урт бичлэгийн өмнө дискний сул зайг шалгаарай.</p>
+      <p data-en>When a recording stops, the file is added to the Library automatically. Check free disk space before long sessions.</p>
+    </section>
+
+    <section id="tags">
+      <h2><span class="n">06</span><span data-mn>Tag нэмэх</span><span data-en>Tagging a moment</span></h2>
+      <p data-mn>Бичлэг хийж байх үед <kbd>Space</kbd> (эсвэл <b>TAG</b> товч) дарахад tag popup гарна.</p>
+      <p data-en>While recording, press <kbd>Space</kbd> (or the <b>TAG</b> button) to open the tag popup.</p>
+      <figure>
+        <img src="assets/help/03-recording-tag.png" alt="Recording with the quick tag popup open" loading="lazy" />
+        <figcaption><span data-mn>Бичиж байх үед (улаан хүрээ) гарсан tag popup: төрөл, тайлбар, <b>OK</b> / <b>Skip</b>.</span><span data-en>The tag popup while recording (red frame): type, label, <b>OK</b> / <b>Skip</b>.</span></figcaption>
+      </figure>
+      <ul data-mn>
+        <li>Төрлөө сонгоно: <b>Takedown, Guard pass, Submission, Sweep, Custom</b>. Хүсвэл тайлбар бичнэ.</li>
+        <li><b>OK</b> дарж хадгална. <b>Skip</b> дарвал эсвэл 3 секунд юу ч хийхгүй бол tag <code>Custom</code> төрлөөр, тайлбаргүй хадгалагдана.</li>
+        <li>Popup нээлттэй байх үед бичлэг болон <kbd>R</kbd>, <kbd>T</kbd> товчнууд ажиллсаар байна.</li>
+        <li>Tag-ууд Library, Replay-д тухайн мөч рүү шууд очих, мөн highlight сонгоход ашиглагдана.</li>
+      </ul>
+      <ul data-en>
+        <li>Pick a type: <b>Takedown, Guard pass, Submission, Sweep, Custom</b>. Add a label if you like.</li>
+        <li>Press <b>OK</b> to save. <b>Skip</b>, or leaving it for 3 seconds, saves a <code>Custom</code> tag with no label.</li>
+        <li>Recording and the <kbd>R</kbd> / <kbd>T</kbd> shortcuts keep working while the popup is open.</li>
+        <li>Tags let you jump straight to a moment in the Library and Replay, and drive highlight selection.</li>
+      </ul>
+    </section>
+
+    <section id="replay">
+      <h2><span class="n">07</span><span data-mn>Instant Replay ба шинжилгээ</span><span data-en>Instant Replay and review</span></h2>
+      <p data-mn>Бичлэг үргэлжилж байх үед <b>REPLAY</b> товч эсвэл <kbd>T</kbd> дарахад сүүлийн агшин нээгдэнэ. Replay-г хаахдаа дахин <kbd>T</kbd> эсвэл <b>Replay</b> товчийг дарна.</p>
+      <p data-en>While recording, press <b>REPLAY</b> or <kbd>T</kbd> to open the most recent moment. Press <kbd>T</kbd> or the <b>Replay</b> button again to close it.</p>
+      <figure>
+        <img src="assets/help/04-replay.png" alt="Replay player with timeline, frame and speed controls" loading="lazy" />
+        <figcaption><span data-mn>Replay player: frame ruler, <code>« ‹ ▶ › »</code>, ±3s / ±10s үсрэлт, 0.25×–2× хурд.</span><span data-en>Replay player: frame ruler, <code>« ‹ ▶ › »</code>, ±3s / ±10s jumps, 0.25×–2× speed.</span></figcaption>
+      </figure>
+      <ul data-mn>
+        <li><b>Timeline</b>-г чирж дурын агшин руу очно.</li>
+        <li><b>Speed:</b> товчоор эсвэл <kbd>1</kbd>–<kbd>5</kbd> (0.25× / 0.5× / 1× / 1.5× / 2×), <kbd>↑</kbd> / <kbd>↓</kbd> дарж нэг шатаар солино.</li>
+        <li><b>Frame:</b> <kbd>←</kbd> / <kbd>→</kbd> (эсвэл <kbd>,</kbd> / <kbd>.</kbd>) 1 frame, <kbd>Shift</kbd> нэмбэл 5 frame.</li>
+        <li><b>Zoom:</b> <kbd>+</kbd> / <kbd>−</kbd> эсвэл хулганы дугуй. Томруулсан дүрсийг чирж pan хийнэ.</li>
+        <li><kbd>I</kbd> / <kbd>O</kbd> — clip-ийн эхлэх, дуусах цэг тэмдэглэнэ.</li>
+        <li><kbd>Space</kbd> (эсвэл <kbd>K</kbd>) — бүх camera-г зэрэг play/pause.</li>
+        <li>Replay/player доторх telestration хэрэгслээр дүрс дээр зурж, заана. Zoom/pan хийхэд тэмдэглэгээ дүрстэйгээ уялдана.</li>
+      </ul>
+      <ul data-en>
+        <li><b>Timeline:</b> drag to jump anywhere.</li>
+        <li><b>Speed:</b> use the buttons, or <kbd>1</kbd>–<kbd>5</kbd> (0.25× / 0.5× / 1× / 1.5× / 2×), or <kbd>↑</kbd> / <kbd>↓</kbd> to step.</li>
+        <li><b>Frame step:</b> <kbd>←</kbd> / <kbd>→</kbd> (or <kbd>,</kbd> / <kbd>.</kbd>) for 1 frame, add <kbd>Shift</kbd> for 5.</li>
+        <li><b>Zoom:</b> <kbd>+</kbd> / <kbd>−</kbd> or the mouse wheel. Drag the zoomed picture to pan.</li>
+        <li><kbd>I</kbd> / <kbd>O</kbd> — mark the clip's in and out points.</li>
+        <li><kbd>Space</kbd> (or <kbd>K</kbd>) — play/pause all cameras together.</li>
+        <li>Use the telestration tools in the replay/player to draw on the picture. Drawings stay locked to the image as you zoom and pan.</li>
+      </ul>
+      <h3><span data-mn>Дэлгэцийн хоцролт (delay monitor)</span><span data-en>Delay monitor</span></h3>
+      <p data-mn>Тохиргооны <b>Дэлгэц хоцролт (сек)</b> талбарт секунд оруулна: <code>0</code> = live, <code>5</code> = таван секундын хоцролттой дүрс. Тохиргоо хадгалагдаж дараагийн session-д сэргээгдэнэ.</p>
+      <p data-en>Enter seconds in the <b>Display delay (sec)</b> setting: <code>0</code> = live, <code>5</code> = picture delayed by five seconds. The setting is saved for the next session.</p>
+    </section>
+
+    <section id="library">
+      <h2><span class="n">08</span><span data-mn>Library буюу хадгалсан бичлэгүүд</span><span data-en>Library: saved recordings</span></h2>
+      <p data-mn>Дээд талын бичлэгийн дүрс эсвэл <kbd>Ctrl</kbd>+<kbd>L</kbd> дарж Library-г нээнэ. Самбар нь <b>Recordings</b>, <b>Tags</b>, <b>Settings</b> гэсэн гурван tab-тай. <kbd>Esc</kbd> дарж хаана.</p>
+      <p data-en>Open the Library from the recordings icon at the top or with <kbd>Ctrl</kbd>+<kbd>L</kbd>. It has three tabs: <b>Recordings</b>, <b>Tags</b> and <b>Settings</b>. Press <kbd>Esc</kbd> to close.</p>
+      <figure>
+        <img src="assets/help/05-library.png" alt="Recordings library drawer" loading="lazy" />
+        <figcaption><span data-mn>Library: хайлт, <b>Open</b> (хавтас нээх), бичлэг бүрийн camera, огноо, хэмжээ.</span><span data-en>Library: search, <b>Open</b> (show folder), and each recording's camera, date and size.</span></figcaption>
+      </figure>
+      <ul data-mn>
+        <li>Бичлэг дээр давхар товшиж player-ээр нээнэ.</li>
+        <li><b>Rename</b> — нэр өөрчилнө. <b>Preview</b> — хурдан үзнэ.</li>
+        <li><b>Lock / Unlock</b> — санамсаргүй устгалтаас хамгаална.</li>
+        <li>Checkbox сонгож олон бичлэгийг зэрэг устгана. Устгахаас өмнө Lock төлөв болон сонголтоо шалга.</li>
+      </ul>
+      <ul data-en>
+        <li>Double-click a recording to open it in the player.</li>
+        <li><b>Rename</b> to change the name; <b>Preview</b> for a quick look.</li>
+        <li><b>Lock / Unlock</b> protects a recording from accidental deletion.</li>
+        <li>Tick checkboxes to delete several at once. Check lock state and your selection before deleting.</li>
+      </ul>
+      <p data-mn>Бичлэг болон tag metadata (sidecar) нь дараах хавтсанд хадгалагдана:</p>
+      <p data-en>Recordings and their tag metadata (sidecar files) are stored in:</p>
+      <pre>%USERPROFILE%\Videos\NeuroReplay\</pre>
+    </section>
+
+    <section id="export">
+      <h2><span class="n">09</span><span data-mn>Export ба highlight</span><span data-en>Export and highlights</span></h2>
+      <ol data-mn>
+        <li>Library-ээс бичлэгээ сонгоно.</li>
+        <li>Player дотор эхлэх, дуусах хугацааг тохируулна.</li>
+        <li><b>Export MP4</b> (эсвэл highlight export) сонгоно — <code>.webm</code> бичлэг <code>.mp4</code> болно.</li>
+        <li>Файлын нэр, байршлыг сонгоно.</li>
+        <li>Export дуустал эх файлыг устгахгүй, программыг хаахгүй.</li>
+      </ol>
+      <ol data-en>
+        <li>Select a recording in the Library.</li>
+        <li>Set the start and end time in the player.</li>
+        <li>Choose <b>Export MP4</b> (or highlight export) — the <code>.webm</code> recording becomes an <code>.mp4</code>.</li>
+        <li>Pick a file name and location.</li>
+        <li>Don't delete the source file or close the app until the export finishes.</li>
+      </ol>
+      <p data-mn>Export амжилтгүй бол эх <code>.webm</code> файл байгаа эсэх, хадгалах хавтасны эрх, дискний сул зайг шалгана.</p>
+      <p data-en>If an export fails, check that the source <code>.webm</code> still exists, that you can write to the output folder, and that there is free disk space.</p>
+    </section>
+
+    <section id="keys">
+      <h2><span class="n">10</span><span data-mn>Гарын товчлуурууд</span><span data-en>Keyboard shortcuts</span></h2>
+      <table class="tbl">
+        <thead><tr><th><span data-mn>Товч</span><span data-en>Key</span></th><th><span data-mn>Үйлдэл</span><span data-en>Action</span></th></tr></thead>
+        <tbody>
+          <tr><td><kbd>R</kbd></td><td><span data-mn>Бүх асаалттай camera-г бичих / зогсоох</span><span data-en>Start / stop recording on all running cameras</span></td></tr>
+          <tr><td><kbd>T</kbd></td><td><span data-mn>Instant Replay нээх / хаах</span><span data-en>Open / close Instant Replay</span></td></tr>
+          <tr><td><kbd>Space</kbd></td><td><span data-mn>Live үед tag popup; Replay дотор бүх camera-г play/pause</span><span data-en>Live: tag popup. In Replay: play/pause all cameras</span></td></tr>
+          <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td><span data-mn>Replay: 1 frame ухраах / урагшлуулах (<kbd>Shift</kbd> = 5 frame)</span><span data-en>Replay: step 1 frame back / forward (<kbd>Shift</kbd> = 5 frames)</span></td></tr>
+          <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td><span data-mn>Instant Replay: хурд ихэсгэх / багасгах. Library player: zoom</span><span data-en>Instant Replay: speed up / down. Library player: zoom</span></td></tr>
+          <tr><td><kbd>1</kbd>–<kbd>5</kbd></td><td><span data-mn>Replay хурд: 0.25× / 0.5× / 1× / 1.5× / 2×</span><span data-en>Replay speed: 0.25× / 0.5× / 1× / 1.5× / 2×</span></td></tr>
+          <tr><td><kbd>+</kbd> <kbd>−</kbd></td><td><span data-mn>Replay pane: zoom</span><span data-en>Replay pane: zoom</span></td></tr>
+          <tr><td><kbd>I</kbd> <kbd>O</kbd></td><td><span data-mn>Clip-ийн эхлэх / дуусах цэг</span><span data-en>Clip in / out point</span></td></tr>
+          <tr><td><kbd>Esc</kbd></td><td><span data-mn>Tag popup, Library самбар эсвэл Library player хаах</span><span data-en>Close the tag popup, Library drawer or Library player</span></td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>1</kbd>/<kbd>2</kbd>/<kbd>4</kbd>/<kbd>6</kbd>/<kbd>8</kbd></td><td><span data-mn>Camera-ийн тоо (layout)</span><span data-en>Camera count (layout)</span></td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>L</kbd></td><td><span data-mn>Library нээх</span><span data-en>Open the Library</span></td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td><span data-mn>Tags самбар нээх</span><span data-en>Open the Tags panel</span></td></tr>
+        </tbody>
+      </table>
+      <p data-mn>Цэсний <b>View</b> хэсгээс UI горим (Minimal / Legacy), цэсийн хэлний тохиргооноос Монгол, English, Russian хэлийг сонгоно.</p>
+      <p data-en>Use the <b>View</b> menu to switch UI mode (Minimal / Legacy), and the language setting in the menu to choose Mongolian, English or Russian.</p>
+    </section>
+
+    <section id="trouble">
+      <h2><span class="n">11</span><span data-mn>Асуудал шийдвэрлэх</span><span data-en>Troubleshooting</span></h2>
+      <table class="tbl">
+        <thead><tr><th><span data-mn>Асуудал</span><span data-en>Problem</span></th><th><span data-mn>Шалгах зүйл</span><span data-en>What to check</span></th></tr></thead>
+        <tbody>
+          <tr><td><span data-mn>Camera харагдахгүй</span><span data-en>Camera not showing</span></td><td><span data-mn>Өөр программ camera ашиглаж байгаа эсэх, USB холболт, Windows camera permission.</span><span data-en>Another app using the camera, USB connection, Windows camera permission.</span></td></tr>
+          <tr><td><code>Camera error</code></td><td><span data-mn>Camera-г салгаж дахин холбоод программыг restart хийнэ.</span><span data-en>Unplug and reconnect the camera, then restart the app.</span></td></tr>
+          <tr><td><span data-mn>RTSP дүрс ирэхгүй</span><span data-en>No RTSP picture</span></td><td><span data-mn>Stream URL, IP address, сүлжээ, authentication.</span><span data-en>Stream URL, IP address, network, authentication.</span></td></tr>
+          <tr><td><span data-mn>Бичлэг хадгалагдахгүй</span><span data-en>Recording not saved</span></td><td><span data-mn><code>%USERPROFILE%\Videos\NeuroReplay\</code> хавтасны бичих эрх, дискний зай.</span><span data-en>Write permission on <code>%USERPROFILE%\Videos\NeuroReplay\</code>, free disk space.</span></td></tr>
+          <tr><td><span data-mn>Replay хоосон</span><span data-en>Replay is empty</span></td><td><span data-mn>Тухайн camera бичиж байсан эсэх, replay-ийн төлөв.</span><span data-en>Whether that camera was recording, and the replay state.</span></td></tr>
+          <tr><td><span data-mn>Export амжилтгүй</span><span data-en>Export failed</span></td><td><span data-mn>Эх файл байгаа эсэх, output path, дискний зай.</span><span data-en>Source file exists, output path, free disk space.</span></td></tr>
+          <tr><td><span data-mn>License идэвхжихгүй</span><span data-en>License won't activate</span></td><td><span data-mn>Системийн огноо/цаг, Machine ID, key эсвэл <code>.lic</code> файлын хугацаа.</span><span data-en>System date/time, Machine ID, key or the <code>.lic</code> file's validity period.</span></td></tr>
+          <tr><td><span data-mn>Программ удаан байна</span><span data-en>App feels slow</span></td><td><span data-mn>Ашиглаагүй camera-г зогсоох, resolution багасгах, зэрэг ажиллаж буй программуудыг хаах.</span><span data-en>Stop unused cameras, lower the resolution, close other heavy apps.</span></td></tr>
+        </tbody>
+      </table>
+      <p data-mn>Асуудал үргэлжилбэл алдааны screenshot, программын болон Windows-ийн хувилбар, camera-ийн төрөл, гарсан цагийг support-д илгээнэ. Password, private key, license secret зэрэг нууц мэдээллийг илгээж болохгүй.</p>
+      <p data-en>If the problem persists, send support a screenshot of the error, the app and Windows versions, the camera type and the time it happened. Never send passwords, private keys or license secrets.</p>
+    </section>
+
+    <section id="contact">
+      <h2><span class="n">12</span><span data-mn>Холбоо барих</span><span data-en>Contact</span></h2>
+      <p data-mn>License, захиалга болон техникийн тусламж авахдаа NeuroReplay-ийн борлуулалт, support багтай холбогдоно.</p>
+      <p data-en>For licenses, orders and technical help, contact the NeuroReplay sales and support team.</p>
+      <ul>
+        <li><a href="mailto:idereee.engineering@gmail.com">idereee.engineering@gmail.com</a></li>
+        <li><a href="tel:+97685551511">+976 8555 1511</a></li>
+      </ul>
+      <p><b>NeuroReplay</b> — Iderbat Myagmardorj</p>
+    </section>
+  </article>
+</main>
+
+<script>
+  // Language toggle shares the main site's saved choice; ?lang=en|mn overrides it (used to render the PDFs).
+  (function () {
+    var root = document.documentElement, btn = document.getElementById('langBtn'), pdf = document.getElementById('pdfBtn');
+    function setLang(l, persist) {
+      root.setAttribute('lang', l);
+      btn.textContent = l === 'en' ? 'МН' : 'EN';
+      pdf.setAttribute('href', 'assets/NeuroReplay-User-Manual-' + l + '.pdf');
+      document.title = l === 'en' ? 'NeuroReplay — User guide' : 'NeuroReplay — Хэрэглэгчийн гарын авлага';
+      if (persist) { try { localStorage.setItem('nr.site.lang', l); } catch (e) {} }
+    }
+    var q = new URLSearchParams(location.search).get('lang'), saved = 'mn';
+    try { saved = localStorage.getItem('nr.site.lang') || 'mn'; } catch (e) {}
+    setLang(q === 'en' || q === 'mn' ? q : saved, false);
+    btn.addEventListener('click', function () { setLang(root.getAttribute('lang') === 'en' ? 'mn' : 'en', true); });
+
+    var links = [].slice.call(document.querySelectorAll('.toc a'));
+    var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    function onScroll() {
+      var y = window.scrollY + 120, cur = 0;
+      secs.forEach(function (s, i) { if (s && s.offsetTop <= y) cur = i; });
+      links.forEach(function (a, i) { a.classList.toggle('on', i === cur); });
+    }
+    onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
+</body>
+</html>

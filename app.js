@@ -68,7 +68,16 @@
   })();
 
   var nav = document.getElementById('nav');
-  var onScroll = function () { nav.classList.toggle('scrolled', window.scrollY > 8); };
+  var progress = document.getElementById('progress'), mbar = document.getElementById('mbar');
+  var heroEl = document.querySelector('.hero'), orderEl = document.getElementById('order');
+  var onScroll = function () {
+    var y = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight;
+    nav.classList.toggle('scrolled', y > 8);
+    if (progress) progress.style.width = (max > 0 ? Math.min(100, y / max * 100) : 0) + '%';
+    if (mbar && heroEl && orderEl) {
+      mbar.classList.toggle('show', y > heroEl.offsetHeight * 0.8 && orderEl.getBoundingClientRect().top > window.innerHeight * 0.9);
+    }
+  };
   onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
 
   var hamb = document.getElementById('hamb'), mm = document.getElementById('mobileMenu');
@@ -116,6 +125,41 @@
     revealEls.forEach(function (el) { io.observe(el); });
   }
 
+  /* Cursor spotlight on glass cards */
+  if (!prefersReduced && window.matchMedia('(hover: hover)').matches) {
+    var GLOW = '.tile, .uc, .tip, .addon, .req-grid > .req';
+    document.addEventListener('pointermove', function (e) {
+      var el = e.target.closest ? e.target.closest(GLOW) : null;
+      if (!el) return;
+      var r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }, { passive: true });
+  }
+
+  /* Interactive instant-replay demo in the hero mockup */
+  (function () {
+    var wrap = document.getElementById('rigWrap'), rb = document.getElementById('replayBtn');
+    if (!wrap || !rb) return;
+    var rig = wrap.querySelector('.rig'), live = rig.querySelector('.chip-live'), tc = rig.querySelector('.rig__tc');
+    var timer = null, offset = 8.4;
+    function setReplay(on) {
+      rig.classList.toggle('is-replay', on);
+      rb.setAttribute('aria-pressed', on ? 'true' : 'false');
+      live.textContent = on ? 'REPLAY' : 'LIVE';
+      clearInterval(timer);
+      offset = 8.4; tc.textContent = '−00:08.4';
+      if (on) {
+        timer = setInterval(function () {
+          offset = Math.max(0, offset - 0.1);
+          tc.textContent = '−00:0' + offset.toFixed(1);
+          if (offset <= 0) setReplay(false);
+        }, 250);
+      }
+    }
+    rb.addEventListener('click', function () { setReplay(rb.getAttribute('aria-pressed') !== 'true'); });
+  })();
+
   var linkMap = {};
   document.querySelectorAll('#navLinks a').forEach(function (a) { var id = a.getAttribute('href').slice(1); if (id) linkMap[id] = a; });
   var spy = new IntersectionObserver(function (entries) {
@@ -130,7 +174,7 @@
 
   var form = document.getElementById('orderForm');
   var statusEl = document.getElementById('formStatus');
-  function showStatus(kind, msg) { statusEl.setAttribute('data-kind', kind); statusEl.textContent = msg; if (kind === 'error') { statusEl.setAttribute('tabindex', '-1'); statusEl.focus(); } }
+  function showStatus(kind, msg) { statusEl.setAttribute('data-kind', kind); statusEl.textContent = msg; try { statusEl.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'center' }); } catch (e) {} if (kind === 'error') { statusEl.setAttribute('tabindex', '-1'); statusEl.focus(); } }
   function clearStatus() { statusEl.removeAttribute('data-kind'); statusEl.textContent = ''; }
   function fieldOf(input) { return input.closest('.field') || input.closest('.consent'); }
   function setError(input, msg) {

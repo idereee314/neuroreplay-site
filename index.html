@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NeuroReplay — Олон камерын Instant Replay & Video Review</title>
 <meta name="description" content="NeuroReplay — Windows дээрх олон камерын instant replay программ хангамж. USB болон RTSP/IP камер зэрэг бичиж, амьд DVR ухраалт, slow-motion, кадр алхам, telestration, тэмдэглэл, MP4 экспорт. Тулааны спорт, тэмцээн, дасгалжуулалт, VR сургалтад тохирно." />
-<meta name="theme-color" content="#fbfbfc" />
+<meta name="theme-color" content="#060912" />
 <meta name="author" content="Iderbat Myagmardorj" />
 
 <meta property="og:type" content="website" />
@@ -78,6 +78,7 @@
       </button>
     </div>
   </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
   <div class="mobile-menu" id="mobileMenu">
     <a href="#features"><span data-mn>Боломжууд</span><span data-en>Features</span></a>
     <a href="#how"><span data-mn>Хэрхэн ажилладаг</span><span data-en>How it works</span></a>
@@ -92,6 +93,7 @@
 
 <!-- ══ HERO ══ -->
 <header class="hero">
+  <div class="hero__bg" aria-hidden="true"></div>
   <div class="wrap hero__grid">
     <div class="hero__intro">
       <span class="announce"><b><span class="dot"></span>Windows 10/11</b> <span data-mn>Тулааны спортод зориулав</span><span data-en>Built for combat sports</span></span>
@@ -120,7 +122,9 @@
       </p>
     </div>
 
-    <div class="rig-wrap">
+    <div class="rig-wrap" id="rigWrap">
+      <span class="float-chip fc1" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/></svg>Instant replay</span>
+      <span class="float-chip fc2" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20l6-2 9-9-4-4-9 9z"/></svg>Telestration</span>
       <div class="rig" role="img" aria-label="NeuroReplay software mockup: four camera feeds with REC state, timeline, replay offset and telestration">
         <div class="rig__top">
           <span class="rig__dots"><i></i><i></i><i></i></span>
@@ -128,6 +132,7 @@
           <span class="rig__state"><span class="chip-live">LIVE</span><span class="chip-rec">REC 12:47</span></span>
         </div>
         <div class="rig__grid">
+          <span class="slowmo" aria-hidden="true">REPLAY · SLOW-MO</span>
           <div class="cam"><span class="cam__tag">CAM 1 · USB</span><span class="cam__tc">00:12:47:03</span>
             <div class="cam__mark"><svg viewBox="0 0 160 100" aria-hidden="true"><circle cx="64" cy="52" r="20" fill="none" stroke="#ffb02e" stroke-width="2"/><path d="M64 52 L96 30" stroke="#67e8f9" stroke-width="2" fill="none"/><path d="M90 28 l8 2 -3 7" stroke="#67e8f9" stroke-width="2" fill="none"/></svg></div>
           </div>
@@ -145,7 +150,23 @@
           <span class="rig__tc">−00:08.4</span>
         </div>
       </div>
+      <div class="replay-demo">
+        <button class="btn btn--ghost replay-btn" id="replayBtn" type="button" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/></svg>
+          <span class="rb-idle"><span data-mn>Instant replay-г туршиж үз</span><span data-en>Try the instant replay</span></span>
+          <span class="rb-live"><span data-mn>LIVE рүү буцах</span><span data-en>Back to LIVE</span></span>
+        </button>
+      </div>
       <p class="rig__caption"><span data-mn>Дүрслэл — бүтээгдэхүүний интерфейсийн загвар</span><span data-en>Illustration — labelled product interface mockup</span></p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero__stats reveal">
+      <div class="stat"><b>4</b><span><span data-mn>камер хүртэл нэг багцад (USB + RTSP)</span><span data-en>cameras per package (USB + RTSP)</span></span></div>
+      <div class="stat"><b>0</b><span><span data-mn>capture карт, свитчер шаардлагагүй</span><span data-en>capture cards or switchers needed</span></span></div>
+      <div class="stat"><b>3</b><span><span data-mn>хэл: Монгол · Англи · Орос</span><span data-en>languages: Mongolian · English · Russian</span></span></div>
+      <div class="stat"><b>100%</b><span><span data-mn>интернэтгүй, офлайн ажиллана</span><span data-en>offline — no internet needed</span></span></div>
     </div>
   </div>
 </header>
@@ -405,7 +426,7 @@
         <span class="lg"><i style="background:#e23c3c"></i><span data-mn>Safety area · 2 м</span><span data-en>Safety area · 2 m</span></span>
         <span class="lg"><i style="background:linear-gradient(135deg,#3f5bff,#ff3bc7)"></i><span data-mn>Камерын өнцөг</span><span data-en>Camera FOV</span></span>
         <span class="lg"><i style="background:#b6a6ff"></i><span data-mn>USB / LAN</span><span data-en>USB / LAN</span></span>
-        <span class="lg"><i style="background:#14151b"></i><span data-mn>Компьютер</span><span data-en>Computer</span></span>
+        <span class="lg"><i style="background:#1a2342;box-shadow:0 0 0 1px #8f9eff inset"></i><span data-mn>Компьютер</span><span data-en>Computer</span></span>
       </div>
     </div>
 
@@ -872,6 +893,11 @@
     <button class="modal__x" type="button" data-close aria-label="Хаах / Close">&times;</button>
     <div class="modal__body" id="modalBody"></div>
   </div>
+</div>
+
+<div class="mbar" id="mbar">
+  <span><span data-mn>NeuroReplay-г туршиж үзэх үү?</span><span data-en>Want to try NeuroReplay?</span></span>
+  <a class="btn btn--primary" href="#order"><span data-mn>Demo авах</span><span data-en>Get a demo</span></a>
 </div>
 
 <script src="app.js" defer></script>
