@@ -398,7 +398,7 @@
     var btns = [].slice.call(document.querySelectorAll('#langSel button'));
     var dict = window.HELP_I18N || {};
     var enEls = [].slice.call(document.querySelectorAll('[data-en]')).map(function (el) {
-      return { el: el, html: el.innerHTML, key: el.textContent.replace(/s+/g, ' ').trim().slice(0, 40).trim() };
+      return { el: el, html: el.innerHTML, key: el.textContent.replace(/\s+/g, ' ').trim().slice(0, 40).trim() };
     });
     var lang = 'mn';
     function setLang(l, persist) {
