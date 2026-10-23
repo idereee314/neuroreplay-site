@@ -45,16 +45,43 @@
     supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtb3B4d2dieHdpYmNoeWlrbHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MzA2NzIsImV4cCI6MjA5NTQwNjY3Mn0.NewSLFAHdKLk9p-leBVeRsOgP6LAWZao5aaurbm1JK8",
     formEndpoint: "",
     contactEmail: "idereee.engineering@gmail.com",
-    manualUrl: "#",
+    manualUrl: "help.html",
     downloadUrl: "",
     version: "",     // e.g. "1.0.0"
     fileSize: ""     // e.g. "84 MB"
   };
 </script>
 
+<script>
+  // Preloader: once per session, never for reduced-motion. Hard fallback after 4s so the page can't stay covered.
+  (function () {
+    try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || sessionStorage.getItem('nr.loader')) return;
+      sessionStorage.setItem('nr.loader', '1');
+    } catch (e) { return; }
+    var r = document.documentElement;
+    r.classList.add('is-loading');
+    setTimeout(function () { r.classList.remove('is-loading'); }, 4000);
+  })();
+</script>
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__in">
+    <div class="loader__logo">
+      <img src="assets/neuroreplay-mark.png" alt="" width="88" height="48" />
+      <span class="loader__ring"></span>
+    </div>
+    <div class="loader__brand">Neuro<em>Replay</em></div>
+    <div class="loader__state">
+      <span class="loader__rew"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 6l-8 6 8 6zM21 6l-8 6 8 6z"/></svg><b id="loaderTc">−00:08.4</b></span>
+      <span class="loader__play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg><b>REPLAY</b></span>
+    </div>
+    <div class="loader__track"><div class="loader__fill"></div></div>
+  </div>
+</div>
 
 <a class="skip" href="#features"><span data-mn>Агуулга руу шилжих</span><span data-en>Skip to content</span></a>
 
@@ -69,6 +96,7 @@
       <a href="#pricing"><span data-mn>Үнэ</span><span data-en>Pricing</span></a>
       <a href="#download"><span data-mn>Татах</span><span data-en>Download</span></a>
       <a href="#faq">FAQ</a>
+      <a href="help.html"><span data-mn>Гарын авлага</span><span data-en>Help</span></a>
     </div>
     <div class="nav__tools">
       <button class="langbtn" id="langBtn" type="button" aria-label="Switch language / Хэл солих">EN</button>
@@ -85,6 +113,7 @@
     <a href="#pricing"><span data-mn>Үнэ</span><span data-en>Pricing</span></a>
     <a href="#download"><span data-mn>Татах</span><span data-en>Download</span></a>
     <a href="#faq">FAQ</a>
+    <a href="help.html"><span data-mn>Гарын авлага</span><span data-en>Help</span></a>
     <a class="btn btn--primary" href="#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
   </div>
 </nav>

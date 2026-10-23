@@ -81,7 +81,8 @@ consent checkbox.
 
 - **Contact** — email, phone (+976 8555 1511) and Facebook (iderbat314) are set
   in the Direct-contact card and footer.
-- **`manualUrl`** / footer **User manual** link — currently `#`.
+- **`manualUrl`** / footer **User manual** link — points to `help.html` (bilingual
+  guide with screenshots in `assets/help/`; PDFs in `assets/NeuroReplay-User-Manual-{mn,en}.pdf`).
 - **`downloadUrl`** — Windows installer link is empty for now (Download button
   routes to the demo form until it's set).
 - **Demo requests → Supabase** — the public form saves each request to the

@@ -277,3 +277,23 @@
 
   setLang(saved);
 })();
+
+/* Preloader: rewind timecode counts down, flips to REPLAY, then fades out */
+(function () {
+  var root = document.documentElement, loader = document.getElementById('loader');
+  if (!loader || !root.classList.contains('is-loading')) return;
+  var tc = document.getElementById('loaderTc'), start = Date.now(), DUR = 1300;
+  var tick = setInterval(function () {
+    var p = Math.min(1, (Date.now() - start) / DUR);
+    tc.textContent = '−00:0' + (8.4 * (1 - p)).toFixed(1);
+    if (p >= 1) clearInterval(tick);
+  }, 50);
+  function finish() {
+    loader.classList.add('is-done');
+    setTimeout(function () { root.classList.remove('is-loading'); }, 600);
+  }
+  var loaded = document.readyState === 'complete', waited = false;
+  function check() { if (loaded && waited) finish(); }
+  setTimeout(function () { waited = true; check(); }, 1900);
+  if (!loaded) window.addEventListener('load', function () { loaded = true; check(); });
+})();
