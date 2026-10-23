@@ -82,7 +82,9 @@
       <a href="index.html#faq">FAQ</a>
     </div>
     <div class="nav__tools">
-      <button class="langbtn" id="langBtn" type="button" aria-label="Switch language / Хэл солих">EN</button>
+      <div class="langsel" id="langSel" role="group" aria-label="Language / Хэл / Язык / Til">
+        <button type="button" data-l="mn">МН</button><button type="button" data-l="en">EN</button><button type="button" data-l="ru">RU</button><button type="button" data-l="uz">UZ</button>
+      </div>
       <a class="btn btn--primary" href="index.html#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
     </div>
   </div>
@@ -385,21 +387,37 @@
   </article>
 </main>
 
+<script src="help-i18n.js"></script>
 <script>
-  // Language toggle shares the main site's saved choice; ?lang=en|mn overrides it (used to render the PDFs).
+  // Languages: mn, en (inline in the markup) + ru, uz (help-i18n.js replaces the English text).
+  // ?lang=mn|en|ru|uz overrides the saved choice (used to render the PDFs).
   (function () {
-    var root = document.documentElement, btn = document.getElementById('langBtn'), pdf = document.getElementById('pdfBtn');
+    var LANGS = ['mn', 'en', 'ru', 'uz'];
+    var TITLES = { mn: 'NeuroReplay — Хэрэглэгчийн гарын авлага', en: 'NeuroReplay — User guide', ru: 'NeuroReplay — Руководство пользователя', uz: 'NeuroReplay — Foydalanuvchi qo‘llanmasi' };
+    var root = document.documentElement, pdf = document.getElementById('pdfBtn');
+    var btns = [].slice.call(document.querySelectorAll('#langSel button'));
+    var dict = window.HELP_I18N || {};
+    var enEls = [].slice.call(document.querySelectorAll('[data-en]')).map(function (el) {
+      return { el: el, html: el.innerHTML, key: el.textContent.replace(/s+/g, ' ').trim().slice(0, 40).trim() };
+    });
+    var lang = 'mn';
     function setLang(l, persist) {
+      lang = l;
       root.setAttribute('lang', l);
-      btn.textContent = l === 'en' ? 'МН' : 'EN';
-      pdf.setAttribute('href', 'assets/NeuroReplay-User-Manual-' + l + '.pdf');
-      document.title = l === 'en' ? 'NeuroReplay — User guide' : 'NeuroReplay — Хэрэглэгчийн гарын авлага';
-      if (persist) { try { localStorage.setItem('nr.site.lang', l); } catch (e) {} }
+      var idx = l === 'ru' ? 0 : l === 'uz' ? 1 : -1;
+      enEls.forEach(function (o) { var t = idx >= 0 && dict[o.key]; o.el.innerHTML = t ? t[idx] : o.html; });
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-l') === l ? 'true' : 'false'); });
+      if (idx < 0) { pdf.setAttribute('href', 'assets/NeuroReplay-User-Manual-' + l + '.pdf'); pdf.setAttribute('download', ''); }
+      else { pdf.setAttribute('href', '#'); pdf.removeAttribute('download'); }
+      document.title = TITLES[l];
+      if (persist) { try { localStorage.setItem('nr.help.lang', l); if (l === 'mn' || l === 'en') localStorage.setItem('nr.site.lang', l); } catch (e) {} }
     }
+    // ru/uz have no ready-made PDF: use the browser's print-to-PDF (the page has a print stylesheet).
+    pdf.addEventListener('click', function (e) { if (lang === 'ru' || lang === 'uz') { e.preventDefault(); window.print(); } });
     var q = new URLSearchParams(location.search).get('lang'), saved = 'mn';
-    try { saved = localStorage.getItem('nr.site.lang') || 'mn'; } catch (e) {}
-    setLang(q === 'en' || q === 'mn' ? q : saved, false);
-    btn.addEventListener('click', function () { setLang(root.getAttribute('lang') === 'en' ? 'mn' : 'en', true); });
+    try { saved = localStorage.getItem('nr.help.lang') || localStorage.getItem('nr.site.lang') || 'mn'; } catch (e) {}
+    setLang(LANGS.indexOf(q) >= 0 ? q : (LANGS.indexOf(saved) >= 0 ? saved : 'mn'), false);
+    btns.forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-l'), true); }); });
 
     var links = [].slice.call(document.querySelectorAll('.toc a'));
     var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
