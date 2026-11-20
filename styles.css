@@ -564,3 +564,32 @@ html.is-loading .hero__intro > *, html.is-loading .rig-wrap { animation-play-sta
 .langsel button:hover { color: #fff; }
 .langsel button[aria-pressed="true"] { background: var(--brand-grad); color: #fff; box-shadow: 0 4px 14px rgba(139,92,255,.4); }
 @media print { .langsel { display: none; } }
+
+/* ══ Calmer look (2026-11-20) ═════════════════════════════════════
+   Client feedback: the site "looks AI-generated". The tell-tale pieces were
+   the purple→pink gradient everywhere, neon glow shadows, blurred colour
+   blobs + grid behind the hero, and floating chips. This block flattens
+   them to one solid accent colour with plain shadows. Delete this block
+   to get the old look back. */
+:root {
+  --accent: #4a63f0;
+  --accent-text: #8fa1ff;
+  --brand-grad: linear-gradient(var(--accent), var(--accent));
+  --brand-ink: #9fb0ff;
+  --sh-3: 0 30px 70px rgba(0,0,0,.5);
+}
+.grad, .brand em, .loader__brand em, .stat b, .pkg__price {
+  background: none; -webkit-text-fill-color: currentColor; color: var(--accent-text);
+}
+.hero::before, .hero::after, .hero__bg, .rig-wrap::before, .float-chip { display: none; }
+.btn--primary, .btn--primary:hover { box-shadow: none; transform: none; }
+.btn--primary:hover { background: #3d55dc; }
+.btn--primary::after { display: none; }
+.btn--ghost:hover { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.07); transform: none; }
+.kicker::before, .progress, .loader__fill, .dl-file__ico, .langsel button[aria-pressed="true"],
+.pkg::before, .req__badge, .rig__btn.play, .chip-rec::before, .announce .dot { box-shadow: none; }
+.req--reco { box-shadow: var(--sh-2); }
+.cta-inner { box-shadow: var(--sh-2); }
+.hero__note { flex-wrap: nowrap; align-items: flex-start; }
+.hero__note svg { margin-top: 3px; }
+.rig-wrap .rig { transform: none; animation: none; }
