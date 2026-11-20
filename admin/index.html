@@ -594,15 +594,15 @@ body::before {
         <input type="text" id="licNotes" data-i18n-ph="notesPh" placeholder="Нэмэлт мэдээлэл..." />
       </div>
       <div class="field">
-        <label>Features</label>
+        <label data-i18n="features">Features</label>
         <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
           <label class="paid-check-label"><input type="checkbox" id="licFeatCompetition" checked disabled /><span>Competition</span></label>
           <label class="paid-check-label"><input type="checkbox" id="licFeatAnalyze" /><span>Analyze</span></label>
         </div>
       </div>
       <div class="field">
-        <label>Камерын дээд тоо (хоосон = хязгааргүй)</label>
-        <input type="number" id="licMaxCameras" min="1" step="1" placeholder="хязгааргүй" />
+        <label data-i18n="maxCams">Камерын дээд тоо (хоосон = хязгааргүй)</label>
+        <input type="number" id="licMaxCameras" min="1" step="1" data-i18n-ph="maxCamsPh" placeholder="хязгааргүй" />
       </div>
       <div class="field">
         <label data-i18n="modes" style="color:var(--accent2)">Горим</label>
@@ -678,15 +678,15 @@ body::before {
         <input type="text" id="keyNotes" data-i18n-ph="notesPh" placeholder="Нэмэлт мэдээлэл..." />
       </div>
       <div class="field">
-        <label>Features</label>
+        <label data-i18n="features">Features</label>
         <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
           <label class="paid-check-label"><input type="checkbox" id="keyFeatCompetition" checked disabled /><span>Competition</span></label>
           <label class="paid-check-label"><input type="checkbox" id="keyFeatAnalyze" /><span>Analyze</span></label>
         </div>
       </div>
       <div class="field">
-        <label>Камерын дээд тоо (хоосон = хязгааргүй)</label>
-        <input type="number" id="keyMaxCameras" min="1" step="1" placeholder="хязгааргүй" />
+        <label data-i18n="maxCams">Камерын дээд тоо (хоосон = хязгааргүй)</label>
+        <input type="number" id="keyMaxCameras" min="1" step="1" data-i18n-ph="maxCamsPh" placeholder="хязгааргүй" />
       </div>
       <div class="field">
         <label data-i18n="modes" style="color:var(--accent2)">Горим</label>
@@ -763,6 +763,17 @@ const I18N = {
     ordersTitle: 'Захиалга / Demo хүсэлт',
     refresh: '↻ Шинэчлэх',
     ordersLoading: 'Ачаалж байна…',
+    ordersEmpty: 'Одоогоор захиалга алга.',
+    ordersLoadFail: 'Уншиж чадсангүй: ',
+    ordersNoTable: 'Хүснэгт үүсгээгүй бол admin/supabase/demo_requests.sql-ийг Supabase дээр ажиллуулна уу.',
+    stNew: 'Шинэ', stContacted: 'Холбогдсон', stDone: 'Дууссан',
+    orderDelete: '🗑 Устгах',
+    orderConfirmDelete: '⚠ Дарж баталгаажуул',
+    orderNoDeletePerm: 'Устгах эрх алга — delete SQL-ээ Supabase дээр ажиллуулна уу',
+    toastErrPrefix: 'Алдаа: ',
+    features: 'Features',
+    maxCams: 'Камерын дээд тоо (хоосон = хязгааргүй)',
+    maxCamsPh: 'хязгааргүй',
     loginTitle: 'Нэвтрэх',
     email: 'И-мэйл',
     password: 'Нууц үг',
@@ -811,7 +822,6 @@ const I18N = {
     errNeedHwid: '❌ Machine ID 16 тэмдэгт байх ёстой.',
     errPrefix: '❌ Алдаа: ',
     toastHistSaveFail: '⚠ History хадгалж чадсангүй',
-    confirmClearHist: 'Бүх түүхийг устгах уу?',
     toastHistEmpty: 'Түүх хоосон байна.',
     confirmDeleteHistItem: 'Энэ license history-г устгах уу?',
     toastDeleteFail: '⚠ Устгаж чадсангүй',
@@ -835,7 +845,7 @@ License мэдээлэл:
 
 📎 Хавсаргасан .lic файлыг татан авч системдээ импортлон (import) идэвхжүүлнэ үү.
 
-⚠️ Энэхүү license нь зөвхөн таны төхөөрөмжид холбогдсон тул өөр төхөөрөмж дээр ашиглах боломжгүйг анхаарна уу.
+⚠️ Энэхүү license нь зөвхөн дээрх хугацаанд хүчинтэй болохыг анхаарна уу.
 
 License идэвхжүүлэх явцад асуудал гарвал бидэнтэй холбогдоорой.
 
@@ -851,6 +861,17 @@ Founder & Creator, NeuroReplay`,
     ordersTitle: 'Demo / order requests',
     refresh: '↻ Refresh',
     ordersLoading: 'Loading…',
+    ordersEmpty: 'No orders yet.',
+    ordersLoadFail: 'Could not load: ',
+    ordersNoTable: 'If the table does not exist yet, run admin/supabase/demo_requests.sql in Supabase.',
+    stNew: 'New', stContacted: 'Contacted', stDone: 'Done',
+    orderDelete: '🗑 Delete',
+    orderConfirmDelete: '⚠ Click to confirm',
+    orderNoDeletePerm: 'No delete permission — run the delete SQL in Supabase',
+    toastErrPrefix: 'Error: ',
+    features: 'Features',
+    maxCams: 'Max cameras (empty = unlimited)',
+    maxCamsPh: 'unlimited',
     loginTitle: 'Log In',
     email: 'Email',
     password: 'Password',
@@ -899,7 +920,6 @@ Founder & Creator, NeuroReplay`,
     errNeedHwid: '❌ Machine ID must be 16 characters.',
     errPrefix: '❌ Error: ',
     toastHistSaveFail: '⚠ Failed to save history',
-    confirmClearHist: 'Delete all history?',
     toastHistEmpty: 'History is empty.',
     confirmDeleteHistItem: 'Delete this license history entry?',
     toastDeleteFail: '⚠ Failed to delete',
@@ -923,7 +943,7 @@ Valid period: ${start} → ${end}
 
 📎 Please download the attached .lic file and import it into the system to activate it.
 
-⚠️ This license is bound to your device only and cannot be used on another device.
+⚠️ Please note this license is valid only for the period stated above.
 
 If you run into any issues activating the license, please contact us.
 
@@ -957,6 +977,7 @@ function applyLang() {
     el.classList.toggle('active', (isMn && lang === 'mn') || (!isMn && lang === 'en'));
   });
   if (typeof renderHist === 'function' && hist) renderHist();
+  if (typeof renderOrders === 'function' && lastOrders) renderOrders();
 }
 
 function setLang(l) {
@@ -975,6 +996,17 @@ let currentUser = null;
 let hist = [];
 let histOpen = false;
 let _licBlob = null, _licFilename = '';
+let lastOrders = null;
+
+// Local calendar date as YYYY-MM-DD (toISOString() is UTC → wrong day before 08:00 UB time)
+function ymd(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function localToday() { return ymd(new Date()); }
+function addDaysYmd(base, n) {
+  const [y, m, d] = base.split('-').map(Number);
+  return ymd(new Date(y, m - 1, d + n));
+}
 
 applyLang();
 
@@ -1021,7 +1053,7 @@ async function showApp() {
   document.getElementById('appShell').style.display = 'flex';
   document.getElementById('userEmail').textContent = currentUser.email;
 
-  const today = new Date().toISOString().slice(0,10);
+  const today = localToday();
   document.getElementById('licStart').value = today;
   document.getElementById('keyStart').value = today;
   licAddDays(1);
@@ -1086,26 +1118,33 @@ function switchTab(n) {
 
 // ── Demo / order requests ──
 const ORDER_STATUS = ['new','contacted','done'];
-function orderStatusLabel(s){ return ({new:'Шинэ',contacted:'Холбогдсон',done:'Дууссан'})[s] || s; }
+function orderStatusLabel(s){ return ({new:t('stNew'),contacted:t('stContacted'),done:t('stDone')})[s] || s; }
 function esc(v){ return (v==null?'':String(v)).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 async function loadOrders() {
   const list = document.getElementById('ordersList');
   const count = document.getElementById('ordersCount');
-  list.innerHTML = '<div class="orders-empty">Ачаалж байна…</div>';
+  list.innerHTML = '<div class="orders-empty">' + esc(t('ordersLoading')) + '</div>';
   const { data, error } = await sb
     .from('demo_requests')
     .select('*')
     .order('created_at', { ascending: false });
   if (error) {
-    list.innerHTML = '<div class="orders-empty">Уншиж чадсангүй: ' + esc(error.message) +
-      '<br><br>Хүснэгт үүсгээгүй бол admin/supabase/demo_requests.sql-ийг Supabase дээр ажиллуулна уу.</div>';
+    list.innerHTML = '<div class="orders-empty">' + esc(t('ordersLoadFail')) + esc(error.message) +
+      '<br><br>' + esc(t('ordersNoTable')) + '</div>';
     count.textContent = '0';
+    lastOrders = null;
     return;
   }
-  count.textContent = data.length;
-  if (!data.length) { list.innerHTML = '<div class="orders-empty">Одоогоор захиалга алга.</div>'; return; }
-  list.innerHTML = data.map(renderOrder).join('');
+  lastOrders = data;
+  renderOrders();
+}
+
+function renderOrders() {
+  const list = document.getElementById('ordersList');
+  document.getElementById('ordersCount').textContent = lastOrders.length;
+  if (!lastOrders.length) { list.innerHTML = '<div class="orders-empty">' + esc(t('ordersEmpty')) + '</div>'; return; }
+  list.innerHTML = lastOrders.map(renderOrder).join('');
 }
 
 function renderOrder(o) {
@@ -1130,14 +1169,14 @@ function renderOrder(o) {
     '<div class="order-actions">' +
       '<span class="order-status st-'+st+'">'+orderStatusLabel(st)+'</span>' +
       '<button class="order-set" onclick="setOrderStatus('+o.id+',\''+next+'\')">→ '+orderStatusLabel(next)+'</button>' +
-      '<button class="order-del" data-id="'+o.id+'" onclick="deleteOrder(this,'+o.id+')">🗑 Устгах</button>' +
+      '<button class="order-del" data-id="'+o.id+'" onclick="deleteOrder(this,'+o.id+')">'+t('orderDelete')+'</button>' +
     '</div>' +
   '</div>';
 }
 
 async function setOrderStatus(id, status) {
   const { error } = await sb.from('demo_requests').update({ status }).eq('id', id);
-  if (error) { showToast('Алдаа: ' + error.message); return; }
+  if (error) { showToast(t('toastErrPrefix') + error.message); return; }
   loadOrders();
 }
 
@@ -1145,34 +1184,32 @@ async function setOrderStatus(id, status) {
 async function deleteOrder(btn, id) {
   if (!btn.classList.contains('confirm')) {
     btn.classList.add('confirm');
-    btn.textContent = '⚠ Дарж баталгаажуул';
+    btn.textContent = t('orderConfirmDelete');
     clearTimeout(btn._t);
     btn._t = setTimeout(function () {
       btn.classList.remove('confirm');
-      btn.textContent = '🗑 Устгах';
+      btn.textContent = t('orderDelete');
     }, 3000);
     return;
   }
   const { data, error } = await sb.from('demo_requests').delete().eq('id', id).select();
-  if (error) { showToast('Алдаа: ' + error.message); return; }
+  if (error) { showToast(t('toastErrPrefix') + error.message); return; }
   if (!data || data.length === 0) {
-    showToast('Устгах эрх алга — delete SQL-ээ Supabase дээр ажиллуулна уу');
+    showToast(t('orderNoDeletePerm'));
     return;
   }
-  showToast('Устгалаа');
+  showToast(t('toastDeleted'));
   loadOrders();
 }
 
 // Date helpers
 function licAddDays(n) {
-  const base = document.getElementById('licStart').value || new Date().toISOString().slice(0,10);
-  const d = new Date(base); d.setDate(d.getDate()+n);
-  document.getElementById('licEnd').value = d.toISOString().slice(0,10);
+  const base = document.getElementById('licStart').value || localToday();
+  document.getElementById('licEnd').value = addDaysYmd(base, n);
 }
 function keyAddDays(n) {
-  const base = document.getElementById('keyStart').value || new Date().toISOString().slice(0,10);
-  const d = new Date(base); d.setDate(d.getDate()+n);
-  document.getElementById('keyEnd').value = d.toISOString().slice(0,10);
+  const base = document.getElementById('keyStart').value || localToday();
+  document.getElementById('keyEnd').value = addDaysYmd(base, n);
 }
 
 // Generate .lic
@@ -1397,13 +1434,6 @@ function toggleHist() {
   document.getElementById('histCaret').textContent  = histOpen ? '▾' : '▸';
 }
 
-async function clearHist() {
-  if (!hist.length || !confirm(t('confirmClearHist'))) return;
-  await sb.from('keygen_history').delete().neq('id', 0);
-  hist = [];
-  renderHist();
-}
-
 function exportHist() {
   if (!hist.length) { showToast(t('toastHistEmpty')); return; }
   const json = JSON.stringify(hist, null, 2);
@@ -1411,7 +1441,7 @@ function exportHist() {
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href = url;
-  a.download = `neuroreplay-history-${new Date().toISOString().slice(0,10)}.json`;
+  a.download = `neuroreplay-history-${localToday()}.json`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -1509,17 +1539,8 @@ async function deleteSelectedHist() {
   await loadHistory();
 }
 
-async function togglePaid(id, currentVal) {
-  const { error } = await sb
-    .from('keygen_history')
-    .update({ is_paid: !currentVal })
-    .eq('id', id);
-  if (error) { showToast(t('toastGenericError')); return; }
-  await loadHistory();
-}
-
 async function deleteExpired() {
-  const today = new Date().toISOString().slice(0,10);
+  const today = localToday();
   await sb.from('keygen_history')
     .delete()
     .lt('end_date', today)
