@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow" />
 <title>NeuroReplay Keygen</title>
-<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+<!-- "../admin/" prefix: works whether served as /admin (Vercel cleanUrls, no trailing slash) or /admin/ -->
+<link rel="icon" type="image/x-icon" href="../admin/assets/images/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -497,7 +498,7 @@ body::before {
       <button class="lang-btn" id="langBtnEn" onclick="setLang('en')">EN</button>
     </div>
     <div class="login-logo">
-      <img src="assets/images/logo.png" alt="NeuroReplay" />
+      <img src="../admin/assets/images/logo.png" alt="NeuroReplay" />
       <div>
         <h1>NeuroReplay Keygen</h1>
         <p data-i18n="subtitle">License Generator</p>
@@ -525,7 +526,7 @@ body::before {
 
   <!-- Header -->
   <div class="header">
-    <img class="dot" src="assets/images/logo.png" alt="NeuroReplay" />
+    <img class="dot" src="../admin/assets/images/logo.png" alt="NeuroReplay" />
     <div class="header-text">
       <h1>NeuroReplay Keygen</h1>
       <p data-i18n="subtitle">License Generator</p>
@@ -1039,7 +1040,7 @@ document.addEventListener('keydown', e => {
     }
     const active = document.querySelector('.tab-content.active');
     if (active?.id === 'content1') generateLic();
-    else generateKey();
+    else if (active?.id === 'content2') generateKey();
   }
 });
 
@@ -1203,7 +1204,7 @@ async function generateLic() {
   if (document.getElementById('licFeatLegacy').checked)    features.push('legacy');
   if (document.getElementById('licFeatMultiview').checked) features.push('multiview');
   const licMaxCamerasRaw = document.getElementById('licMaxCameras').value.trim();
-  const maxCameras = licMaxCamerasRaw ? Number(licMaxCamerasRaw) : undefined;
+  const maxCameras = licMaxCamerasRaw && Number(licMaxCamerasRaw) > 0 ? Math.floor(Number(licMaxCamerasRaw)) : undefined;
 
   if (licIsPaid) {
     if (!licOrg) {
@@ -1287,7 +1288,7 @@ async function generateKey() {
   if (document.getElementById('keyFeatLegacy').checked)    features.push('legacy');
   if (document.getElementById('keyFeatMultiview').checked) features.push('multiview');
   const keyMaxCamerasRaw = document.getElementById('keyMaxCameras').value.trim();
-  const maxCameras = keyMaxCamerasRaw ? Number(keyMaxCamerasRaw) : undefined;
+  const maxCameras = keyMaxCamerasRaw && Number(keyMaxCamerasRaw) > 0 ? Math.floor(Number(keyMaxCamerasRaw)) : undefined;
 
   if (keyIsPaid) {
     if (!keyOrg) {
@@ -1425,16 +1426,16 @@ function renderHist() {
   }
   body.innerHTML = hist.map((item) => {
     const label   = item.type === 'lic' ? '.LIC' : 'KEY';
-    const name    = item.event_name || item.hwid || '—';
+    const name    = esc(item.event_name || item.hwid || '—');
     const dates   = `${item.start_date}→${item.end_date}`;
     const who     = item.created_by ? item.created_by.split('@')[0] : '';
     const isPaid  = item.is_paid;
     const extraFeats = (item.features || '').split(',').filter(f => f && f !== 'competition');
     const featBadge = extraFeats.map(f =>
-      `<span class="hist-badge" style="background:rgba(124,92,252,.15);color:var(--accent)">+${f.toUpperCase()}</span>`
+      `<span class="hist-badge" style="background:rgba(124,92,252,.15);color:var(--accent)">+${esc(f.toUpperCase())}</span>`
     ).join('');
-    const orgLine = [item.organization, item.phone, item.email].filter(Boolean).join(' · ');
-    const notesLine = item.notes ? `<div class="hist-meta-notes">${item.notes}</div>` : '';
+    const orgLine = [item.organization, item.phone, item.email].filter(Boolean).map(esc).join(' · ');
+    const notesLine = item.notes ? `<div class="hist-meta-notes">${esc(item.notes)}</div>` : '';
     const orgRow = orgLine ? `<div class="hist-meta">${orgLine}</div>` : '';
     const paidBtn = `<label class="hist-paid-label">
       <span>${isPaid ? t('paidLabel') : t('unpaidLabel')}</span>

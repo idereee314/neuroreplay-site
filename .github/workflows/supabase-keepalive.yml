@@ -1,0 +1,28 @@
+# Prevents the free-plan Supabase project from being paused after 7 idle days
+# by running a tiny DB query every 3 days. Requires admin/supabase/keepalive.sql
+# to have been run once. A failed ping fails the job, so GitHub emails you.
+name: Supabase keep-alive
+
+on:
+  schedule:
+    - cron: "17 3 */3 * *"   # every 3 days, 03:17 UTC
+  workflow_dispatch:          # manual "Run workflow" button
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase
+        env:
+          SUPABASE_URL: https://emopxwgbxwibchyiklpw.supabase.co
+          # Public anon key — already shipped in index.html / admin/index.html.
+          SUPABASE_ANON: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtb3B4d2dieHdpYmNoeWlrbHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MzA2NzIsImV4cCI6MjA5NTQwNjY3Mn0.NewSLFAHdKLk9p-leBVeRsOgP6LAWZao5aaurbm1JK8
+        run: |
+          curl -fsS --retry 3 --retry-delay 10 -X POST \
+            "$SUPABASE_URL/rest/v1/rpc/keepalive" \
+            -H "apikey: $SUPABASE_ANON" \
+            -H "Authorization: Bearer $SUPABASE_ANON" \
+            -H "Content-Type: application/json" \
+            -d '{}'
+          echo
+          echo "Supabase is awake."
