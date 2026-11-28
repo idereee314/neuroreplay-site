@@ -127,6 +127,7 @@ main { min-width: 0; padding: 30px clamp(16px, 3vw, 40px) 60px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .f { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .f + .f, .grid2 + .f, .f + .grid2, .grid2 + .grid2 { margin-top: 12px; }
+.grid2 > .f + .f { margin-top: 0; } /* grid gap already spaces them; otherwise the 2nd column sits 12px lower */
 .f label { font-size: 12.5px; font-weight: 600; color: var(--muted); }
 .f label em { font-style: normal; color: var(--faint); font-weight: 500; }
 .in { width: 100%; min-height: 42px; padding: 0 13px; border-radius: 11px; border: 1px solid var(--line2); background: var(--field);
