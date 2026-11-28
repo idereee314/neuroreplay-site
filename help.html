@@ -409,7 +409,7 @@
       btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-l') === l ? 'true' : 'false'); });
       pdf.setAttribute('href', 'assets/NeuroReplay-User-Manual-' + l + '.pdf'); pdf.setAttribute('download', '');
       document.title = TITLES[l];
-      if (persist) { try { localStorage.setItem('nr.help.lang', l); if (l === 'mn' || l === 'en') localStorage.setItem('nr.site.lang', l); } catch (e) {} }
+      if (persist) { try { localStorage.setItem('nr.help.lang', l); localStorage.setItem('nr.site.lang', l); } catch (e) {} }
     }
     var q = new URLSearchParams(location.search).get('lang'), saved = 'mn';
     try { saved = localStorage.getItem('nr.help.lang') || localStorage.getItem('nr.site.lang') || 'mn'; } catch (e) {}

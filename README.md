@@ -4,7 +4,7 @@ Production-ready landing + demo-request site for **NeuroReplay**, a Windows
 desktop app for multi-camera instant replay & video review (sports, combat
 sports, coaching, competitions, VR training).
 
-No build step, no dependencies to install. Bilingual **MN / EN** (default
+No build step, no dependencies to install. Four languages — **MN / EN / RU / UZ** (default
 Mongolian), light minimal design, accessible, responsive, works offline once loaded.
 
 ## Project structure
@@ -14,6 +14,7 @@ neuroreplay-site/
 ├── index.html        # public marketing / demo-request page (markup only)
 ├── styles.css        # all site styles (split out of index.html)
 ├── app.js            # all site behaviour: i18n, form, nav, reveal, layout
+├── site-i18n.js      # RU + UZ copy, keyed by the English text in index.html
 ├── assets/           # logo, favicons, OG image
 ├── robots.txt        # allows the site, disallows /admin/
 └── admin/            # INTERNAL license keygen — NOT linked from the public site

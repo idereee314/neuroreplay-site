@@ -12,7 +12,7 @@
       mailinfo: "И-мэйл клиент нээгдэж байна. Нээгдээгүй бол " + (CONFIG.contactEmail || "") + " рүү бичнэ үү.",
       fixerrors: "Тодоор тэмдэглэсэн талбаруудыг засна уу.",
       uc_coach: "Дасгалжуулагч", uc_club: "Тулааны спортын клуб", uc_competition: "Тэмцээн / зохион байгуулагч",
-      uc_vr: "VR сургалтын төв", uc_other: "Бусад", undecided: "Шийдээгүй", select_ph: "— Сонгоно уу —"
+      uc_vr: "VR сургалтын төв", uc_other: "Бусад", undecided: "Шийдээгүй", select_ph: "— Сонгоно уу —", badge: "Санал болгох"
     },
     en: {
       required: "Please fill in this field.", email: "Please enter a valid email address.",
@@ -23,12 +23,48 @@
       mailinfo: "Opening your email client. If nothing happens, email " + (CONFIG.contactEmail || "") + ".",
       fixerrors: "Please fix the highlighted fields.",
       uc_coach: "Coach", uc_club: "Combat gym / club", uc_competition: "Competition / event",
-      uc_vr: "VR training facility", uc_other: "Other", undecided: "Undecided", select_ph: "— Select —"
+      uc_vr: "VR training facility", uc_other: "Other", undecided: "Undecided", select_ph: "— Select —", badge: "Recommended"
+    },
+    ru: {
+      required: "Заполните это поле.", email: "Введите корректный адрес эл. почты.",
+      phone: "Введите корректный номер телефона.", cameras: "Введите число от 1 до 64.",
+      consent: "Чтобы продолжить, дайте согласие.", sending: "Отправка…", submit: "Заказать демо",
+      success: "Спасибо! Ваша заявка принята — мы скоро свяжемся с вами.",
+      neterr: "Не удалось отправить. Проверьте подключение и попробуйте снова или напишите нам на почту.",
+      mailinfo: "Открывается почтовый клиент. Если ничего не произошло, напишите на " + (CONFIG.contactEmail || "") + ".",
+      fixerrors: "Исправьте выделенные поля.",
+      uc_coach: "Тренер", uc_club: "Клуб единоборств", uc_competition: "Соревнования / организатор",
+      uc_vr: "VR-тренировочный центр", uc_other: "Другое", undecided: "Пока не решено", select_ph: "— Выберите —", badge: "Рекомендуем"
+    },
+    uz: {
+      required: "Ushbu maydonni to‘ldiring.", email: "To‘g‘ri e-pochta manzilini kiriting.",
+      phone: "To‘g‘ri telefon raqamini kiriting.", cameras: "1 dan 64 gacha son kiriting.",
+      consent: "Davom etish uchun rozilik bering.", sending: "Yuborilmoqda…", submit: "Demo buyurtma qilish",
+      success: "Rahmat! So‘rovingiz qabul qilindi — tez orada siz bilan bog‘lanamiz.",
+      neterr: "Yuborib bo‘lmadi. Internet aloqasini tekshirib, qayta urinib ko‘ring yoki bizga to‘g‘ridan-to‘g‘ri e-pochta yozing.",
+      mailinfo: "E-pochta dasturi ochilmoqda. Hech narsa bo‘lmasa, " + (CONFIG.contactEmail || "") + " manziliga yozing.",
+      fixerrors: "Belgilangan maydonlarni tuzating.",
+      uc_coach: "Murabbiy", uc_club: "Yakkakurash klubi", uc_competition: "Musobaqa / tashkilotchi",
+      uc_vr: "VR mashg‘ulot markazi", uc_other: "Boshqa", undecided: "Hali tanlanmagan", select_ph: "— Tanlang —", badge: "Tavsiya etamiz"
     }
   };
-  function t(key) { return (I18N[root.getAttribute('lang') === 'en' ? 'en' : 'mn'])[key]; }
+  var LANGS = ['mn', 'en', 'ru', 'uz'];
+  var TITLES = {
+    mn: 'NeuroReplay — Олон камерын Instant Replay & Video Review',
+    en: 'NeuroReplay — Multi-camera Instant Replay & Video Review',
+    ru: 'NeuroReplay — Многокамерный Instant Replay и видеоразбор',
+    uz: 'NeuroReplay — Ko‘p kamerali Instant Replay va video tahlil'
+  };
+  function curLang() { var l = root.getAttribute('lang'); return LANGS.indexOf(l) >= 0 ? l : 'mn'; }
+  function t(key) { return I18N[curLang()][key]; }
 
-  var btn = document.getElementById('langBtn');
+  // RU / UZ: the markup carries MN + EN inline. For ru/uz the CSS shows the [data-en]
+  // copy and site-i18n.js swaps its content. Key = the English text, whitespace collapsed.
+  var DICT = window.SITE_I18N || {};
+  var enEls = [].slice.call(document.querySelectorAll('[data-en]')).map(function (el) {
+    return { el: el, html: el.innerHTML, key: el.textContent.replace(/\s+/g, ' ').trim() };
+  });
+  var langBtns = [].slice.call(document.querySelectorAll('[data-langsel] button'));
   var submitBtn = document.getElementById('submitBtn');
   var submitting = false, lastPayloadKey = null;
   function setBtnLabel(text) { submitBtn.innerHTML = '<span class="btn-label">' + text + '</span>'; }
@@ -41,19 +77,25 @@
       uc.options[4].textContent = t('uc_vr'); uc.options[5].textContent = t('uc_other');
     }
     var pl = document.getElementById('prefLang'); if (pl) pl.options[0].textContent = t('select_ph');
-    var plan = document.getElementById('plan'); if (plan) plan.options[3].textContent = t('undecided');
+    var plan = document.getElementById('plan'); if (plan) plan.options[plan.options.length - 1].textContent = t('undecided');
+    var pkg = document.querySelector('.pkg[data-badge]'); if (pkg) pkg.setAttribute('data-badge', t('badge'));
     document.querySelectorAll('.field[data-invalid]').forEach(function (f) { validateField(f.querySelector('input,select,textarea')); });
     if (!submitting) setBtnLabel(t('submit'));
   }
-  function setLang(l) {
+  function setLang(l, persist) {
+    if (LANGS.indexOf(l) < 0) l = 'mn';
     root.setAttribute('lang', l);
-    btn.textContent = l === 'en' ? 'МН' : 'EN';
-    try { localStorage.setItem('nr.site.lang', l); } catch (e) {}
+    var idx = l === 'ru' ? 0 : l === 'uz' ? 1 : -1;
+    enEls.forEach(function (o) { var tr = idx >= 0 && DICT[o.key]; o.el.innerHTML = tr ? tr[idx] : o.html; });
+    langBtns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-l') === l ? 'true' : 'false'); });
+    document.title = TITLES[l];
+    if (persist) { try { localStorage.setItem('nr.site.lang', l); localStorage.setItem('nr.help.lang', l); } catch (e) {} }
     fillDynamicText();
   }
   var saved = 'mn';
   try { saved = localStorage.getItem('nr.site.lang') || 'mn'; } catch (e) {}
-  btn.addEventListener('click', function () { setLang(root.getAttribute('lang') === 'en' ? 'mn' : 'en'); });
+  try { var q = new URLSearchParams(location.search).get('lang'); if (LANGS.indexOf(q) >= 0) saved = q; } catch (e) {}
+  langBtns.forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-l'), true); }); });
 
   document.getElementById('yr').textContent = new Date().getFullYear();
   var manual = document.getElementById('manualLink');
@@ -170,7 +212,7 @@
       }
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  ['features','how','pricing','download','faq'].forEach(function (id) { var s = document.getElementById(id); if (s) spy.observe(s); });
+  ['features','analyze','new','pricing','download','faq'].forEach(function (id) { var s = document.getElementById(id); if (s) spy.observe(s); });
 
   var form = document.getElementById('orderForm');
   var statusEl = document.getElementById('formStatus');
