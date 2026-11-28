@@ -11,7 +11,7 @@
     cameras: { mn: "1–64 хооронд тоо оруулна уу.", en: "Enter a number between 1 and 64.", ru: "Введите число от 1 до 64.", uz: "1 dan 64 gacha son kiriting." },
     consent: { mn: "Үргэлжлүүлэхийн тулд зөвшөөрнө үү.", en: "Please agree to continue.", ru: "Чтобы продолжить, дайте согласие.", uz: "Davom etish uchun rozilik bering." },
     sending: { mn: "Илгээж байна…", en: "Sending…", ru: "Отправка…", uz: "Yuborilmoqda…" },
-    submit: { mn: "Demo захиалах", en: "Request a demo", ru: "Заказать демо", uz: "Demo buyurtma qilish" },
+    submit: { mn: "License худалдаж авах", en: "Buy a license", ru: "Купить лицензию", uz: "Litsenziya sotib olish" },
     success: {
       mn: "Баярлалаа! Таны хүсэлтийг хүлээн авлаа — бид удахгүй холбогдоно.",
       en: "Thank you! Your request has been received — we'll be in touch shortly.",
@@ -236,7 +236,7 @@
   function collect() { var fd = new FormData(form), obj = {}; fd.forEach(function (v, k) { obj[k] = v; }); obj.consent = document.getElementById('consent').checked ? 'yes' : 'no'; return obj; }
   function mailtoFallback(data) {
     var to = CONFIG.contactEmail || '';
-    var subject = 'NeuroReplay demo request — ' + (data.organization || data.fullname || '');
+    var subject = 'NeuroReplay license order — ' + (data.organization || data.fullname || '');
     var lines = ['Full name: ' + (data.fullname || ''), 'Organisation: ' + (data.organization || ''), 'Email: ' + (data.email || ''), 'Phone: ' + (data.phone || ''), 'Use case: ' + (data.usecase || ''), 'Camera count: ' + (data.cameras || ''), 'Preferred language: ' + (data.preferred_language || ''), 'Licence of interest: ' + (data.plan || ''), 'Message: ' + (data.message || '')];
     showStatus('info', t('mailinfo'));
     window.location.href = 'mailto:' + encodeURIComponent(to) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));

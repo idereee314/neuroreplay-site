@@ -51,9 +51,9 @@ NRI18n.addTranslations({
     ru: "Руководство",
     uz: "Qo‘llanma"
   },
-  "Request a demo": {
-    ru: "Заказать демо",
-    uz: "Demo buyurtma qilish"
+  "Buy a license": {
+    ru: "Купить лицензию",
+    uz: "Litsenziya sotib olish"
   },
   "How it works": {
     ru: "Как это работает",
@@ -703,10 +703,6 @@ NRI18n.addTranslations({
     ru: "Скачайте установщик и установите на Windows 10/11 или macOS 12+. Для активации нужна лицензия — купите её, и мы пришлём ключ.",
     uz: "O‘rnatuvchini yuklab oling va Windows 10/11 yoki macOS 12+ ga o‘rnating. Faollashtirish uchun litsenziya kerak — uni sotib oling, biz kalitni yuboramiz."
   },
-  "Buy a license": {
-    ru: "Купить лицензию",
-    uz: "Litsenziya sotib olish"
-  },
   "Mac: the first time, right-click the app and choose Open.": {
     ru: "Mac: при первом запуске нажмите на программу правой кнопкой мыши и выберите <b>Open</b>.",
     uz: "Mac: birinchi marta dasturni sichqonchaning o‘ng tugmasi bilan bosing va <b>Open</b> ni tanlang."
@@ -745,13 +741,13 @@ NRI18n.addTranslations({
   },
 
   // ── Order form
-  "Request a demo / get a quote": {
-    ru: "Заказать демо / получить предложение",
-    uz: "Demo buyurtma qilish / narx taklifini olish"
+  "Buy a license / get a quote": {
+    ru: "Купить лицензию / получить предложение",
+    uz: "Litsenziya sotib olish / narx taklifini olish"
   },
-  "Fill in the form and we'll get back to you to arrange a demo, pricing and setup.": {
-    ru: "Заполните форму — мы свяжемся с вами, чтобы договориться о демо, цене и установке.",
-    uz: "Shaklni to‘ldiring — demo, narx va o‘rnatishni kelishish uchun siz bilan bog‘lanamiz."
+  "Fill in the form and we'll get back to you to arrange your license, pricing and setup.": {
+    ru: "Заполните форму — мы свяжемся с вами, чтобы договориться о лицензии, цене и установке.",
+    uz: "Shaklni to‘ldiring — litsenziya, narx va o‘rnatishni kelishish uchun siz bilan bog‘lanamiz."
   },
   "Full name": {
     ru: "Имя и фамилия",
@@ -867,9 +863,9 @@ NRI18n.addTranslations({
     ru: "6–8 камер или интенсивная одновременная перемотка нескольких ракурсов",
     uz: "6–8 kamera yoki bir vaqtda bir nechta burchakni jadal orqaga qaytarish"
   },
-  "These are practical guidelines, not benchmarked lab results. If your camera count or resolution differs, we recommend trying NeuroReplay on your own machine during a demo.": {
-    ru: "Это практические рекомендации, а не результаты лабораторных тестов. Если у вас другое число камер или разрешение, советуем проверить NeuroReplay на своём компьютере во время демо.",
-    uz: "Bular laboratoriya sinovlari emas, amaliy tavsiyalar. Kameralar soni yoki rezolyutsiya boshqacha bo‘lsa, demo paytida NeuroReplay’ni o‘z kompyuteringizda sinab ko‘rishni tavsiya qilamiz."
+  "These are practical guidelines, not benchmarked lab results. If your camera count or resolution differs, we recommend testing NeuroReplay on your own machine before the event.": {
+    ru: "Это практические рекомендации, а не результаты лабораторных тестов. Если у вас другое число камер или разрешение, советуем заранее проверить NeuroReplay на своём компьютере до соревнования.",
+    uz: "Bular laboratoriya sinovlari emas, amaliy tavsiyalar. Kameralar soni yoki rezolyutsiya boshqacha bo‘lsa, musobaqadan oldin NeuroReplay’ni o‘z kompyuteringizda sinab ko‘rishni tavsiya qilamiz."
   },
 
   // ── FAQ
@@ -929,9 +925,9 @@ NRI18n.addTranslations({
     ru: "Сколько места на диске нужно?",
     uz: "Diskda qancha joy kerak?"
   },
-  "It depends on the number of cameras, resolution, recording length and DVR buffer. We recommend a fast SSD for match-day capture and will size it with you during the demo.": {
-    ru: "Зависит от числа камер, разрешения, длительности записи и DVR-буфера. Для записи соревнований рекомендуем быстрый SSD; точный объём рассчитаем вместе на демо.",
-    uz: "Kameralar soni, rezolyutsiya, yozuv davomiyligi va DVR buferiga bog‘liq. Musobaqa yozuvi uchun tez SSD tavsiya qilamiz; aniq hajmni demo paytida birga hisoblaymiz."
+  "It depends on the number of cameras, resolution, recording length and DVR buffer. We recommend a fast SSD for match-day capture and will help you size it.": {
+    ru: "Зависит от числа камер, разрешения, длительности записи и DVR-буфера. Для записи соревнований рекомендуем быстрый SSD; точный объём рассчитаем вместе с вами.",
+    uz: "Kameralar soni, rezolyutsiya, yozuv davomiyligi va DVR buferiga bog‘liq. Musobaqa yozuvi uchun tez SSD tavsiya qilamiz; aniq hajmni siz bilan birga hisoblaymiz."
   },
   "How do I set up an RTSP camera?": {
     ru: "Как настроить RTSP-камеру?",
@@ -955,9 +951,9 @@ NRI18n.addTranslations({
     ru: "Готовы вывести соревнования на новый уровень?",
     uz: "Musobaqangizni yangi bosqichga olib chiqasizmi?"
   },
-  "Request a demo and see NeuroReplay working with your own cameras and setup.": {
-    ru: "Закажите демо и посмотрите, как NeuroReplay работает с вашими камерами и вашей площадкой.",
-    uz: "Demo buyurtma qiling va NeuroReplay o‘z kameralaringiz va sozlamalaringiz bilan qanday ishlashini ko‘ring."
+  "Buy a license and run NeuroReplay with your own cameras and setup.": {
+    ru: "Купите лицензию и запускайте NeuroReplay со своими камерами и на своей площадке.",
+    uz: "Litsenziya sotib oling va NeuroReplay’ni o‘z kameralaringiz va sozlamalaringiz bilan ishlating."
   },
   "Multi-camera instant replay & video review software for Windows. For combat-sport competitions, gyms, coaching and VR training.": {
     ru: "Многокамерная программа instant replay и видеоразбора для Windows. Для соревнований и клубов единоборств, тренеров и VR-тренировок.",
@@ -1003,9 +999,9 @@ NRI18n.addTranslations({
     ru: "Хотите попробовать NeuroReplay?",
     uz: "NeuroReplay’ni sinab ko‘rmoqchimisiz?"
   },
-  "Get a demo": {
-    ru: "Получить демо",
-    uz: "Demo olish"
+  "Get a license": {
+    ru: "Получить лицензию",
+    uz: "Litsenziya olish"
   },
 
   // ── Legal
@@ -1013,9 +1009,9 @@ NRI18n.addTranslations({
     ru: "Политика конфиденциальности",
     uz: "Maxfiylik siyosati"
   },
-  "Details you submit via the order form (name, organisation, email, phone, use case, camera count, message) are used only to respond to your demo/order request and arrange pricing and setup. We never sell or share your data with third parties. This website uses no tracking, analytics or cookies. NeuroReplay runs offline, so your recording data stays only on your computer — we have no access to it. On request we will delete your data: idereee.engineering@gmail.com.": {
-    ru: "Данные, которые вы отправляете через форму заказа (имя, организация, эл. почта, телефон, назначение, количество камер, сообщение), используются только для ответа на вашу заявку на демо/заказ и согласования цены и установки. Мы никогда не продаём и не передаём ваши данные третьим лицам. Сайт не использует трекинг, аналитику и cookies. NeuroReplay работает офлайн, поэтому ваши записи хранятся только на вашем компьютере — у нас нет к ним доступа. По запросу мы удалим ваши данные: idereee.engineering@gmail.com.",
-    uz: "Buyurtma shakli orqali yuborgan ma’lumotlaringiz (ism, tashkilot, e-pochta, telefon, foydalanish maqsadi, kameralar soni, xabar) faqat demo/buyurtma so‘rovingizga javob berish hamda narx va o‘rnatishni kelishish uchun ishlatiladi. Ma’lumotlaringizni hech qachon sotmaymiz va uchinchi shaxslarga bermaymiz. Sayt kuzatuv, analitika yoki cookie’lardan foydalanmaydi. NeuroReplay oflayn ishlaydi, shuning uchun yozuvlaringiz faqat kompyuteringizda saqlanadi — bizda ularga kirish imkoni yo‘q. So‘rovingizga ko‘ra ma’lumotlaringizni o‘chiramiz: idereee.engineering@gmail.com."
+  "Details you submit via the order form (name, organisation, email, phone, use case, camera count, message) are used only to respond to your order request and arrange pricing and setup. We never sell or share your data with third parties. This website uses no tracking, analytics or cookies. NeuroReplay runs offline, so your recording data stays only on your computer — we have no access to it. On request we will delete your data: idereee.engineering@gmail.com.": {
+    ru: "Данные, которые вы отправляете через форму заказа (имя, организация, эл. почта, телефон, назначение, количество камер, сообщение), используются только для ответа на вашу заявку на заказ и согласования цены и установки. Мы никогда не продаём и не передаём ваши данные третьим лицам. Сайт не использует трекинг, аналитику и cookies. NeuroReplay работает офлайн, поэтому ваши записи хранятся только на вашем компьютере — у нас нет к ним доступа. По запросу мы удалим ваши данные: idereee.engineering@gmail.com.",
+    uz: "Buyurtma shakli orqali yuborgan ma’lumotlaringiz (ism, tashkilot, e-pochta, telefon, foydalanish maqsadi, kameralar soni, xabar) faqat buyurtma so‘rovingizga javob berish hamda narx va o‘rnatishni kelishish uchun ishlatiladi. Ma’lumotlaringizni hech qachon sotmaymiz va uchinchi shaxslarga bermaymiz. Sayt kuzatuv, analitika yoki cookie’lardan foydalanmaydi. NeuroReplay oflayn ishlaydi, shuning uchun yozuvlaringiz faqat kompyuteringizda saqlanadi — bizda ularga kirish imkoni yo‘q. So‘rovingizga ko‘ra ma’lumotlaringizni o‘chiramiz: idereee.engineering@gmail.com."
   },
   "Terms of service": {
     ru: "Условия использования",
