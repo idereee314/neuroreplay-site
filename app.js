@@ -1,101 +1,72 @@
 (function () {
-  var root = document.documentElement;
   var CONFIG = window.NR_CONFIG || {};
 
-  var I18N = {
-    mn: {
-      required: "Энэ талбарыг бөглөнө үү.", email: "Зөв и-мэйл хаяг оруулна уу.",
-      phone: "Зөв утасны дугаар оруулна уу.", cameras: "1–64 хооронд тоо оруулна уу.",
-      consent: "Үргэлжлүүлэхийн тулд зөвшөөрнө үү.", sending: "Илгээж байна…", submit: "Demo захиалах",
-      success: "Баярлалаа! Таны хүсэлтийг хүлээн авлаа — бид удахгүй холбогдоно.",
-      neterr: "Илгээж чадсангүй. Холболтоо шалгаад дахин оролдоно уу, эсвэл шууд и-мэйл бичнэ үү.",
-      mailinfo: "И-мэйл клиент нээгдэж байна. Нээгдээгүй бол " + (CONFIG.contactEmail || "") + " рүү бичнэ үү.",
-      fixerrors: "Тодоор тэмдэглэсэн талбаруудыг засна уу.",
-      uc_coach: "Дасгалжуулагч", uc_club: "Тулааны спортын клуб", uc_competition: "Тэмцээн / зохион байгуулагч",
-      uc_vr: "VR сургалтын төв", uc_other: "Бусад", undecided: "Шийдээгүй", select_ph: "— Сонгоно уу —", badge: "Санал болгох"
+  // UI messages that only exist in script (validation, form status, select options).
+  // Shape: { key: { <language code>: text } } — a missing language falls back to English.
+  // Markup elements opt in with data-i18n="key".
+  var MESSAGES = {
+    required: { mn: "Энэ талбарыг бөглөнө үү.", en: "Please fill in this field.", ru: "Заполните это поле.", uz: "Ushbu maydonni to‘ldiring." },
+    email: { mn: "Зөв и-мэйл хаяг оруулна уу.", en: "Please enter a valid email address.", ru: "Введите корректный адрес эл. почты.", uz: "To‘g‘ri e-pochta manzilini kiriting." },
+    phone: { mn: "Зөв утасны дугаар оруулна уу.", en: "Please enter a valid phone number.", ru: "Введите корректный номер телефона.", uz: "To‘g‘ri telefon raqamini kiriting." },
+    cameras: { mn: "1–64 хооронд тоо оруулна уу.", en: "Enter a number between 1 and 64.", ru: "Введите число от 1 до 64.", uz: "1 dan 64 gacha son kiriting." },
+    consent: { mn: "Үргэлжлүүлэхийн тулд зөвшөөрнө үү.", en: "Please agree to continue.", ru: "Чтобы продолжить, дайте согласие.", uz: "Davom etish uchun rozilik bering." },
+    sending: { mn: "Илгээж байна…", en: "Sending…", ru: "Отправка…", uz: "Yuborilmoqda…" },
+    submit: { mn: "Demo захиалах", en: "Request a demo", ru: "Заказать демо", uz: "Demo buyurtma qilish" },
+    success: {
+      mn: "Баярлалаа! Таны хүсэлтийг хүлээн авлаа — бид удахгүй холбогдоно.",
+      en: "Thank you! Your request has been received — we'll be in touch shortly.",
+      ru: "Спасибо! Ваша заявка принята — мы скоро свяжемся с вами.",
+      uz: "Rahmat! So‘rovingiz qabul qilindi — tez orada siz bilan bog‘lanamiz."
     },
-    en: {
-      required: "Please fill in this field.", email: "Please enter a valid email address.",
-      phone: "Please enter a valid phone number.", cameras: "Enter a number between 1 and 64.",
-      consent: "Please agree to continue.", sending: "Sending…", submit: "Request a demo",
-      success: "Thank you! Your request has been received — we'll be in touch shortly.",
-      neterr: "Couldn't send. Check your connection and try again, or email us directly.",
-      mailinfo: "Opening your email client. If nothing happens, email " + (CONFIG.contactEmail || "") + ".",
-      fixerrors: "Please fix the highlighted fields.",
-      uc_coach: "Coach", uc_club: "Combat gym / club", uc_competition: "Competition / event",
-      uc_vr: "VR training facility", uc_other: "Other", undecided: "Undecided", select_ph: "— Select —", badge: "Recommended"
+    neterr: {
+      mn: "Илгээж чадсангүй. Холболтоо шалгаад дахин оролдоно уу, эсвэл шууд и-мэйл бичнэ үү.",
+      en: "Couldn't send. Check your connection and try again, or email us directly.",
+      ru: "Не удалось отправить. Проверьте подключение и попробуйте снова или напишите нам на почту.",
+      uz: "Yuborib bo‘lmadi. Internet aloqasini tekshirib, qayta urinib ko‘ring yoki bizga to‘g‘ridan-to‘g‘ri e-pochta yozing."
     },
-    ru: {
-      required: "Заполните это поле.", email: "Введите корректный адрес эл. почты.",
-      phone: "Введите корректный номер телефона.", cameras: "Введите число от 1 до 64.",
-      consent: "Чтобы продолжить, дайте согласие.", sending: "Отправка…", submit: "Заказать демо",
-      success: "Спасибо! Ваша заявка принята — мы скоро свяжемся с вами.",
-      neterr: "Не удалось отправить. Проверьте подключение и попробуйте снова или напишите нам на почту.",
-      mailinfo: "Открывается почтовый клиент. Если ничего не произошло, напишите на " + (CONFIG.contactEmail || "") + ".",
-      fixerrors: "Исправьте выделенные поля.",
-      uc_coach: "Тренер", uc_club: "Клуб единоборств", uc_competition: "Соревнования / организатор",
-      uc_vr: "VR-тренировочный центр", uc_other: "Другое", undecided: "Пока не решено", select_ph: "— Выберите —", badge: "Рекомендуем"
+    mailinfo: {
+      mn: "И-мэйл клиент нээгдэж байна. Нээгдээгүй бол {email} рүү бичнэ үү.",
+      en: "Opening your email client. If nothing happens, email {email}.",
+      ru: "Открывается почтовый клиент. Если ничего не произошло, напишите на {email}.",
+      uz: "E-pochta dasturi ochilmoqda. Hech narsa bo‘lmasa, {email} manziliga yozing."
     },
-    uz: {
-      required: "Ushbu maydonni to‘ldiring.", email: "To‘g‘ri e-pochta manzilini kiriting.",
-      phone: "To‘g‘ri telefon raqamini kiriting.", cameras: "1 dan 64 gacha son kiriting.",
-      consent: "Davom etish uchun rozilik bering.", sending: "Yuborilmoqda…", submit: "Demo buyurtma qilish",
-      success: "Rahmat! So‘rovingiz qabul qilindi — tez orada siz bilan bog‘lanamiz.",
-      neterr: "Yuborib bo‘lmadi. Internet aloqasini tekshirib, qayta urinib ko‘ring yoki bizga to‘g‘ridan-to‘g‘ri e-pochta yozing.",
-      mailinfo: "E-pochta dasturi ochilmoqda. Hech narsa bo‘lmasa, " + (CONFIG.contactEmail || "") + " manziliga yozing.",
-      fixerrors: "Belgilangan maydonlarni tuzating.",
-      uc_coach: "Murabbiy", uc_club: "Yakkakurash klubi", uc_competition: "Musobaqa / tashkilotchi",
-      uc_vr: "VR mashg‘ulot markazi", uc_other: "Boshqa", undecided: "Hali tanlanmagan", select_ph: "— Tanlang —", badge: "Tavsiya etamiz"
-    }
+    fixerrors: { mn: "Тодоор тэмдэглэсэн талбаруудыг засна уу.", en: "Please fix the highlighted fields.", ru: "Исправьте выделенные поля.", uz: "Belgilangan maydonlarni tuzating." },
+    select_ph: { mn: "— Сонгоно уу —", en: "— Select —", ru: "— Выберите —", uz: "— Tanlang —" },
+    uc_coach: { mn: "Дасгалжуулагч", en: "Coach", ru: "Тренер", uz: "Murabbiy" },
+    uc_club: { mn: "Тулааны спортын клуб", en: "Combat gym / club", ru: "Клуб единоборств", uz: "Yakkakurash klubi" },
+    uc_competition: { mn: "Тэмцээн / зохион байгуулагч", en: "Competition / event", ru: "Соревнования / организатор", uz: "Musobaqa / tashkilotchi" },
+    uc_vr: { mn: "VR сургалтын төв", en: "VR training facility", ru: "VR-тренировочный центр", uz: "VR mashg‘ulot markazi" },
+    uc_other: { mn: "Бусад", en: "Other", ru: "Другое", uz: "Boshqa" },
+    undecided: { mn: "Шийдээгүй", en: "Undecided", ru: "Пока не решено", uz: "Hali tanlanmagan" }
   };
-  var LANGS = ['mn', 'en', 'ru', 'uz'];
-  var TITLES = {
-    mn: 'NeuroReplay — Олон камерын Instant Replay & Video Review',
-    en: 'NeuroReplay — Multi-camera Instant Replay & Video Review',
-    ru: 'NeuroReplay — Многокамерный Instant Replay и видеоразбор',
-    uz: 'NeuroReplay — Ko‘p kamerali Instant Replay va video tahlil'
-  };
-  function curLang() { var l = root.getAttribute('lang'); return LANGS.indexOf(l) >= 0 ? l : 'mn'; }
-  function t(key) { return I18N[curLang()][key]; }
+  var MESSAGE_VARS = { email: CONFIG.contactEmail || '' };
+  function t(key) {
+    var msg = MESSAGES[key] ? NRI18n.pick(MESSAGES[key]) : key;
+    return String(msg).replace(/\{(\w+)\}/g, function (m, name) { return name in MESSAGE_VARS ? MESSAGE_VARS[name] : m; });
+  }
 
-  // RU / UZ: the markup carries MN + EN inline. For ru/uz the CSS shows the [data-en]
-  // copy and site-i18n.js swaps its content. Key = the English text, whitespace collapsed.
-  var DICT = window.SITE_I18N || {};
-  var enEls = [].slice.call(document.querySelectorAll('[data-en]')).map(function (el) {
-    return { el: el, html: el.innerHTML, key: el.textContent.replace(/\s+/g, ' ').trim() };
-  });
-  var langBtns = [].slice.call(document.querySelectorAll('[data-langsel] button'));
   var submitBtn = document.getElementById('submitBtn');
   var submitting = false, lastPayloadKey = null;
   function setBtnLabel(text) { submitBtn.innerHTML = '<span class="btn-label">' + text + '</span>'; }
 
-  function fillDynamicText() {
-    var uc = document.getElementById('usecase');
-    if (uc) {
-      uc.options[0].textContent = t('select_ph'); uc.options[1].textContent = t('uc_coach');
-      uc.options[2].textContent = t('uc_club'); uc.options[3].textContent = t('uc_competition');
-      uc.options[4].textContent = t('uc_vr'); uc.options[5].textContent = t('uc_other');
-    }
-    var pl = document.getElementById('prefLang'); if (pl) pl.options[0].textContent = t('select_ph');
-    var plan = document.getElementById('plan'); if (plan) plan.options[plan.options.length - 1].textContent = t('undecided');
-    var pkg = document.querySelector('.pkg[data-badge]'); if (pkg) pkg.setAttribute('data-badge', t('badge'));
+  // "Preferred language" options come from the language registry, not from markup.
+  (function () {
+    var pl = document.getElementById('prefLang');
+    if (!pl) return;
+    NRI18n.languages.forEach(function (lang) {
+      var o = document.createElement('option');
+      o.value = lang.code; o.textContent = lang.name; o.lang = lang.code;
+      pl.appendChild(o);
+    });
+  })();
+
+  function onLangChange(lang) {
+    var pl = document.getElementById('prefLang');
+    if (pl && !pl.value) pl.value = lang.code;                         // sensible default, still editable
+    document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     document.querySelectorAll('.field[data-invalid]').forEach(function (f) { validateField(f.querySelector('input,select,textarea')); });
     if (!submitting) setBtnLabel(t('submit'));
   }
-  function setLang(l, persist) {
-    if (LANGS.indexOf(l) < 0) l = 'mn';
-    root.setAttribute('lang', l);
-    var idx = l === 'ru' ? 0 : l === 'uz' ? 1 : -1;
-    enEls.forEach(function (o) { var tr = idx >= 0 && DICT[o.key]; o.el.innerHTML = tr ? tr[idx] : o.html; });
-    langBtns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-l') === l ? 'true' : 'false'); });
-    document.title = TITLES[l];
-    if (persist) { try { localStorage.setItem('nr.site.lang', l); localStorage.setItem('nr.help.lang', l); } catch (e) {} }
-    fillDynamicText();
-  }
-  var saved = 'mn';
-  try { saved = localStorage.getItem('nr.site.lang') || 'mn'; } catch (e) {}
-  try { var q = new URLSearchParams(location.search).get('lang'); if (LANGS.indexOf(q) >= 0) saved = q; } catch (e) {}
-  langBtns.forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-l'), true); }); });
 
   document.getElementById('yr').textContent = new Date().getFullYear();
   var manual = document.getElementById('manualLink');
@@ -203,7 +174,8 @@
   })();
 
   var linkMap = {};
-  document.querySelectorAll('#navLinks a').forEach(function (a) { var id = a.getAttribute('href').slice(1); if (id) linkMap[id] = a; });
+  // Scroll-spy follows whatever in-page links the nav has.
+  document.querySelectorAll('#navLinks a[href^="#"]').forEach(function (a) { var id = a.getAttribute('href').slice(1); if (id) linkMap[id] = a; });
   var spy = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) {
@@ -212,7 +184,7 @@
       }
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  ['features','analyze','new','pricing','download','faq'].forEach(function (id) { var s = document.getElementById(id); if (s) spy.observe(s); });
+  Object.keys(linkMap).forEach(function (id) { var s = document.getElementById(id); if (s) spy.observe(s); });
 
   var form = document.getElementById('orderForm');
   var statusEl = document.getElementById('formStatus');
@@ -255,7 +227,7 @@
   function mailtoFallback(data) {
     var to = CONFIG.contactEmail || '';
     var subject = 'NeuroReplay demo request — ' + (data.organization || data.fullname || '');
-    var lines = ['Full name: ' + (data.fullname || ''), 'Organisation: ' + (data.organization || ''), 'Email: ' + (data.email || ''), 'Phone: ' + (data.phone || ''), 'Use case: ' + (data.usecase || ''), 'Camera count: ' + (data.cameras || ''), 'Preferred language: ' + (data.preferred_language || ''), 'View mode: ' + (data.plan || ''), 'Message: ' + (data.message || '')];
+    var lines = ['Full name: ' + (data.fullname || ''), 'Organisation: ' + (data.organization || ''), 'Email: ' + (data.email || ''), 'Phone: ' + (data.phone || ''), 'Use case: ' + (data.usecase || ''), 'Camera count: ' + (data.cameras || ''), 'Preferred language: ' + (data.preferred_language || ''), 'Licence of interest: ' + (data.plan || ''), 'Message: ' + (data.message || '')];
     showStatus('info', t('mailinfo'));
     window.location.href = 'mailto:' + encodeURIComponent(to) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
   }
@@ -312,12 +284,12 @@
 
     sending(true);
     send
-      .then(function () { lastPayloadKey = payloadKey; form.reset(); fillDynamicText(); showStatus('success', t('success')); })
+      .then(function () { lastPayloadKey = payloadKey; form.reset(); onLangChange(NRI18n.current()); showStatus('success', t('success')); })
       .catch(function () { showStatus('error', t('neterr')); })
       .finally(function () { sending(false); });
   });
 
-  setLang(saved);
+  NRI18n.onChange(onLangChange);
 })();
 
 /* Preloader: rewind timecode counts down, flips to REPLAY, then fades out */

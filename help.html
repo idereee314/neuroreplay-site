@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="mn">
+<html lang="mn" data-copy="mn">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NeuroReplay — Хэрэглэгчийн гарын авлага / User guide</title>
-<meta name="description" content="NeuroReplay хэрэглэгчийн гарын авлага: суулгах, license идэвхжүүлэх, camera тохируулах, бичлэг, Instant Replay, tag, Library, export, гарын товчлуурууд." />
+<title data-i18n-en="NeuroReplay — User guide">NeuroReplay — Хэрэглэгчийн гарын авлага</title>
+<meta name="description" data-i18n-en="NeuroReplay user guide: installation, licence activation, camera setup, recording, Instant Replay, tags, Library, export and keyboard shortcuts." content="NeuroReplay хэрэглэгчийн гарын авлага: суулгах, license идэвхжүүлэх, camera тохируулах, бичлэг, Instant Replay, tag, Library, export, гарын товчлуурууд." />
 <meta name="theme-color" content="#060912" />
 <link rel="icon" href="assets/favicon.ico" sizes="any" />
 <link rel="icon" type="image/png" href="assets/neuroreplay-mark.png" />
@@ -82,9 +82,7 @@
       <a href="index.html#faq">FAQ</a>
     </div>
     <div class="nav__tools">
-      <div class="langsel" id="langSel" role="group" aria-label="Language / Хэл / Язык / Til">
-        <button type="button" data-l="mn">МН</button><button type="button" data-l="en">EN</button><button type="button" data-l="ru">RU</button><button type="button" data-l="uz">UZ</button>
-      </div>
+      <div data-lang-switch></div>
       <a class="btn btn--primary" href="index.html#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
     </div>
   </div>
@@ -114,7 +112,7 @@
       <p data-mn>Олон камерын дүрсийг зэрэг бичиж, instant replay, DVR ухраалт, frame-by-frame шинжилгээ, tag болон telestration хийх Windows программын өдөр тутмын заавар.</p>
       <p data-en>Day-to-day instructions for the Windows app that records several cameras at once and gives you instant replay, DVR rewind, frame-by-frame review, tags and telestration.</p>
       <div class="doc-actions noprint">
-        <a class="btn btn--primary" id="pdfBtn" href="assets/NeuroReplay-User-Manual-mn.pdf" download>
+        <a class="btn btn--primary" href="assets/NeuroReplay-User-Manual-mn.pdf" data-i18n-href="assets/NeuroReplay-User-Manual-{lang}.pdf" download>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
           <span data-mn>PDF татах</span><span data-en>Download PDF</span>
         </a>
@@ -351,8 +349,8 @@
           <tr><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td><span data-mn>Tags самбар нээх</span><span data-en>Open the Tags panel</span></td></tr>
         </tbody>
       </table>
-      <p data-mn>Цэсний <b>View</b> хэсгээс UI горим (Minimal / Legacy), цэсийн хэлний тохиргооноос Монгол, English, Russian хэлийг сонгоно.</p>
-      <p data-en>Use the <b>View</b> menu to switch UI mode (Minimal / Legacy), and the language setting in the menu to choose Mongolian, English or Russian.</p>
+      <p data-mn>Камерын тоог дээд мөрний товчоор (эсвэл <kbd>Ctrl</kbd>+<kbd>1</kbd>/<kbd>2</kbd>/<kbd>4</kbd>/<kbd>6</kbd>/<kbd>8</kbd>) сольж, цэсний <b>Language</b> хэсгээс Монгол, Англи, Орос, Узбек хэлийг сонгоно.</p>
+      <p data-en>Switch the camera grid with the buttons in the top bar (or <kbd>Ctrl</kbd>+<kbd>1</kbd>/<kbd>2</kbd>/<kbd>4</kbd>/<kbd>6</kbd>/<kbd>8</kbd>), and pick Mongolian, English, Russian or Uzbek from the <b>Language</b> menu.</p>
     </section>
 
     <section id="trouble">
@@ -387,35 +385,11 @@
   </article>
 </main>
 
-<script src="help-i18n.js"></script>
+<script src="i18n.js" defer></script>
+<script src="help-i18n.js" defer></script>
 <script>
-  // Languages: mn, en (inline in the markup) + ru, uz (help-i18n.js replaces the English text).
-  // ?lang=mn|en|ru|uz overrides the saved choice (used to render the PDFs).
+  // Table-of-contents scroll-spy. Language handling lives in i18n.js.
   (function () {
-    var LANGS = ['mn', 'en', 'ru', 'uz'];
-    var TITLES = { mn: 'NeuroReplay — Хэрэглэгчийн гарын авлага', en: 'NeuroReplay — User guide', ru: 'NeuroReplay — Руководство пользователя', uz: 'NeuroReplay — Foydalanuvchi qo‘llanmasi' };
-    var root = document.documentElement, pdf = document.getElementById('pdfBtn');
-    var btns = [].slice.call(document.querySelectorAll('#langSel button'));
-    var dict = window.HELP_I18N || {};
-    var enEls = [].slice.call(document.querySelectorAll('[data-en]')).map(function (el) {
-      return { el: el, html: el.innerHTML, key: el.textContent.replace(/\s+/g, ' ').trim().slice(0, 40).trim() };
-    });
-    var lang = 'mn';
-    function setLang(l, persist) {
-      lang = l;
-      root.setAttribute('lang', l);
-      var idx = l === 'ru' ? 0 : l === 'uz' ? 1 : -1;
-      enEls.forEach(function (o) { var t = idx >= 0 && dict[o.key]; o.el.innerHTML = t ? t[idx] : o.html; });
-      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-l') === l ? 'true' : 'false'); });
-      pdf.setAttribute('href', 'assets/NeuroReplay-User-Manual-' + l + '.pdf'); pdf.setAttribute('download', '');
-      document.title = TITLES[l];
-      if (persist) { try { localStorage.setItem('nr.help.lang', l); localStorage.setItem('nr.site.lang', l); } catch (e) {} }
-    }
-    var q = new URLSearchParams(location.search).get('lang'), saved = 'mn';
-    try { saved = localStorage.getItem('nr.help.lang') || localStorage.getItem('nr.site.lang') || 'mn'; } catch (e) {}
-    setLang(LANGS.indexOf(q) >= 0 ? q : (LANGS.indexOf(saved) >= 0 ? saved : 'mn'), false);
-    btns.forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-l'), true); }); });
-
     var links = [].slice.call(document.querySelectorAll('.toc a'));
     var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
     function onScroll() {

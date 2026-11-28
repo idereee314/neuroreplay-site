@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="mn">
+<html lang="mn" data-copy="mn">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NeuroReplay — Олон камерын Instant Replay & Video Review</title>
-<meta name="description" content="NeuroReplay — Windows дээрх олон камерын instant replay программ хангамж. USB болон RTSP/IP камер зэрэг бичиж, амьд DVR ухраалт, slow-motion, кадр алхам, тэмдэглэл, MP4 экспорт, Analyze модульд зураглал, харьцуулалт, статистик. Тулааны спорт, тэмцээн, дасгалжуулалт, VR сургалтад тохирно." />
+<title data-i18n-en="NeuroReplay — Multi-camera Instant Replay & Video Review">NeuroReplay — Олон камерын Instant Replay & Video Review</title>
+<meta name="description" data-i18n-en="NeuroReplay — multi-camera instant replay software for Windows. Record USB and RTSP/IP cameras at once with live DVR rewind, slow motion, frame stepping, tagging and MP4 export; the Analyze module adds drawing, comparison and stats. For combat sports, competitions, coaching and VR training." content="NeuroReplay — Windows дээрх олон камерын instant replay программ хангамж. USB болон RTSP/IP камер зэрэг бичиж, амьд DVR ухраалт, slow-motion, кадр алхам, тэмдэглэл, MP4 экспорт, Analyze модульд зураглал, харьцуулалт, статистик. Тулааны спорт, тэмцээн, дасгалжуулалт, VR сургалтад тохирно." />
 <meta name="theme-color" content="#060912" />
 <meta name="author" content="Iderbat Myagmardorj" />
 
@@ -102,9 +102,7 @@
       <a class="nav__opt" href="help.html"><span data-mn>Гарын авлага</span><span data-en>Help</span></a>
     </div>
     <div class="nav__tools">
-      <div class="langsel nav__lang" data-langsel role="group" aria-label="Language / Хэл / Язык / Til">
-        <button type="button" data-l="mn" lang="mn">МН</button><button type="button" data-l="en" lang="en">EN</button><button type="button" data-l="ru" lang="ru">RU</button><button type="button" data-l="uz" lang="uz">UZ</button>
-      </div>
+      <div data-lang-switch></div>
       <a class="btn btn--primary" href="#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
       <button class="hamb" id="hamb" type="button" aria-label="Цэс" aria-expanded="false" aria-controls="mobileMenu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -121,9 +119,6 @@
     <a href="#download"><span data-mn>Татах</span><span data-en>Download</span></a>
     <a href="#faq">FAQ</a>
     <a href="help.html"><span data-mn>Гарын авлага</span><span data-en>Help</span></a>
-    <div class="langsel mm__lang" data-langsel role="group" aria-label="Language / Хэл / Язык / Til">
-        <button type="button" data-l="mn" lang="mn">МН</button><button type="button" data-l="en" lang="en">EN</button><button type="button" data-l="ru" lang="ru">RU</button><button type="button" data-l="uz" lang="uz">UZ</button>
-      </div>
     <a class="btn btn--primary" href="#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
   </div>
 </nav>
@@ -734,7 +729,8 @@
       TODO(owner): fill real add-on prices (currently "on request").
     -->
     <div class="pkg-wrap reveal">
-      <div class="pkg" data-badge="Санал болгох">
+      <div class="pkg">
+        <span class="pkg__badge"><span data-mn>Санал болгох</span><span data-en>Recommended</span></span>
         <div class="pkg__head">
           <div class="pkg__name"><span data-mn>Тэмцээний өдөр</span><span data-en>Event day</span><span class="s"><span data-mn>Competition лиценз — live, replay, бичлэг, TAG</span><span data-en>Competition licence — live, replay, recording, TAG</span></span></div>
           <div class="pkg__price">180,000₮ <small>/ <span data-mn>тэмцээний өдөр</span><span data-en>per event day</span></small></div>
@@ -853,8 +849,8 @@
           <div class="field">
             <label for="usecase"><span data-mn>Хэрэглээ</span><span data-en>Use case</span> <span class="req" aria-hidden="true">*</span></label>
             <select id="usecase" name="usecase" required aria-required="true">
-              <option value=""></option><option value="coach"></option><option value="club"></option>
-              <option value="competition"></option><option value="vr"></option><option value="other"></option>
+              <option value="" data-i18n="select_ph"></option><option value="coach" data-i18n="uc_coach"></option><option value="club" data-i18n="uc_club"></option>
+              <option value="competition" data-i18n="uc_competition"></option><option value="vr" data-i18n="uc_vr"></option><option value="other" data-i18n="uc_other"></option>
             </select>
             <span class="err" data-err></span>
           </div>
@@ -866,7 +862,7 @@
           <div class="field">
             <label for="prefLang"><span data-mn>Харилцах хэл</span><span data-en>Preferred language</span> <span class="req" aria-hidden="true">*</span></label>
             <select id="prefLang" name="preferred_language" required aria-required="true">
-              <option value=""></option><option value="mn">Монгол</option><option value="en">English</option><option value="ru">Русский</option><option value="uz">O‘zbekcha</option>
+              <option value="" data-i18n="select_ph"></option><!-- languages are appended from the i18n registry -->
             </select>
             <span class="err" data-err></span>
           </div>
@@ -874,7 +870,7 @@
             <label for="plan"><span data-mn>Сонирхож буй лиценз</span><span data-en>Licence of interest</span></label>
             <select id="plan" name="plan">
               <option value="Competition">Competition</option>
-              <option value="Competition + Analyze" selected>Competition + Analyze</option><option value="undecided"></option>
+              <option value="Competition + Analyze" selected>Competition + Analyze</option><option value="undecided" data-i18n="undecided"></option>
             </select>
             <span class="err" data-err></span>
           </div>
@@ -1097,6 +1093,7 @@
   <a class="btn btn--primary" href="#order"><span data-mn>Demo авах</span><span data-en>Get a demo</span></a>
 </div>
 
+<script src="i18n.js" defer></script>
 <script src="site-i18n.js" defer></script>
 <script src="app.js" defer></script>
 </body>

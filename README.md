@@ -13,9 +13,12 @@ Mongolian), light minimal design, accessible, responsive, works offline once loa
 neuroreplay-site/
 ├── index.html        # public marketing / demo-request page (markup only)
 ├── styles.css        # all site styles (split out of index.html)
-├── app.js            # all site behaviour: i18n, form, nav, reveal, layout
-├── site-i18n.js      # RU + UZ copy, keyed by the English text in index.html
-├── assets/           # logo, favicons, OG image
+├── help.html         # user guide
+├── app.js            # index.html behaviour: form, nav, reveal, layout
+├── i18n.js           # shared language registry, switcher and copy swapping (both pages)
+├── site-i18n.js      # translations for index.html (languages not written inline)
+├── help-i18n.js      # translations for help.html
+├── assets/           # logo, favicons, OG image, flags/ (language switcher)
 ├── robots.txt        # allows the site, disallows /admin/
 └── admin/            # INTERNAL license keygen — NOT linked from the public site
     ├── index.html    # Supabase-auth login + .lic / license-key generator
@@ -23,8 +26,27 @@ neuroreplay-site/
     └── supabase/functions/sign-license/index.ts   # edge function (deployed via Supabase CLI)
 ```
 
-The public page (`index.html`) links `styles.css` + `app.js`; the `NR_CONFIG`
-block stays inline in the `<head>` so business settings live in one obvious place.
+The public page (`index.html`) links `styles.css` + `i18n.js` + `site-i18n.js` + `app.js`;
+the `NR_CONFIG` block stays inline in the `<head>` so business settings live in one obvious place.
+
+## Languages
+
+`i18n.js` holds the only list of languages (`LANGUAGES`: code, native name, short label, flag).
+The switcher, the demo form's "preferred language" options, the page title/description and
+language-dependent links (`data-i18n-href="…{lang}…"`, e.g. the PDF manual) are all built from it.
+
+- Mongolian and English are written inline in the markup:
+  `<span data-mn>…</span><span data-en>…</span>`.
+- Other languages live in `site-i18n.js` / `help-i18n.js` as
+  `"English text": { ru: "…", uz: "…" }`. The key is the element's English text with tags
+  stripped and whitespace collapsed; a missing translation falls back to English. Edit the
+  English copy → update its key too.
+- Messages that exist only in script (form validation, status) are in `app.js` → `MESSAGES`,
+  same `{ key: { <code>: text } }` shape; markup opts in with `data-i18n="key"`.
+- `?lang=ru` overrides the saved choice without storing it (used to render the PDF manuals).
+
+**Adding a language:** add an entry to `LANGUAGES`, its flag to `assets/flags/`, and its column
+to the translation tables and `MESSAGES`. No other code names a language.
 
 ### admin/ — license keygen (internal)
 
@@ -82,8 +104,10 @@ consent checkbox.
 
 - **Contact** — email, phone (+976 8555 1511) and Facebook (iderbat314) are set
   in the Direct-contact card and footer.
-- **`manualUrl`** / footer **User manual** link — points to `help.html` (bilingual
-  guide with screenshots in `assets/help/`; PDFs in `assets/NeuroReplay-User-Manual-{mn,en}.pdf`).
+- **`manualUrl`** / footer **User manual** link — points to `help.html` (4-language
+  guide with screenshots in `assets/help/`; PDFs in `assets/NeuroReplay-User-Manual-{mn,en,ru,uz}.pdf`).
+  Regenerate a PDF after editing the guide (Chrome, A4, no header/footer):
+  `chrome --headless=new --no-pdf-header-footer --virtual-time-budget=6000 --print-to-pdf=assets/NeuroReplay-User-Manual-ru.pdf "http://localhost/…/help.html?lang=ru"`.
 - **`downloadUrl`** — Windows installer link is empty for now (Download button
   routes to the demo form until it's set).
 - **Demo requests → Supabase** — the public form saves each request to the
@@ -96,9 +120,10 @@ consent checkbox.
   `mailto:` link — it never fakes a submit.
 - **`formEndpoint`** — optional fallback POST endpoint if you don't use Supabase.
 - **Pricing** — the site shows one main event-day package: **180,000 MNT per
-  event day** for 1 view mode (Legacy / Minimal / Multiview), up to 4 cameras,
-  and on-site technical support during the event. Add-ons (extra view mode,
-  extra cameras, multi-day package, Analyze module) are listed below the card as
+  event day** with the Competition licence, up to 4 cameras, and on-site technical
+  support during the event. The app has a single interface (the old Legacy /
+  Minimal / Multiview modes were removed). Add-ons (Analyze module, extra cameras
+  up to 8, multi-day package, training & setup) are listed below the card as
   "on request" — fill in real add-on prices before accepting payment.
 - **Terms of service** — footer has a placeholder; link the final document.
 - **Screenshots** — the hero uses a clearly labelled interactive product mockup;
