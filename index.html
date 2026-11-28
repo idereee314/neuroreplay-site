@@ -34,10 +34,10 @@
   NeuroReplay configuration. All values are safe to expose (no secrets here).
   - formEndpoint: POST target for the demo form (Formspree-compatible or custom API).
                   Leave "" and the form falls back to a mailto: link — it never fakes a submit.
-  - downloads:    installer URL per platform (windows, macArm, macIntel). They point at the
-                  latest release of the public neuroreplay-releases repo under fixed file names,
-                  so a new version needs no site change. "" hides that button (Windows falls
-                  back to the demo form).
+  - downloads:    installer URL per platform (windows, macArm, macIntel). /api/download
+                  (api/download.js) fetches them from the latest release of the private app
+                  repository, so a new version needs no site change. "" hides that button
+                  (Windows falls back to the demo form).
 -->
 <script>
   window.NR_CONFIG = {
@@ -51,9 +51,9 @@
     contactEmail: "idereee.engineering@gmail.com",
     manualUrl: "help.html",
     downloads: {
-      windows:  "https://github.com/idereee314/neuroreplay-releases/releases/latest/download/NeuroReplay-Setup-Windows.exe",
-      macArm:   "https://github.com/idereee314/neuroreplay-releases/releases/latest/download/NeuroReplay-mac-arm64.dmg",
-      macIntel: "https://github.com/idereee314/neuroreplay-releases/releases/latest/download/NeuroReplay-mac-x64.dmg"
+      windows:  "/api/download?os=windows",
+      macArm:   "/api/download?os=mac-arm64",
+      macIntel: "/api/download?os=mac-x64"
     },
     version: "1.0.1",
     fileSize: ""     // e.g. "140 MB"
@@ -784,7 +784,7 @@
       <div class="dl-body">
         <span class="kicker"><span data-mn>Татаж авах</span><span data-en>Download</span></span>
         <h2 style="margin-top:16px"><span data-mn>NeuroReplay-г Windows, Mac дээр татаж суулга</span><span data-en>Get NeuroReplay for Windows and Mac</span></h2>
-        <p><span data-mn>Суулгацыг татаж аваад Windows 10/11 эсвэл macOS 12+ дээр суулгана. Ажиллуулахын тулд лицензээр идэвхжүүлнэ — demo хүсвэл бид түлхүүрийг өгнө.</span><span data-en>Download the installer and set it up on Windows 10/11 or macOS 12+. Activation needs a license — request a demo and we'll issue a key.</span></p>
+        <p><span data-mn>Суулгацыг татаж аваад Windows 10/11 эсвэл macOS 12+ дээр суулгана. Ажиллуулахын тулд лицензээр идэвхжүүлнэ — license худалдаж авахад бид түлхүүрийг илгээнэ.</span><span data-en>Download the installer and set it up on Windows 10/11 or macOS 12+. Activation needs a license — buy one and we'll send you the key.</span></p>
         <div class="dl-actions">
           <a class="btn btn--primary" id="downloadBtn" href="#order">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M5 19h14"/></svg>
@@ -792,6 +792,7 @@
           </a>
           <a class="btn btn--ghost" id="downloadMacArm" href="#" hidden><span data-mn>Mac (Apple Silicon)</span><span data-en>Mac (Apple Silicon)</span></a>
           <a class="btn btn--ghost" id="downloadMacIntel" href="#" hidden><span data-mn>Mac (Intel)</span><span data-en>Mac (Intel)</span></a>
+          <a class="btn btn--ghost" href="#order"><span data-mn>License худалдаж авах</span><span data-en>Buy a license</span></a>
         </div>
         <p class="dl-links"><a href="help.html#install"><span data-mn>Суулгах заавар</span><span data-en>Installation guide</span></a> · <a href="help.html#start"><span data-mn>Техникийн шаардлага</span><span data-en>System requirements</span></a></p>
         <p class="dl-note" id="dlMacNote" hidden><span data-mn>Mac: анх нээхдээ программ дээр хулганы баруун товч дараад <b>Open</b> сонгоно.</span><span data-en>Mac: the first time, right-click the app and choose <b>Open</b>.</span></p>

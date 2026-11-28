@@ -699,9 +699,13 @@ NRI18n.addTranslations({
     ru: "Скачайте NeuroReplay для Windows и Mac",
     uz: "NeuroReplay’ni Windows va Mac uchun yuklab oling"
   },
-  "Download the installer and set it up on Windows 10/11 or macOS 12+. Activation needs a license — request a demo and we'll issue a key.": {
-    ru: "Скачайте установщик и установите на Windows 10/11 или macOS 12+. Для активации нужна лицензия — закажите демо, и мы выдадим ключ.",
-    uz: "O‘rnatuvchini yuklab oling va Windows 10/11 yoki macOS 12+ ga o‘rnating. Faollashtirish uchun litsenziya kerak — demo buyurtma qiling, biz kalit beramiz."
+  "Download the installer and set it up on Windows 10/11 or macOS 12+. Activation needs a license — buy one and we'll send you the key.": {
+    ru: "Скачайте установщик и установите на Windows 10/11 или macOS 12+. Для активации нужна лицензия — купите её, и мы пришлём ключ.",
+    uz: "O‘rnatuvchini yuklab oling va Windows 10/11 yoki macOS 12+ ga o‘rnating. Faollashtirish uchun litsenziya kerak — uni sotib oling, biz kalitni yuboramiz."
+  },
+  "Buy a license": {
+    ru: "Купить лицензию",
+    uz: "Litsenziya sotib olish"
   },
   "Mac: the first time, right-click the app and choose Open.": {
     ru: "Mac: при первом запуске нажмите на программу правой кнопкой мыши и выберите <b>Open</b>.",
