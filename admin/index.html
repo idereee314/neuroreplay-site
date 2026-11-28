@@ -136,7 +136,34 @@ textarea.in { min-height: 96px; padding: 11px 13px; resize: vertical; font: 12.5
 .in:focus { border-color: rgba(155,92,255,.7); box-shadow: 0 0 0 3px rgba(155,92,255,.16); }
 .in.err { border-color: rgba(255,75,92,.7); box-shadow: 0 0 0 3px rgba(255,75,92,.14); }
 .in.mono { font-family: var(--mono); letter-spacing: .08em; }
-input[type=date].in { color-scheme: dark; }
+/* ── Date picker ── */
+.dp { display: flex; align-items: center; gap: 10px; text-align: left; cursor: pointer; }
+.dp:hover { border-color: rgba(255,255,255,.22); }
+.dp.open { border-color: rgba(155,92,255,.7); box-shadow: 0 0 0 3px rgba(155,92,255,.16); }
+.dp .dp-v { flex: 1; font-weight: 600; font-variant-numeric: tabular-nums; }
+.dp .dp-v small { margin-left: 8px; font-size: 12px; font-weight: 500; color: var(--faint); }
+.dp .dp-v.ph { color: var(--faint); font-weight: 500; }
+.dp svg.i { color: var(--muted); }
+.dp-pop { position: fixed; z-index: 100; width: 292px; padding: 14px; border-radius: 16px; border: 1px solid var(--line2);
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)), var(--card2);
+  box-shadow: 0 24px 60px rgba(0,0,0,.6), 0 0 40px rgba(139,92,255,.12); animation: dpIn .14s ease-out; }
+@keyframes dpIn { from { opacity: 0; transform: translateY(-4px); } }
+.dp-hd { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+.dp-hd b { flex: 1; text-align: center; font: 600 14px var(--display); letter-spacing: -.01em; }
+.dp-nav { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 9px; border: 1px solid var(--line); background: rgba(255,255,255,.03); color: var(--muted); }
+.dp-nav:hover { color: var(--ink); background: rgba(255,255,255,.08); }
+.dp-grid { display: grid; grid-template-columns: repeat(7, 1fr); row-gap: 2px; }
+.dp-wd { padding: 4px 0 6px; text-align: center; font: 600 10.5px var(--mono); letter-spacing: .06em; color: var(--faint); text-transform: uppercase; }
+.dp-d { height: 36px; border: 0; border-radius: 10px; background: transparent; font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; position: relative; }
+.dp-d:hover:not(:disabled) { background: rgba(255,255,255,.08); }
+.dp-d.out { color: var(--faint); }
+.dp-d.td::after { content: ""; position: absolute; left: 50%; bottom: 5px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--cyan); }
+.dp-d.rng { background: rgba(155,92,255,.15); border-radius: 0; }
+.dp-d.rs { border-radius: 10px 0 0 10px; } .dp-d.re { border-radius: 0 10px 10px 0; } .dp-d.rs.re { border-radius: 10px; }
+.dp-d.sel { background: var(--grad); color: #fff; font-weight: 700; border-radius: 10px; box-shadow: 0 6px 18px rgba(155,92,255,.4); }
+.dp-d.kb { outline: 2px solid var(--cyan); outline-offset: -2px; }
+.dp-d:disabled { color: var(--faint); opacity: .35; cursor: default; }
+.dp-ft { display: flex; justify-content: flex-end; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
 input[type=number].in::-webkit-inner-spin-button { opacity: .4; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .chip { min-height: 30px; padding: 0 12px; border-radius: 99px; border: 1px solid var(--line2); background: transparent; color: var(--muted); font: 500 12.5px var(--mono); transition: all .12s; }
@@ -337,8 +364,8 @@ input[type=number].in::-webkit-inner-spin-button { opacity: .4; }
           <div class="sec">
             <div class="sec-t"><i>2</i><span data-i18n="secWhen">Хугацаа</span></div>
             <div class="grid2">
-              <div class="f"><label for="fStart" data-i18n="startDate">Эхлэх огноо</label><input class="in" type="date" id="fStart"></div>
-              <div class="f"><label for="fEnd" data-i18n="endDate">Дуусах огноо</label><input class="in" type="date" id="fEnd"></div>
+              <div class="f"><label for="fStart" data-i18n="startDate">Эхлэх огноо</label><button type="button" class="in dp" id="fStart" aria-haspopup="dialog"></button></div>
+              <div class="f"><label for="fEnd" data-i18n="endDate">Дуусах огноо</label><button type="button" class="in dp" id="fEnd" data-min="fStart" aria-haspopup="dialog"></button></div>
             </div>
             <div class="chips" id="durChips"></div>
             <div class="hint" id="durHint"></div>
@@ -597,6 +624,7 @@ function applyLang() {
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
   document.querySelectorAll('[data-langseg] button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+  dpRefreshAll();
   if (currentUser) { renderChips(); renderPreview(); renderHist(); renderOrders(); renderFilters(); if (issued) renderResult(); }
 }
 document.querySelectorAll('[data-langseg] button').forEach(b => b.addEventListener('click', () => { lang = b.dataset.l; localStorage.setItem('nr_lang', lang); applyLang(); }));
@@ -608,6 +636,106 @@ const parseYmd = s => { const [y, m, d] = s.split('-').map(Number); return new D
 const addDays = (s, n) => { const d = parseYmd(s); d.setDate(d.getDate() + n); return ymd(d); };
 const daysBetween = (a, b) => Math.round((parseYmd(b) - parseYmd(a)) / 864e5);
 const isYmd = s => { if (!/^\d{4}-\d{2}-\d{2}$/.test(s || '')) return false; const d = parseYmd(s); return ymd(d) === s; };
+
+// ── Date picker (custom; replaces the native <input type=date> popup) ──
+// The trigger is a <button> whose .value is overridden, so existing code (el.value = …, readForm) keeps working.
+const DP_TXT = {
+  mn: { m: ['1-р сар','2-р сар','3-р сар','4-р сар','5-р сар','6-р сар','7-р сар','8-р сар','9-р сар','10-р сар','11-р сар','12-р сар'],
+        wd: ['Да','Мя','Лх','Пү','Ба','Бя','Ня'], wdl: ['Ням','Даваа','Мягмар','Лхагва','Пүрэв','Баасан','Бямба'],
+        today: 'Өнөөдөр', pick: 'Огноо сонгох', prev: 'Өмнөх сар', next: 'Дараах сар' },
+  en: { m: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+        wd: ['Mo','Tu','We','Th','Fr','Sa','Su'], wdl: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+        today: 'Today', pick: 'Pick a date', prev: 'Previous month', next: 'Next month' },
+};
+const DP_ICON = '<svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>';
+var dpEls = [...document.querySelectorAll('.dp')], dpPop = null, dpOwner = null, dpView = null, dpKb = null;
+function dpRender(el) {
+  const v = el.dataset.v || '', L = DP_TXT[lang];
+  if (!isYmd(v)) { el.innerHTML = `<span class="dp-v ph">${L.pick}</span>${DP_ICON}`; return; }
+  const d = parseYmd(v);
+  const main = lang === 'en' ? `${L.m[d.getMonth()].slice(0, 3)} ${d.getDate()}, ${d.getFullYear()}` : v.replace(/-/g, '.');
+  el.innerHTML = `<span class="dp-v">${main}<small>${L.wdl[d.getDay()]}</small></span>${DP_ICON}`;
+}
+function dpRefreshAll() { (dpEls || []).forEach(dpRender); if (dpPop) dpDraw(); }
+dpEls.forEach(el => {
+  Object.defineProperty(el, 'value', { get: () => el.dataset.v || '', set: v => { el.dataset.v = v || ''; dpRender(el); if (dpPop) dpDraw(); } });
+  el.setAttribute('aria-expanded', 'false');
+  dpRender(el);
+  el.addEventListener('click', () => dpOwner === el ? dpClose() : dpOpen(el));
+  el.addEventListener('keydown', e => { if (e.key === 'ArrowDown' && !dpPop) { e.preventDefault(); dpOpen(el); } });
+});
+function dpOpen(el) {
+  dpClose();
+  dpOwner = el; el.classList.add('open'); el.setAttribute('aria-expanded', 'true');
+  const min = el.dataset.min && $(el.dataset.min).value;
+  const base = isYmd(el.value) ? el.value : isYmd(min) ? min : today();
+  dpKb = base; const b = parseYmd(base); dpView = new Date(b.getFullYear(), b.getMonth(), 1);
+  dpPop = document.createElement('div'); dpPop.className = 'dp-pop'; dpPop.setAttribute('role', 'dialog');
+  document.body.appendChild(dpPop);
+  dpPop.addEventListener('mousedown', e => e.preventDefault()); // keep focus on the trigger
+  dpPop.addEventListener('click', e => {
+    const n = e.target.closest('[data-nav]'); if (n) { dpView.setMonth(dpView.getMonth() + +n.dataset.nav); dpDraw(); return; }
+    if (e.target.closest('[data-today]')) return dpPick(today());
+    const d = e.target.closest('[data-d]'); if (d && !d.disabled) dpPick(d.dataset.d);
+  });
+  dpDraw(); dpPlace();
+}
+function dpClose() {
+  if (!dpPop) return;
+  dpPop.remove(); dpPop = null;
+  dpOwner.classList.remove('open'); dpOwner.setAttribute('aria-expanded', 'false'); dpOwner = null;
+}
+function dpPick(v) {
+  const el = dpOwner, min = el.dataset.min && $(el.dataset.min).value;
+  if (isYmd(min) && v < min) return;
+  dpClose();
+  el.value = v; el.classList.remove('err'); el.focus();
+  el.dispatchEvent(new Event('change', { bubbles: true }));
+}
+function dpPlace() {
+  if (!dpPop) return;
+  const r = dpOwner.getBoundingClientRect(), h = dpPop.offsetHeight, w = dpPop.offsetWidth;
+  const top = r.bottom + 6 + h > innerHeight && r.top - 6 - h > 0 ? r.top - 6 - h : r.bottom + 6;
+  dpPop.style.top = top + 'px';
+  dpPop.style.left = Math.max(8, Math.min(r.left, innerWidth - w - 8)) + 'px';
+}
+function dpDraw() {
+  const L = DP_TXT[lang], y = dpView.getFullYear(), m = dpView.getMonth();
+  const s = $('fStart').value, e = $('fEnd').value, hasR = isYmd(s) && isYmd(e) && s <= e;
+  const min = dpOwner.dataset.min && $(dpOwner.dataset.min).value, td = today(), sel = dpOwner.value;
+  const lead = (new Date(y, m, 1).getDay() + 6) % 7; // Monday-first
+  let cells = '';
+  for (let i = 0; i < 42; i++) {
+    const v = ymd(new Date(y, m, 1 - lead + i)), c = ['dp-d'];
+    if (+v.slice(5, 7) - 1 !== m) c.push('out');
+    if (v === td) c.push('td');
+    if (hasR && v >= s && v <= e) { c.push('rng'); if (v === s) c.push('rs'); if (v === e) c.push('re'); }
+    if (v === sel) c.push('sel');
+    if (v === dpKb) c.push('kb');
+    const dis = isYmd(min) && v < min;
+    cells += `<button type="button" class="${c.join(' ')}" data-d="${v}"${dis ? ' disabled' : ''} tabindex="-1">${+v.slice(8)}</button>`;
+  }
+  dpPop.innerHTML = `<div class="dp-hd">
+      <button type="button" class="dp-nav" data-nav="-1" aria-label="${L.prev}" tabindex="-1"><svg class="i" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <b>${lang === 'en' ? L.m[m] + ' ' + y : y + ' · ' + L.m[m]}</b>
+      <button type="button" class="dp-nav" data-nav="1" aria-label="${L.next}" tabindex="-1"><svg class="i" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+    <div class="dp-grid">${L.wd.map(w => `<div class="dp-wd">${w}</div>`).join('')}${cells}</div>
+    <div class="dp-ft"><button type="button" class="btn sm ghost" data-today tabindex="-1">${L.today}</button></div>`;
+}
+document.addEventListener('mousedown', e => { if (dpPop && !dpPop.contains(e.target) && !dpOwner.contains(e.target)) dpClose(); });
+document.addEventListener('keydown', e => {
+  if (!dpPop) return;
+  const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key];
+  if (step) { e.preventDefault(); dpKb = addDays(dpKb, step); const k = parseYmd(dpKb); dpView = new Date(k.getFullYear(), k.getMonth(), 1); dpDraw(); }
+  else if (e.key === 'PageUp' || e.key === 'PageDown') { e.preventDefault(); dpView.setMonth(dpView.getMonth() + (e.key === 'PageUp' ? -1 : 1)); dpDraw(); }
+  else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); dpPick(dpKb); }
+  else if (e.key === 'Escape') { e.preventDefault(); const o = dpOwner; dpClose(); o.focus(); }
+  else if (e.key === 'Tab') dpClose();
+}, true);
+addEventListener('resize', dpPlace);
+addEventListener('scroll', e => { if (dpPop && !dpPop.contains(e.target)) dpClose(); }, true);
+
 function licStatus(start, end) {
   const td = today();
   if (end < td) return { k: 'expired', cls: 'bad', txt: t('sExpired') };
