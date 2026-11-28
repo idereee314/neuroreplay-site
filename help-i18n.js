@@ -4,6 +4,10 @@
    Changing English copy in help.html changes its key: update the key here too.
    Loaded after i18n.js (see the language registry there). */
 NRI18n.addTranslations({
+  "Competition guide": {
+    ru: "Руководство для соревнований",
+    uz: "Musobaqa qo‘llanmasi"
+  },
   // ── Page metadata (<title>, meta description)
   "NeuroReplay — User guide": {
     ru: "NeuroReplay — Руководство пользователя",
@@ -155,10 +159,6 @@ NRI18n.addTranslations({
     ru: "Пока камеры работают или идёт запись, layout менять нельзя — сначала нажмите <b>STOP</b>.",
     uz: "Kameralar ishlayotganda yoki yozuv ketayotganda layout’ni o‘zgartirib bo‘lmaydi — avval <b>STOP</b> ni bosing."
   },
-  "4-camera layout: camera and resolution selectors per slot, with the START / REPLAY / REC / TAG bar below.": {
-    ru: "Layout на 4 камеры: селекторы камеры и разрешения в каждом слоте, ниже панель START / REPLAY / REC / TAG.",
-    uz: "4 kamerali layout: har bir slotda kamera va ruxsat tanlagichlari, pastda START / REPLAY / REC / TAG paneli."
-  },
   "For RTSP cameras, enter the IP address, stream URL and credentials correctly. Never put credentials in public screenshots, logs or websites.": {
     ru: "Для RTSP-камер корректно введите IP-адрес, URL потока и учётные данные. Никогда не публикуйте учётные данные на скриншотах, в логах и на сайтах.",
     uz: "RTSP kameralar uchun IP manzil, oqim URL’i va kirish ma’lumotlarini to‘g‘ri kiriting. Kirish ma’lumotlarini ommaviy skrinshotlar, loglar yoki veb-saytlarga hech qachon qo‘ymang."
@@ -166,10 +166,6 @@ NRI18n.addTranslations({
   "While a camera is running its slot shows the live picture, with a LIVE badge and fps readout.": {
     ru: "Пока камера работает, в её слоте отображается живое изображение, значок <b>LIVE</b> и значение fps.",
     uz: "Kamera ishlayotganida uning slotida jonli tasvir, <b>LIVE</b> belgisi va fps ko‘rsatkichi ko‘rinadi."
-  },
-  "CAM 1 running: START becomes STOP and the slot shows LIVE.": {
-    ru: "CAM 1 работает: START меняется на STOP, а в слоте отображается LIVE.",
-    uz: "CAM 1 ishlamoqda: START tugmasi STOP ga aylanadi va slotda LIVE ko‘rinadi."
   },
   "One camera: press that slot's Rec button to start, press again to stop. All cameras: press REC or R to start or stop every running camera together.": {
     ru: "<li><b>Одна камера:</b> нажмите кнопку <b>Rec</b> этого слота, чтобы начать запись, и нажмите ещё раз, чтобы остановить.</li><li><b>Все камеры:</b> нажмите <b>REC</b> или <kbd>R</kbd>, чтобы запустить или остановить запись на всех работающих камерах одновременно.</li>",
@@ -187,14 +183,6 @@ NRI18n.addTranslations({
     ru: "Во время записи нажмите <kbd>Space</kbd> (или кнопку <b>TAG</b>), чтобы открыть окно тега.",
     uz: "Yozish vaqtida teg oynasini ochish uchun <kbd>Space</kbd> (yoki <b>TAG</b> tugmasi) ni bosing."
   },
-  "The tag popup while recording (red frame): type, label, OK / Skip.": {
-    ru: "Окно тега во время записи (красная рамка): тип, подпись, <b>OK</b> / <b>Skip</b>.",
-    uz: "Yozish vaqtidagi teg oynasi (qizil ramka): turi, izoh, <b>OK</b> / <b>Skip</b>."
-  },
-  "Pick a type: Takedown, Guard pass, Submission, Sweep, Custom. Add a label if you like. Press OK to save. Skip, or leaving it for 3 seconds, saves a Custom tag with no label. Recording and the R / T shortcuts keep working while the popup is open. Tags let you jump straight to a moment in the Library and Replay, and drive highlight selection.": {
-    ru: "<li>Выберите тип: <b>Takedown, Guard pass, Submission, Sweep, Custom</b>. При желании добавьте подпись.</li><li>Нажмите <b>OK</b>, чтобы сохранить. <b>Skip</b> или бездействие в течение 3 секунд сохраняет тег <code>Custom</code> без подписи.</li><li>Запись и сочетания <kbd>R</kbd> / <kbd>T</kbd> продолжают работать, пока окно открыто.</li><li>Теги позволяют сразу перейти к нужному моменту в Library и Replay и используются при выборе highlights.</li>",
-    uz: "<li>Turini tanlang: <b>Takedown, Guard pass, Submission, Sweep, Custom</b>. Xohlasangiz, izoh qo‘shing.</li><li>Saqlash uchun <b>OK</b> ni bosing. <b>Skip</b> yoki 3 soniya hech narsa qilmaslik izohsiz <code>Custom</code> tegini saqlaydi.</li><li>Oyna ochiq turganda yozuv va <kbd>R</kbd> / <kbd>T</kbd> tugmalari ishlashda davom etadi.</li><li>Teglar Library va Replay’da kerakli lahzaga darrov o‘tish imkonini beradi hamda highlight tanlashda ishlatiladi.</li>"
-  },
   "Instant Replay and review": {
     ru: "Instant Replay и разбор",
     uz: "Instant Replay va tahlil"
@@ -202,10 +190,6 @@ NRI18n.addTranslations({
   "While recording, press REPLAY or T to open the most recent moment. Press T or the Replay button again to close it.": {
     ru: "Во время записи нажмите <b>REPLAY</b> или <kbd>T</kbd>, чтобы открыть последний момент. Нажмите <kbd>T</kbd> или кнопку <b>Replay</b> ещё раз, чтобы закрыть.",
     uz: "Yozish vaqtida eng so‘nggi lahzani ochish uchun <b>REPLAY</b> yoki <kbd>T</kbd> ni bosing. Yopish uchun <kbd>T</kbd> yoki <b>Replay</b> tugmasini yana bosing."
-  },
-  "Replay player: frame ruler, « ‹ ▶ › », ±3s / ±10s jumps, 0.25×–2× speed.": {
-    ru: "Replay-плеер: шкала кадров, <code>« ‹ ▶ › »</code>, прыжки ±3 с / ±10 с, скорость 0.25×–2×.",
-    uz: "Replay pleyeri: kadrlar shkalasi, <code>« ‹ ▶ › »</code>, ±3 s / ±10 s sakrash, 0.25×–2× tezlik."
   },
   "Timeline: drag to jump anywhere. Speed: use the buttons, or 1–5 (0.25× / 0.5× / 1× / 1.5× / 2×), or ↑ / ↓ to step. Frame step: ← / → (or , / .) for 1 frame, add Shift for 5. Zoom: + / − or the mouse wheel. Drag the zoomed picture to pan. I / O — mark the clip's in and out points. Space (or K) — play/pause all cameras together. Use the telestration tools in the replay/player to draw on the picture. Drawings stay locked to the image as you zoom and pan.": {
     ru: "<li><b>Timeline:</b> перетащите, чтобы перейти в любое место.</li><li><b>Скорость:</b> кнопками, либо <kbd>1</kbd>–<kbd>5</kbd> (0.25× / 0.5× / 1× / 1.5× / 2×), либо <kbd>↑</kbd> / <kbd>↓</kbd> для пошагового изменения.</li><li><b>Покадровый шаг:</b> <kbd>←</kbd> / <kbd>→</kbd> (или <kbd>,</kbd> / <kbd>.</kbd>) — 1 кадр, с <kbd>Shift</kbd> — 5 кадров.</li><li><b>Zoom:</b> <kbd>+</kbd> / <kbd>−</kbd> или колесо мыши. Перетаскивайте увеличенное изображение для панорамирования.</li><li><kbd>I</kbd> / <kbd>O</kbd> — отметить начало и конец клипа.</li><li><kbd>Space</kbd> (или <kbd>K</kbd>) — воспроизведение/пауза на всех камерах одновременно.</li><li>Используйте инструменты телестрации в replay/плеере, чтобы рисовать на изображении. Рисунки остаются привязанными к картинке при zoom и панорамировании.</li>",
@@ -226,10 +210,6 @@ NRI18n.addTranslations({
   "Open the Library from the recordings icon at the top or with Ctrl+L. It has three tabs: Recordings, Tags and Settings. Press Esc to close.": {
     ru: "Откройте Library значком записей вверху или сочетанием <kbd>Ctrl</kbd>+<kbd>L</kbd>. В ней три вкладки: <b>Recordings</b>, <b>Tags</b> и <b>Settings</b>. Нажмите <kbd>Esc</kbd>, чтобы закрыть.",
     uz: "Library’ni yuqoridagi yozuvlar belgisidan yoki <kbd>Ctrl</kbd>+<kbd>L</kbd> bilan oching. Unda uchta yorliq bor: <b>Recordings</b>, <b>Tags</b> va <b>Settings</b>. Yopish uchun <kbd>Esc</kbd> ni bosing."
-  },
-  "Library: search, Open (show folder), and each recording's camera, date and size.": {
-    ru: "Library: поиск, <b>Open</b> (показать папку), а также камера, дата и размер каждой записи.",
-    uz: "Library: qidiruv, <b>Open</b> (papkani ko‘rsatish), hamda har bir yozuvning kamerasi, sanasi va hajmi."
   },
   "Double-click a recording to open it in the player. Rename to change the name; Preview for a quick look. Lock / Unlock protects a recording from accidental deletion. Tick checkboxes to delete several at once. Check lock state and your selection before deleting.": {
     ru: "<li>Дважды щёлкните запись, чтобы открыть её в плеере.</li><li><b>Rename</b> — изменить имя; <b>Preview</b> — быстрый просмотр.</li><li><b>Lock / Unlock</b> защищает запись от случайного удаления.</li><li>Отметьте флажки, чтобы удалить сразу несколько записей. Перед удалением проверьте состояние Lock и свой выбор.</li>",
@@ -386,5 +366,115 @@ NRI18n.addTranslations({
   "For licenses, orders and technical help, contact the NeuroReplay sales and support team.": {
     ru: "По вопросам лицензий, заказов и технической помощи обращайтесь в отдел продаж и поддержки NeuroReplay.",
     uz: "Litsenziyalar, buyurtmalar va texnik yordam bo‘yicha NeuroReplay sotuv va qo‘llab-quvvatlash jamoasiga murojaat qiling."
+  },
+
+  // ── 2026-11: Analyze, iPad, tag window, per-language screenshots
+  "Two-camera layout: a camera selector in each slot, the camera count in the top bar, and the START / REC / REPLAY / TAG bar below.": {
+    ru: "Раскладка на две камеры: выбор камеры в каждом слоте, число камер в верхней панели и панель СТАРТ / ЗАПИСЬ / ПОВТОР / МЕТКА внизу.",
+    uz: "Ikki kamerali joylashuv: har bir slotda kamera tanlash, yuqori panelda kameralar soni va pastda START / REC / REPLAY / TAG paneli."
+  },
+  "The tag window while recording (red frame): the moment is already captured — now pick a category.": {
+    ru: "Окно метки во время записи (красная рамка): момент уже сохранён — осталось выбрать категорию.",
+    uz: "Yozib olish paytidagi teg oynasi (qizil ramka): lahza allaqachon saqlangan — endi toifani tanlang."
+  },
+  "The moment is captured the instant you press Space or TAG — you can pick the category a few seconds later. Click a category or press 1–5. Edit the categories in Settings → TAG. If you pick nothing for 4 seconds the tag is saved without a category. Skip (Esc) discards it. Recording and the R / T shortcuts keep working while the window is open. Tags let you jump straight to a moment in the Library, in Analyze and on the iPad.": {
+    ru: "<li>Момент сохраняется сразу при нажатии <kbd>Space</kbd> или <b>МЕТКА</b> — категорию можно выбрать через несколько секунд.</li><li>Нажмите на категорию или клавишу <kbd>1</kbd>–<kbd>5</kbd>. Категории меняются в <b>Настройки → Метки</b>.</li><li>Если за 4 секунды ничего не выбрать, метка сохраняется без категории. <b>Пропустить</b> (<kbd>Esc</kbd>) отменяет её.</li><li>Пока окно открыто, запись и клавиши <kbd>R</kbd> / <kbd>T</kbd> продолжают работать.</li><li>Метки позволяют сразу перейти к нужному моменту в Library, в Analyze и на iPad.</li>",
+    uz: "<li><kbd>Space</kbd> yoki <b>TAG</b> bosilgan lahza darhol saqlanadi — toifani bir necha soniyadan keyin tanlash mumkin.</li><li>Toifani bosing yoki <kbd>1</kbd>–<kbd>5</kbd> tugmasini bosing. Toifalar <b>Sozlamalar → Teglar</b> bo‘limida o‘zgartiriladi.</li><li>4 soniya ichida hech narsa tanlanmasa, teg toifasiz saqlanadi. <b>Oʻtkazib yuborish</b> (<kbd>Esc</kbd>) uni bekor qiladi.</li><li>Oyna ochiq turganda yozuv va <kbd>R</kbd> / <kbd>T</kbd> tugmalari ishlashda davom etadi.</li><li>Teglar Library, Analyze va iPad’da kerakli lahzaga darhol o‘tish imkonini beradi.</li>"
+  },
+  "Instant Replay: every camera together, the frame ruler, « ‹ ◀ ❚❚ › », AUTO slow motion, 0.25×–1× speed and Back to live.": {
+    ru: "Instant Replay: все камеры вместе, линейка кадров, <code>« ‹ ◀ ❚❚ › »</code>, AUTO-замедление, скорость 0.25×–1× и <b>Вернуться в эфир</b>.",
+    uz: "Instant Replay: barcha kameralar birga, kadrlar chizg‘ichi, <code>« ‹ ◀ ❚❚ › »</code>, AUTO sekinlashtirish, 0.25×–1× tezlik va <b>Jonli efirga qaytish</b>."
+  },
+  "Library: search, Open (show folder), and each recording’s camera, date and size. Recordings with tags show a tag icon.": {
+    ru: "Library: поиск, <b>Открыть</b> (папку), камера, дата и размер каждой записи. У записей с метками есть значок метки.",
+    uz: "Library: qidiruv, <b>Ochish</b> (papkani), har bir yozuvning kamerasi, sanasi va hajmi. Tegli yozuvlarda teg belgisi bor."
+  },
+  "While the delay is on, the iPad shows the same delayed picture.": {
+    ru: "Пока задержка включена, iPad показывает такую же задержанную картинку.",
+    uz: "Kechikish yoqilgan paytda iPad ham xuddi shunday kechikkan tasvirni ko‘rsatadi."
+  },
+  "Analyze: techniques, score and AI": {
+    ru: "Analyze: техники, счёт и AI",
+    uz: "Analyze: texnikalar, hisob va AI"
+  },
+  "Open a recording from the Library and press ANALYZE in the top bar to open the analysis panel (requires an Analyze license).": {
+    ru: "Откройте запись из Library и нажмите <b>ANALYZE</b> в верхней панели — откроется панель анализа (нужна лицензия Analyze).",
+    uz: "Library’dan yozuvni oching va yuqori paneldagi <b>ANALYZE</b> tugmasini bosing — tahlil paneli ochiladi (Analyze litsenziyasi kerak)."
+  },
+  "Analyze: technique buttons, score and counts, momentum graph, position time and the AI section; tags appear on the timeline below.": {
+    ru: "Analyze: кнопки техник, счёт и количество, график momentum, время позиций и раздел AI; метки видны на таймлайне внизу.",
+    uz: "Analyze: texnika tugmalari, hisob va sonlar, momentum grafigi, pozitsiya vaqti va AI bo‘limi; teglar pastdagi taymlaynda ko‘rinadi."
+  },
+  "Techniques: choose the side (Mine / Opponent), then press a technique button (or 1–9, 0, -, =). A tag is added at that moment and the score is counted for you. List: switch each tag between Landed / Failed, change its side, save a clip or delete it. Click a row to jump to that moment. Position time: press a position button to start its timer and press it again to stop — it adds up how long each side held it. Loop: press L to replay the nearest tag (or ±3 seconds) over and over. [ / ] set the loop start / end. The yellow chip in the top bar clears it. Compare: press COMPARE to open a second pane and watch another moment, or another camera’s recording, side by side. Export: CSV saves every tag and position; Highlight joins every tagged moment into one MP4.": {
+    ru: "<li><b>Техники:</b> выберите сторону (<b>Мой / Соперник</b>) и нажмите кнопку техники (или <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd>, <kbd>-</kbd>, <kbd>=</kbd>). В этот момент добавляется метка, счёт считается автоматически.</li><li><b>Список:</b> переключайте у каждой метки <b>Успех / Неудача</b>, меняйте сторону, сохраняйте клип или удаляйте. Нажмите на строку, чтобы перейти к моменту.</li><li><b>Время позиций:</b> кнопка позиции запускает таймер, повторное нажатие останавливает — так считается, сколько каждая сторона удерживала позицию.</li><li><b>Повтор:</b> <kbd>L</kbd> зацикливает ближайшую метку (или ±3 секунды). <kbd>[</kbd> / <kbd>]</kbd> задают начало / конец. Жёлтая кнопка вверху снимает повтор.</li><li><b>Сравнение:</b> <b>СРАВНИТЬ</b> открывает второе окно — другой момент или запись другой камеры рядом.</li><li><b>Экспорт:</b> <b>CSV</b> — все метки и позиции; <b>Highlight</b> — все отмеченные моменты в одном MP4.</li>",
+    uz: "<li><b>Texnikalar:</b> tomonni tanlang (<b>Meniki / Raqib</b>), so‘ng texnika tugmasini bosing (yoki <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd>, <kbd>-</kbd>, <kbd>=</kbd>). Shu lahzada teg qo‘shiladi, hisob avtomatik yuritiladi.</li><li><b>Ro‘yxat:</b> har bir tegni <b>Muvaffaqiyatli / Muvaffaqiyatsiz</b> holatiga o‘tkazing, tomonini o‘zgartiring, klip saqlang yoki o‘chiring. Qatorni bossangiz, o‘sha lahzaga o‘tadi.</li><li><b>Pozitsiya vaqti:</b> pozitsiya tugmasi taymerni ishga tushiradi, qayta bosish to‘xtatadi — har bir tomon qancha ushlab turgani hisoblanadi.</li><li><b>Takror:</b> <kbd>L</kbd> eng yaqin tegni (yoki ±3 soniyani) qayta-qayta o‘ynatadi. <kbd>[</kbd> / <kbd>]</kbd> boshi / oxirini belgilaydi. Yuqoridagi sariq tugma takrorni o‘chiradi.</li><li><b>Taqqoslash:</b> <b>COMPARE</b> ikkinchi oynani ochadi — boshqa lahza yoki boshqa kamera yozuvini yonma-yon ko‘rasiz.</li><li><b>Eksport:</b> <b>CSV</b> — barcha teglar va pozitsiyalar; <b>Highlight</b> — barcha belgilangan lahzalarni bitta MP4 ga birlashtiradi.</li>"
+  },
+  "Referee signals (AI)": {
+    ru: "Сигналы судьи (AI)",
+    uz: "Hakam ishoralari (AI)"
+  },
+  "Choose the sport and press Scan recording: the AI looks for the referee’s scoring signals and lists suggested tags. Confirm each with ✓ or drop it with ✕ — nothing becomes a tag until you confirm it.": {
+    ru: "Выберите вид спорта и нажмите <b>Проверить запись</b>: AI ищет сигналы судьи об очках и показывает предложенные метки. Подтвердите каждую ✓ или отклоните ✕ — без подтверждения метка не создаётся.",
+    uz: "Sport turini tanlang va <b>Yozuvni tekshirish</b> ni bosing: AI hakamning ochko ishoralarini qidiradi va taklif qilingan teglarni ko‘rsatadi. Har birini ✓ bilan tasdiqlang yoki ✕ bilan rad eting — tasdiqlanmagan narsa tegga aylanmaydi."
+  },
+  "Turn on Pose to draw the athletes’ body positions on the picture. The AI runs entirely on the computer — no video is sent anywhere.": {
+    ru: "Включите <b>Pose</b>, чтобы рисовать положение тел спортсменов на картинке. AI работает полностью на компьютере — видео никуда не отправляется.",
+    uz: "<b>Pose</b> yoqilsa, sportchilarning tana holati tasvirga chiziladi. AI butunlay kompyuterda ishlaydi — video hech qayerga yuborilmaydi."
+  },
+  "iPad — the head referee’s screen": {
+    ru: "iPad — экран главного судьи",
+    uz: "iPad — bosh hakam ekrani"
+  },
+  "The head referee watches live and replay on an iPad or phone. Replays there never affect the operators’ screen on the computer.": {
+    ru: "Главный судья смотрит эфир и повторы на iPad или телефоне. Повторы там никак не влияют на экран операторов на компьютере.",
+    uz: "Bosh hakam jonli efir va takrorlarni iPad yoki telefonda ko‘radi. U yerdagi takrorlar kompyuterdagi operatorlar ekraniga ta’sir qilmaydi."
+  },
+  "Turn on Control from iPad / phone in Settings → Alerts & control. The iPad and the computer must be on the same Wi-Fi. In Windows, set that network to Private. Open the address shown in Settings in Safari on the iPad and enter the PIN.": {
+    ru: "<li>Включите <b>Управление с iPad / телефона</b> в <b>Настройки → Оповещения и управление</b>.</li><li>iPad и компьютер должны быть в <b>одной сети Wi-Fi</b>. В Windows сделайте эту сеть <b>частной (Private)</b>.</li><li>Откройте адрес из настроек в Safari на iPad и введите PIN.</li>",
+    uz: "<li><b>Sozlamalar → Ogohlantirish va boshqaruv</b> bo‘limida <b>iPad / telefondan boshqarish</b> ni yoqing.</li><li>iPad va kompyuter <b>bitta Wi-Fi</b> tarmog‘ida bo‘lishi kerak. Windows’da bu tarmoqni <b>Private</b> qiling.</li><li>Sozlamalarda ko‘rsatilgan manzilni iPad’dagi Safari’da oching va PIN kiriting.</li>"
+  },
+  "Settings: the iPad address and PIN (example values shown) and the display delay.": {
+    ru: "Настройки: адрес и PIN для iPad (показаны примерные значения) и задержка экрана.",
+    uz: "Sozlamalar: iPad manzili va PIN (namunaviy qiymatlar) hamda ekran kechikishi."
+  },
+  "iPad, live: the same delay as the computer (for example 5 seconds while recording).": {
+    ru: "iPad, эфир: та же задержка, что и на компьютере (например, 5 секунд во время записи).",
+    uz: "iPad, jonli efir: kompyuterdagi kabi kechikish (masalan, yozib olish paytida 5 soniya)."
+  },
+  "iPad, replay: dragged about 10 seconds back on the timeline. The green button returns to live.": {
+    ru: "iPad, повтор: таймлайн отведён примерно на 10 секунд назад. Зелёная кнопка возвращает в эфир.",
+    uz: "iPad, takror: taymlayn taxminan 10 soniya orqaga surilgan. Yashil tugma jonli efirga qaytaradi."
+  },
+  "Going back: drag the timeline under the video, or use −5s / +5s, frame steps and ⏸. Slow motion: 0.25× / 0.5× / 1×. ◀ plays backwards. Zoom: pinch with two fingers or double-tap. The ✕ in the top-right corner resets it. Camera: switch cameras with the buttons below. AUTO is the first running camera. Tags: tap a tag in the list on the right to jump to that moment. Press LIVE, or play until you catch up, to return to live.": {
+    ru: "<li><b>Назад:</b> тяните таймлайн под видео или используйте <b>−5s</b> / <b>+5s</b>, шаг по кадрам и ⏸.</li><li><b>Замедление:</b> 0.25× / 0.5× / 1×. ◀ — воспроизведение назад.</li><li><b>Увеличение:</b> щипок двумя пальцами или двойное касание. ✕ в правом верхнем углу сбрасывает.</li><li><b>Камера:</b> переключайте камеры кнопками ниже. <b>АВТО</b> — первая включённая камера.</li><li><b>Метки:</b> нажмите метку в списке справа, чтобы перейти к моменту.</li><li>Нажмите <b>LIVE</b> или досмотрите до текущего момента, чтобы вернуться в эфир.</li>",
+    uz: "<li><b>Orqaga:</b> video ostidagi taymlaynni suring yoki <b>−5s</b> / <b>+5s</b>, kadrma-kadr va ⏸ tugmalaridan foydalaning.</li><li><b>Sekinlashtirish:</b> 0.25× / 0.5× / 1×. ◀ — teskari o‘ynatish.</li><li><b>Kattalashtirish:</b> ikki barmoq bilan chimchilang yoki ikki marta bosing. Yuqori o‘ng burchakdagi ✕ qaytaradi.</li><li><b>Kamera:</b> pastdagi tugmalar bilan kamerani almashtiring. <b>AVTO</b> — birinchi yoqilgan kamera.</li><li><b>Teglar:</b> o‘ngdagi ro‘yxatdan tegni bossangiz, o‘sha lahzaga o‘tadi.</li><li>Jonli efirga qaytish uchun <b>LIVE</b> ni bosing yoki hozirgi lahzagacha o‘ynating.</li>"
+  },
+  "Analyze": {
+    ru: "Analyze",
+    uz: "Analyze"
+  },
+  "iPad": {
+    ru: "iPad",
+    uz: "iPad"
+  },
+  "Analyze: loop on / off": {
+    ru: "Analyze: повтор вкл. / выкл.",
+    uz: "Analyze: takrorni yoqish / o‘chirish"
+  },
+  "Analyze: loop start / end": {
+    ru: "Analyze: начало / конец повтора",
+    uz: "Analyze: takror boshi / oxiri"
+  },
+  "Analyze: next / previous tag": {
+    ru: "Analyze: следующая / предыдущая метка",
+    uz: "Analyze: keyingi / oldingi teg"
+  },
+  "No picture on the iPad": {
+    ru: "Нет картинки на iPad",
+    uz: "iPad’da tasvir yo‘q"
+  },
+  "Same Wi-Fi, Windows network set to Private. Fully restart NeuroReplay on the computer, then refresh the iPad.": {
+    ru: "Одна сеть Wi-Fi, сеть Windows — <b>частная (Private)</b>. Полностью перезапустите NeuroReplay на компьютере и обновите страницу на iPad.",
+    uz: "Bitta Wi-Fi, Windows tarmog‘i <b>Private</b>. Kompyuterda NeuroReplay’ni to‘liq qayta ishga tushiring va iPad sahifasini yangilang."
   }
 });

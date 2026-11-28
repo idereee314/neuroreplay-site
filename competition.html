@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="mn" data-copy="mn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title data-i18n-en="NeuroReplay — Competition quick guide">NeuroReplay — Тэмцээний үеийн товч заавар</title>
+<meta name="description" data-i18n-en="NeuroReplay competition-day guide for operators and the head referee: setup checklist, recording, replay, tags, iPad and troubleshooting." content="NeuroReplay тэмцээний өдрийн заавар — оператор ба ерөнхий шүүгчид: бэлтгэл, бичлэг, replay, tag, iPad, асуудал шийдвэрлэх." />
+<meta name="theme-color" content="#060912" />
+<link rel="icon" href="assets/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" href="assets/neuroreplay-mark.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .help { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 56px; padding: 56px 0 96px; align-items: start; }
+  .toc { position: sticky; top: 92px; display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+  .toc h4 { font: 500 12px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--brand-ink); margin-bottom: 10px; }
+  .toc a { padding: 7px 12px; border-left: 2px solid var(--line); color: var(--muted); transition: color .15s, border-color .15s; }
+  .toc a:hover, .toc a.on { color: #fff; border-left-color: var(--brand-b); }
+  .doc > header { margin-bottom: 40px; }
+  .doc > header h1 { font-size: clamp(32px, 4.6vw, 52px); line-height: 1.05; margin: 16px 0 14px; }
+  .doc > header p { color: var(--muted); font-size: 17px; max-width: 46em; margin: 0 0 20px; }
+  .doc-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .doc section { padding: 0; margin-top: 56px; scroll-margin-top: 92px; }
+  .doc h2 { font-size: 28px; margin-bottom: 14px; padding-top: 8px; }
+  .doc h2 .n { font: 500 13px var(--mono); color: var(--brand-ink); letter-spacing: .1em; margin-right: 10px; vertical-align: middle; }
+  .doc h3 { font-size: 18px; margin: 26px 0 8px; }
+  .doc p, .doc li { color: var(--muted); }
+  .doc ul, .doc ol { padding-left: 22px; margin: 10px 0 14px; }
+  .doc li { margin: 6px 0; }
+  .doc li b, .doc p b { color: var(--ink); font-weight: 600; }
+  .doc p a { color: var(--brand-ink); text-decoration: underline; text-underline-offset: 3px; }
+  code, kbd { font-family: var(--mono); font-size: .88em; }
+  code { background: rgba(255,255,255,.07); padding: 2px 7px; border-radius: 6px; color: var(--ink); }
+  kbd { background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.05)); border: 1px solid var(--line-2, rgba(255,255,255,.14)); border-bottom-width: 2px; padding: 1px 7px; border-radius: 6px; color: var(--ink); white-space: nowrap; }
+  figure { margin: 22px 0 8px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #000; }
+  figure img { display: block; width: 100%; height: auto; }
+  figcaption { padding: 11px 16px; font-size: 13.5px; color: var(--muted); background: var(--card); border-top: 1px solid var(--line); }
+  .note { border-left: 3px solid var(--amber); background: rgba(255,176,46,.08); padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 16px 0; }
+  .note p { margin: 0; color: var(--ink); }
+  .tbl { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+  .tbl th, .tbl td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .tbl th { font: 500 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--brand-ink); }
+  .tbl td:first-child { white-space: nowrap; }
+  .tbl td { color: var(--muted); }
+  pre { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; overflow-x: auto; color: var(--ink); font: 400 14px var(--mono); }
+  @media (max-width: 900px) {
+    .help { grid-template-columns: 1fr; gap: 24px; padding-top: 32px; }
+    .toc { position: static; flex-direction: row; flex-wrap: wrap; gap: 6px; }
+    .toc h4 { width: 100%; }
+    .toc a { border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
+    .tbl td:first-child { white-space: normal; }
+  }
+
+  /* ── Print / PDF: light, A4, no site chrome ── */
+  @media print {
+    @page { size: A4; }
+    :root { color-scheme: light; --bg: #fff; --ink: #14171f; --muted: #3a4152; --card: #f3f4f8; --line: #d9dce6; --brand-ink: #5b3fd6; }
+    html, body { background: #fff !important; color: #14171f; font-size: 11pt; }
+    .nav, .toc, .doc-actions, footer, .skip, .noprint { display: none !important; }
+    .help { display: block; padding: 0; }
+    .doc section { margin-top: 22pt; break-inside: auto; }
+    .doc h2 { break-after: avoid; font-size: 17pt; }
+    figure, .tbl tr, .note { break-inside: avoid; }
+    figure { border-color: #c9ccd8; }
+    figcaption { background: #f3f4f8; color: #3a4152; }
+    code, kbd { background: #eceef5; border-color: #c9ccd8; color: #14171f; }
+    .grad { -webkit-text-fill-color: #5b3fd6; color: #5b3fd6; background: none; }
+    a { color: #14171f; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav scrolled" id="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="index.html" aria-label="NeuroReplay — home"><img class="brand__mark" src="assets/neuroreplay-mark.png" alt="" width="55" height="30" /><span>Neuro<em>Replay</em></span></a>
+    <div class="nav__spacer"></div>
+    <div class="nav__links">
+      <a href="index.html#features"><span data-mn>Боломжууд</span><span data-en>Features</span></a>
+      <a href="index.html#download"><span data-mn>Татах</span><span data-en>Download</span></a>
+      <a href="index.html#faq">FAQ</a>
+    </div>
+    <div class="nav__tools">
+      <div data-lang-switch></div>
+      <a class="btn btn--primary" href="index.html#order"><span data-mn>Demo захиалах</span><span data-en>Request a demo</span></a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap help">
+  <aside class="toc" aria-label="Contents">
+    <h4><span data-mn>Агуулга</span><span data-en>Contents</span></h4>
+    <a href="#before"><span data-mn>Өмнөх өдөр</span><span data-en>The day before</span></a>
+    <a href="#roles"><span data-mn>Хэн юу хийх</span><span data-en>Who does what</span></a>
+    <a href="#bout"><span data-mn>Оператор</span><span data-en>Operator</span></a>
+    <a href="#referee"><span data-mn>Ерөнхий шүүгч</span><span data-en>Head referee</span></a>
+    <a href="#problems"><span data-mn>Асуудал гарвал</span><span data-en>Problems</span></a>
+    <a href="#keys"><span data-mn>Товчлуур</span><span data-en>Keys</span></a>
+  </aside>
+
+  <article class="doc">
+    <header>
+      <span class="kicker"><span data-mn>Тэмцээний өдөр</span><span data-en>Competition day</span></span>
+      <h1><span data-mn>Тэмцээний үеийн <span class="grad">товч заавар</span></span><span data-en>Competition <span class="grad">quick guide</span></span></h1>
+      <p data-mn>Оператор болон ерөнхий шүүгчид зориулсан: бичлэг, replay, TAG ба iPad. Analyze-ийн хэрэгсэл тэмцээний үед хэрэггүй тул энд ороогүй — бүрэн гарын авлагыг <a href="help.html">эндээс</a> үзнэ.</p>
+      <p data-en>For the operators and the head referee: recording, replay, TAG and the iPad. The Analyze tools are not needed during a competition and are left out — see the <a href="help.html">full guide</a> for them.</p>
+      <div class="doc-actions noprint">
+        <a class="btn btn--primary" href="assets/NeuroReplay-Competition-Guide-mn.pdf" data-i18n-href="assets/NeuroReplay-Competition-Guide-{lang}.pdf" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+          <span data-mn>PDF татах (хэвлэх)</span><span data-en>Download PDF (to print)</span>
+        </a>
+        <a class="btn btn--ghost" href="help.html"><span data-mn>Бүрэн гарын авлага</span><span data-en>Full user guide</span></a>
+      </div>
+    </header>
+
+    <section id="before">
+      <h2><span class="n">01</span><span data-mn>Тэмцээний өмнөх өдөр</span><span data-en>The day before</span></h2>
+      <p data-mn>Бүх зүйлийг тэмцээний өмнө нэг удаа бүрэн туршина. Тэмцээний үед тохиргоо өөрчлөхгүй байх нь хамгийн найдвартай.</p>
+      <p data-en>Run everything once, end to end, before the event. The safest competition is one where no setting changes on the day.</p>
+      <ol data-mn>
+        <li>Camera-нуудаа дэвжээ тус бүрийн байрлалд суулгаж, USB/сүлжээний кабелийг бэхэлнэ.</li>
+        <li>NeuroReplay-г нээж, camera бүр <b>LIVE</b> болон зөв fps (25–30) харуулж байгааг шалгана.</li>
+        <li><b>Тохиргоо</b>: <b>Дэлгэц хоцролт</b>-ыг (жишээ нь 5 сек), <b>Replay буцах (сек)</b>, TAG ангиллуудаа тохируулна.</li>
+        <li>Бичлэгийн хавтсанд хангалттай зай байгааг шалгана (нэг camera-д цагт ойролцоогоор 2–4 GB).</li>
+        <li>Ерөнхий шүүгчийн iPad-ыг холбож, live ба replay ажиллаж байгааг туршина (04-р хэсгийг үз).</li>
+        <li>Нэг богино туршилтын бичлэг хийж, <b>REPLAY</b> ба <b>TAG</b>-ыг шалгана.</li>
+      </ol>
+      <ol data-en>
+        <li>Mount the cameras at each mat and secure the USB / network cables.</li>
+        <li>Open NeuroReplay and check that every camera shows <b>LIVE</b> and a steady fps (25–30).</li>
+        <li>In <b>Settings</b>, set the <b>Display delay</b> (for example 5 s), how many seconds <b>Replay</b> goes back, and your TAG categories.</li>
+        <li>Make sure the recordings folder has room (roughly 2–4 GB per camera per hour).</li>
+        <li>Connect the head referee’s iPad and test live and replay on it (see section 04).</li>
+        <li>Make one short test recording and try <b>REPLAY</b> and <b>TAG</b>.</li>
+      </ol>
+      <figure>
+        <img src="assets/help/mn/06-settings.png" data-i18n-src="assets/help/{lang}/06-settings.png" alt="Settings" loading="lazy" />
+        <figcaption><span data-mn>Тохиргоо: iPad-ын хаяг ба PIN (зураг дээрх нь жишээ), дэлгэцийн хоцролт.</span><span data-en>Settings: the iPad address and PIN (example values shown) and the display delay.</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="roles">
+      <h2><span class="n">02</span><span data-mn>Хэн юу хийх вэ</span><span data-en>Who does what</span></h2>
+      <table class="tbl">
+        <thead><tr><th><span data-mn>Хүн</span><span data-en>Person</span></th><th><span data-mn>Үүрэг</span><span data-en>Job</span></th></tr></thead>
+        <tbody>
+          <tr><td><span data-mn>Оператор (дэвжээний дэргэд)</span><span data-en>Operator (at the mat)</span></td><td><span data-mn>Бичлэг эхлүүлж зогсооно, онцлох агшинд TAG дарна, шүүгч хүсэхэд компьютер дээр REPLAY харуулна.</span><span data-en>Starts and stops recording, presses TAG at key moments, shows REPLAY on the computer when the referees ask.</span></td></tr>
+          <tr><td><span data-mn>Ерөнхий шүүгч (iPad)</span><span data-en>Head referee (iPad)</span></td><td><span data-mn>iPad дээрээ live-г хоцролттойгоор үзэж, хүссэн агшин руугаа өөрөө ухарч, удаашруулж, томруулж үзнэ. Операторын дэлгэцэд нөлөөлөхгүй.</span><span data-en>Watches live on the iPad with the same delay, and goes back, slows down and zooms on their own. The operator’s screen is not affected.</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="bout">
+      <h2><span class="n">03</span><span data-mn>Барилдааны үед — оператор</span><span data-en>During a bout — operator</span></h2>
+      <figure>
+        <img src="assets/help/mn/01-live.png" data-i18n-src="assets/help/{lang}/01-live.png" alt="Live cameras" loading="lazy" />
+        <figcaption><span data-mn>Live: camera бүр <b>LIVE</b> ба fps-ээ харуулна. Доод самбар: STOP / REC / REPLAY / TAG.</span><span data-en>Live: every camera shows <b>LIVE</b> and its fps. Bottom bar: STOP / REC / REPLAY / TAG.</span></figcaption>
+      </figure>
+      <ol data-mn>
+        <li><b>START</b> — бүх camera асна. Дараа нь <b>REC</b> (эсвэл <kbd>R</kbd>) — бичлэг эхэлнэ. Бичлэгийг блокийн туршид зогсоолгүй үргэлжлүүлнэ.</li>
+        <li>Онцлох үйлдэл гарахад <kbd>Space</kbd> (<b>TAG</b>) дарна — агшин тэр дороо хадгалагдана, ангиллыг <kbd>1</kbd>–<kbd>5</kbd>-аар дараа нь сонгоно.</li>
+        <li>Шүүгч replay хүсэхэд <b>REPLAY</b> (<kbd>T</kbd>) дарна — бүх camera хэдэн секундын өмнөөс удаашруулж тоглоно.</li>
+        <li>Replay дотор: <kbd>←</kbd> / <kbd>→</kbd> — кадраар, <kbd>↑</kbd> / <kbd>↓</kbd> — хурд, хулганы дугуй — томруулах. <b>Барих</b> дарвал автоматаар live руу буцахгүй.</li>
+        <li><b>Шууд руу буцах</b> (эсвэл дахин <kbd>T</kbd>) — live руу буцна. Бичлэг энэ бүх хугацаанд үргэлжилсээр байна.</li>
+      </ol>
+      <ol data-en>
+        <li><b>START</b> turns every camera on. Then <b>REC</b> (or <kbd>R</kbd>) starts recording. Keep it running for the whole block of bouts.</li>
+        <li>When something important happens press <kbd>Space</kbd> (<b>TAG</b>) — the moment is saved at once; pick the category with <kbd>1</kbd>–<kbd>5</kbd> afterwards.</li>
+        <li>When the referees ask for a replay press <b>REPLAY</b> (<kbd>T</kbd>) — every camera plays back from a few seconds earlier, in slow motion.</li>
+        <li>In Replay: <kbd>←</kbd> / <kbd>→</kbd> step frames, <kbd>↑</kbd> / <kbd>↓</kbd> change speed, the mouse wheel zooms. Press <b>Hold</b> to stop it returning to live by itself.</li>
+        <li><b>Back to live</b> (or <kbd>T</kbd> again) returns to live. Recording carries on the whole time.</li>
+      </ol>
+      <figure>
+        <img src="assets/help/mn/02-tag.png" data-i18n-src="assets/help/{lang}/02-tag.png" alt="Tag window" loading="lazy" />
+        <figcaption><span data-mn>TAG: агшин аль хэдийн хадгалагдсан — ангиллаа сонгоно, эсвэл 4 секунд хүлээнэ.</span><span data-en>TAG: the moment is already saved — pick a category, or just wait 4 seconds.</span></figcaption>
+      </figure>
+      <figure>
+        <img src="assets/help/mn/03-replay.png" data-i18n-src="assets/help/{lang}/03-replay.png" alt="Replay on the computer" loading="lazy" />
+        <figcaption><span data-mn>Компьютер дээрх replay: бүх camera зэрэг, AUTO удаашруулалт, <b>Шууд руу буцах</b>.</span><span data-en>Replay on the computer: every camera together, AUTO slow motion and <b>Back to live</b>.</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="referee">
+      <h2><span class="n">04</span><span data-mn>Ерөнхий шүүгч — iPad</span><span data-en>Head referee — iPad</span></h2>
+      <p data-mn>iPad нь компьютертэй ижил хоцролттойгоор live явна. Үйлдлийг дахин үзэхийн тулд:</p>
+      <p data-en>The iPad runs live with the same delay as the computer. To look at an action again:</p>
+      <ol data-mn>
+        <li>Видеоны доорх timeline-ийг зүүн тийш чирнэ, эсвэл <b>−5s</b> дарна.</li>
+        <li><b>0.5×</b> эсвэл <b>0.25×</b> — удаашруулна. ⏸ ба кадраар алхах товчоор яг тэр агшинг олно.</li>
+        <li>Хоёр хуруугаар томруулж (pinch) нарийн харна. Өөр өнцгөөс харах бол доороос camera-аа сонгоно.</li>
+        <li>Шийдвэр гаргасны дараа ногоон <b>LIVE</b> товчийг дарна.</li>
+      </ol>
+      <ol data-en>
+        <li>Drag the timeline under the video to the left, or tap <b>−5s</b>.</li>
+        <li><b>0.5×</b> or <b>0.25×</b> slows it down. Use ⏸ and the frame-step buttons to find the exact moment.</li>
+        <li>Pinch with two fingers to zoom in. To see another angle, pick the camera below.</li>
+        <li>After the decision, tap the green <b>LIVE</b> button.</li>
+      </ol>
+      <figure>
+        <img src="assets/help/mn/07-tablet-live.png" data-i18n-src="assets/help/{lang}/07-tablet-live.png" alt="iPad live" loading="lazy" />
+        <figcaption><span data-mn>iPad, live: компьютертэй ижил хоцролттой.</span><span data-en>iPad, live: the same delay as the computer.</span></figcaption>
+      </figure>
+      <figure>
+        <img src="assets/help/mn/08-tablet-replay.png" data-i18n-src="assets/help/{lang}/08-tablet-replay.png" alt="iPad replay" loading="lazy" />
+        <figcaption><span data-mn>iPad, replay: timeline-ийг чирж ухарсан. Ногоон товч live руу буцаана.</span><span data-en>iPad, replay: dragged back on the timeline. The green button returns to live.</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="problems">
+      <h2><span class="n">05</span><span data-mn>Асуудал гарвал</span><span data-en>If something goes wrong</span></h2>
+      <table class="tbl">
+        <thead><tr><th><span data-mn>Юу болсон</span><span data-en>What happened</span></th><th><span data-mn>Юу хийх</span><span data-en>What to do</span></th></tr></thead>
+        <tbody>
+          <tr><td><span data-mn>Улаан анхааруулга, дуут дохио — camera тасарсан</span><span data-en>Red banner and alarm — a camera dropped</span></td><td><span data-mn>Кабелийг шалгана. Программ camera-г өөрөө дахин холбоно; бусад camera-ийн бичлэг үргэлжилнэ.</span><span data-en>Check the cable. The app reconnects the camera by itself; the other cameras keep recording.</span></td></tr>
+          <tr><td><span data-mn>Дискний зай бага гэсэн анхааруулга</span><span data-en>Low disk space warning</span></td><td><span data-mn>Завсарлагаанаар хуучин бичлэгээ өөр диск рүү зөөнө, эсвэл <b>Тохиргоо</b>-нд өөр хавтас сонгоно.</span><span data-en>In a break, move old recordings to another drive, or choose another folder in <b>Settings</b>.</span></td></tr>
+          <tr><td><span data-mn>iPad дээр дүрс гарахгүй</span><span data-en>No picture on the iPad</span></td><td><span data-mn>Нэг Wi-Fi эсэх, Windows сүлжээ <b>Private</b> эсэхийг шалгаад iPad-ын хуудсыг refresh хийнэ.</span><span data-en>Check it is the same Wi-Fi and that the Windows network is <b>Private</b>, then refresh the page on the iPad.</span></td></tr>
+          <tr><td><span data-mn>Дүрс гацаж, fps унаж байна</span><span data-en>Picture stutters, fps drops</span></td><td><span data-mn>Ашиглаагүй camera-г зогсоож, бусад программыг хаана. Сул компьютер дээр нягтрал автоматаар 540p болно.</span><span data-en>Stop unused cameras and close other apps. On a weak computer the resolution drops to 540p automatically.</span></td></tr>
+          <tr><td><span data-mn>Программыг санамсаргүй хаах гэж байна</span><span data-en>About to close the app by accident</span></td><td><span data-mn>Бичиж байх үед программ асуулт гаргана — <b>Болих</b> дарна. Бичлэг тасрахгүй.</span><span data-en>While recording, the app asks first — choose <b>Cancel</b>. The recording is not interrupted.</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="keys">
+      <h2><span class="n">06</span><span data-mn>Товчлуурын карт</span><span data-en>Key card</span></h2>
+      <table class="tbl">
+        <tbody>
+          <tr><td><kbd>R</kbd></td><td><span data-mn>Бичлэг эхлүүлэх / зогсоох</span><span data-en>Start / stop recording</span></td></tr>
+          <tr><td><kbd>T</kbd></td><td><span data-mn>Replay нээх / live руу буцах</span><span data-en>Open replay / back to live</span></td></tr>
+          <tr><td><kbd>Space</kbd></td><td><span data-mn>Live: TAG. Replay: тоглуулах / зогсоох</span><span data-en>Live: TAG. Replay: play / pause</span></td></tr>
+          <tr><td><kbd>1</kbd>–<kbd>5</kbd></td><td><span data-mn>TAG цонх: ангилал. Replay: хурд</span><span data-en>Tag window: category. Replay: speed</span></td></tr>
+          <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td><span data-mn>Replay: 1 кадр (<kbd>Shift</kbd> = 5)</span><span data-en>Replay: 1 frame (<kbd>Shift</kbd> = 5)</span></td></tr>
+          <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td><span data-mn>Replay: хурд</span><span data-en>Replay: speed</span></td></tr>
+          <tr><td><kbd>Esc</kbd></td><td><span data-mn>Цонх хаах / TAG алгасах</span><span data-en>Close a window / skip the tag</span></td></tr>
+        </tbody>
+      </table>
+      <p data-mn>Өдрийн төгсгөлд: <b>REC</b> зогсоож, дараа нь <b>STOP</b> дарж camera-уудыг унтраана. Бичлэгүүд <code>%USERPROFILE%\Videos\NeuroReplay\</code> хавтсанд байна.</p>
+      <p data-en>At the end of the day: stop <b>REC</b>, then press <b>STOP</b> to turn the cameras off. Recordings are in <code>%USERPROFILE%\Videos\NeuroReplay\</code>.</p>
+    </section>
+  </article>
+</main>
+
+<script src="i18n.js" defer></script>
+<script src="help-i18n.js" defer></script>
+<script src="competition-i18n.js" defer></script>
+<script>
+  // Table-of-contents scroll-spy. Language handling lives in i18n.js.
+  (function () {
+    var links = [].slice.call(document.querySelectorAll('.toc a'));
+    var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    function onScroll() {
+      var y = window.scrollY + 120, cur = 0;
+      secs.forEach(function (s, i) { if (s && s.offsetTop <= y) cur = i; });
+      links.forEach(function (a, i) { a.classList.toggle('on', i === cur); });
+    }
+    onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
+</body>
+</html>

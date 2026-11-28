@@ -30,6 +30,7 @@
   .doc ul, .doc ol { padding-left: 22px; margin: 10px 0 14px; }
   .doc li { margin: 6px 0; }
   .doc li b, .doc p b { color: var(--ink); font-weight: 600; }
+  .doc p a { color: var(--brand-ink); text-decoration: underline; text-underline-offset: 3px; }
   code, kbd { font-family: var(--mono); font-size: .88em; }
   code { background: rgba(255,255,255,.07); padding: 2px 7px; border-radius: 6px; color: var(--ink); }
   kbd { background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.05)); border: 1px solid var(--line-2, rgba(255,255,255,.14)); border-bottom-width: 2px; padding: 1px 7px; border-radius: 6px; color: var(--ink); white-space: nowrap; }
@@ -99,6 +100,8 @@
     <a href="#tags"><span data-mn>Tag нэмэх</span><span data-en>Tagging</span></a>
     <a href="#replay"><span data-mn>Instant Replay</span><span data-en>Instant Replay</span></a>
     <a href="#library"><span data-mn>Library</span><span data-en>Library</span></a>
+    <a href="#analyze"><span data-mn>Analyze</span><span data-en>Analyze</span></a>
+    <a href="#tablet"><span data-mn>iPad</span><span data-en>iPad</span></a>
     <a href="#export"><span data-mn>Export ба highlight</span><span data-en>Export &amp; highlights</span></a>
     <a href="#keys"><span data-mn>Гарын товчлуур</span><span data-en>Keyboard shortcuts</span></a>
     <a href="#trouble"><span data-mn>Асуудал шийдэх</span><span data-en>Troubleshooting</span></a>
@@ -116,6 +119,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
           <span data-mn>PDF татах</span><span data-en>Download PDF</span>
         </a>
+        <a class="btn btn--ghost" href="competition.html"><span data-mn>Тэмцээний заавар</span><span data-en>Competition guide</span></a>
         <a class="btn btn--ghost" href="index.html#download"><span data-mn>Программ татах</span><span data-en>Download the app</span></a>
       </div>
     </header>
@@ -205,8 +209,8 @@
       <p data-mn>Layout-ийг camera ажиллаж эсвэл бичиж байх үед солих боломжгүй — эхлээд <b>STOP</b> дарна.</p>
       <p data-en>You can't change the layout while cameras are running or recording — press <b>STOP</b> first.</p>
       <figure>
-        <img src="assets/help/01-setup-4cams.png" alt="NeuroReplay 4-camera layout with camera selectors" loading="lazy" />
-        <figcaption><span data-mn>4 camera-ийн layout: slot бүрт camera ба resolution-ийн selector, доор START / REPLAY / REC / TAG самбар.</span><span data-en>4-camera layout: camera and resolution selectors per slot, with the START / REPLAY / REC / TAG bar below.</span></figcaption>
+        <img src="assets/help/mn/01-live.png" data-i18n-src="assets/help/{lang}/01-live.png" alt="NeuroReplay with two live cameras" loading="lazy" />
+        <figcaption><span data-mn>2 camera-ийн layout: slot бүрт camera-ийн сонголт, дээд мөрөнд camera-ийн тоо, доор START / REC / REPLAY / TAG самбар.</span><span data-en>Two-camera layout: a camera selector in each slot, the camera count in the top bar, and the START / REC / REPLAY / TAG bar below.</span></figcaption>
       </figure>
       <p data-mn>RTSP camera ашиглах бол IP address, stream URL болон нэвтрэх мэдээллийг зөв оруулна. Нэвтрэх мэдээллийг нийтийн screenshot, log, website-д бүү оруул.</p>
       <p data-en>For RTSP cameras, enter the IP address, stream URL and credentials correctly. Never put credentials in public screenshots, logs or websites.</p>
@@ -216,10 +220,6 @@
       <h2><span class="n">05</span><span data-mn>Бичлэг хийх</span><span data-en>Recording</span></h2>
       <p data-mn>Camera ажиллаж байх үед slot дээр шууд дүрс, доод талд <b>LIVE</b> төлөв болон fps харагдана.</p>
       <p data-en>While a camera is running its slot shows the live picture, with a <b>LIVE</b> badge and fps readout.</p>
-      <figure>
-        <img src="assets/help/02-live-4cams.png" alt="Live camera in the 4-camera layout" loading="lazy" />
-        <figcaption><span data-mn>CAM 1 ажиллаж байна: товчны самбар дээр START нь STOP болж, slot дээр LIVE гарна.</span><span data-en>CAM 1 running: START becomes STOP and the slot shows LIVE.</span></figcaption>
-      </figure>
       <ul data-mn>
         <li><b>Нэг camera:</b> тухайн slot-ийн <b>Rec</b> товч дарж эхлүүлж, дахин дарж зогсооно.</li>
         <li><b>Бүх camera:</b> <b>REC</b> товч эсвэл <kbd>R</kbd> дарж бүх асаалттай camera-г зэрэг эхлүүлж / зогсооно.</li>
@@ -237,20 +237,22 @@
       <p data-mn>Бичлэг хийж байх үед <kbd>Space</kbd> (эсвэл <b>TAG</b> товч) дарахад tag popup гарна.</p>
       <p data-en>While recording, press <kbd>Space</kbd> (or the <b>TAG</b> button) to open the tag popup.</p>
       <figure>
-        <img src="assets/help/03-recording-tag.png" alt="Recording with the quick tag popup open" loading="lazy" />
-        <figcaption><span data-mn>Бичиж байх үед (улаан хүрээ) гарсан tag popup: төрөл, тайлбар, <b>OK</b> / <b>Skip</b>.</span><span data-en>The tag popup while recording (red frame): type, label, <b>OK</b> / <b>Skip</b>.</span></figcaption>
+        <img src="assets/help/mn/02-tag.png" data-i18n-src="assets/help/{lang}/02-tag.png" alt="The tag window while recording" loading="lazy" />
+        <figcaption><span data-mn>Бичиж байх үед (улаан хүрээ) TAG дарахад гарах цонх: агшин аль хэдийн хадгалагдсан, одоо ангиллаа сонгоно.</span><span data-en>The tag window while recording (red frame): the moment is already captured — now pick a category.</span></figcaption>
       </figure>
       <ul data-mn>
-        <li>Төрлөө сонгоно: <b>Takedown, Guard pass, Submission, Sweep, Custom</b>. Хүсвэл тайлбар бичнэ.</li>
-        <li><b>OK</b> дарж хадгална. <b>Skip</b> дарвал эсвэл 3 секунд юу ч хийхгүй бол tag <code>Custom</code> төрлөөр, тайлбаргүй хадгалагдана.</li>
-        <li>Popup нээлттэй байх үед бичлэг болон <kbd>R</kbd>, <kbd>T</kbd> товчнууд ажиллсаар байна.</li>
-        <li>Tag-ууд Library, Replay-д тухайн мөч рүү шууд очих, мөн highlight сонгоход ашиглагдана.</li>
+        <li><kbd>Space</kbd> эсвэл <b>TAG</b> дарсан агшин шууд хадгалагдана — ангиллаа хэдэн секундын дараа сонгож болно.</li>
+        <li>Ангиллаа товшиж эсвэл <kbd>1</kbd>–<kbd>5</kbd> дарж сонгоно. Ангиллуудыг <b>Тохиргоо → TAG</b> хэсэгт өөрчилнө.</li>
+        <li>4 секунд юу ч сонгохгүй бол tag ангилалгүйгээр хадгалагдана. <b>Алгасах</b> (<kbd>Esc</kbd>) дарвал tag хадгалагдахгүй.</li>
+        <li>Цонх нээлттэй үед бичлэг болон <kbd>R</kbd>, <kbd>T</kbd> товчнууд ажилласаар байна.</li>
+        <li>Tag-ууд Library, Analyze болон iPad дээр тухайн агшин руу шууд очиход ашиглагдана.</li>
       </ul>
       <ul data-en>
-        <li>Pick a type: <b>Takedown, Guard pass, Submission, Sweep, Custom</b>. Add a label if you like.</li>
-        <li>Press <b>OK</b> to save. <b>Skip</b>, or leaving it for 3 seconds, saves a <code>Custom</code> tag with no label.</li>
-        <li>Recording and the <kbd>R</kbd> / <kbd>T</kbd> shortcuts keep working while the popup is open.</li>
-        <li>Tags let you jump straight to a moment in the Library and Replay, and drive highlight selection.</li>
+        <li>The moment is captured the instant you press <kbd>Space</kbd> or <b>TAG</b> — you can pick the category a few seconds later.</li>
+        <li>Click a category or press <kbd>1</kbd>–<kbd>5</kbd>. Edit the categories in <b>Settings → TAG</b>.</li>
+        <li>If you pick nothing for 4 seconds the tag is saved without a category. <b>Skip</b> (<kbd>Esc</kbd>) discards it.</li>
+        <li>Recording and the <kbd>R</kbd> / <kbd>T</kbd> shortcuts keep working while the window is open.</li>
+        <li>Tags let you jump straight to a moment in the Library, in Analyze and on the iPad.</li>
       </ul>
     </section>
 
@@ -259,8 +261,8 @@
       <p data-mn>Бичлэг үргэлжилж байх үед <b>REPLAY</b> товч эсвэл <kbd>T</kbd> дарахад сүүлийн агшин нээгдэнэ. Replay-г хаахдаа дахин <kbd>T</kbd> эсвэл <b>Replay</b> товчийг дарна.</p>
       <p data-en>While recording, press <b>REPLAY</b> or <kbd>T</kbd> to open the most recent moment. Press <kbd>T</kbd> or the <b>Replay</b> button again to close it.</p>
       <figure>
-        <img src="assets/help/04-replay.png" alt="Replay player with timeline, frame and speed controls" loading="lazy" />
-        <figcaption><span data-mn>Replay player: frame ruler, <code>« ‹ ▶ › »</code>, ±3s / ±10s үсрэлт, 0.25×–2× хурд.</span><span data-en>Replay player: frame ruler, <code>« ‹ ▶ › »</code>, ±3s / ±10s jumps, 0.25×–2× speed.</span></figcaption>
+        <img src="assets/help/mn/03-replay.png" data-i18n-src="assets/help/{lang}/03-replay.png" alt="Instant Replay with every camera" loading="lazy" />
+        <figcaption><span data-mn>Instant Replay: бүх camera зэрэг, frame-ийн шугам, <code>« ‹ ◀ ❚❚ › »</code>, AUTO удаашруулалт, 0.25×–1× хурд, <b>Шууд руу буцах</b>.</span><span data-en>Instant Replay: every camera together, the frame ruler, <code>« ‹ ◀ ❚❚ › »</code>, AUTO slow motion, 0.25×–1× speed and <b>Back to live</b>.</span></figcaption>
       </figure>
       <ul data-mn>
         <li><b>Timeline</b>-г чирж дурын агшин руу очно.</li>
@@ -283,6 +285,8 @@
       <h3><span data-mn>Дэлгэцийн хоцролт (delay monitor)</span><span data-en>Delay monitor</span></h3>
       <p data-mn>Тохиргооны <b>Дэлгэц хоцролт (сек)</b> талбарт секунд оруулна: <code>0</code> = live, <code>5</code> = таван секундын хоцролттой дүрс. Тохиргоо хадгалагдаж дараагийн session-д сэргээгдэнэ.</p>
       <p data-en>Enter seconds in the <b>Display delay (sec)</b> setting: <code>0</code> = live, <code>5</code> = picture delayed by five seconds. The setting is saved for the next session.</p>
+      <p data-mn>Хоцролт идэвхтэй үед iPad дээрх дүрс ч мөн адил хоцролттой явна.</p>
+      <p data-en>While the delay is on, the iPad shows the same delayed picture.</p>
     </section>
 
     <section id="library">
@@ -290,8 +294,8 @@
       <p data-mn>Дээд талын бичлэгийн дүрс эсвэл <kbd>Ctrl</kbd>+<kbd>L</kbd> дарж Library-г нээнэ. Самбар нь <b>Recordings</b>, <b>Tags</b>, <b>Settings</b> гэсэн гурван tab-тай. <kbd>Esc</kbd> дарж хаана.</p>
       <p data-en>Open the Library from the recordings icon at the top or with <kbd>Ctrl</kbd>+<kbd>L</kbd>. It has three tabs: <b>Recordings</b>, <b>Tags</b> and <b>Settings</b>. Press <kbd>Esc</kbd> to close.</p>
       <figure>
-        <img src="assets/help/05-library.png" alt="Recordings library drawer" loading="lazy" />
-        <figcaption><span data-mn>Library: хайлт, <b>Open</b> (хавтас нээх), бичлэг бүрийн camera, огноо, хэмжээ.</span><span data-en>Library: search, <b>Open</b> (show folder), and each recording's camera, date and size.</span></figcaption>
+        <img src="assets/help/mn/04-library.png" data-i18n-src="assets/help/{lang}/04-library.png" alt="Recordings library" loading="lazy" />
+        <figcaption><span data-mn>Library: хайлт, <b>Нээх</b> (хавтас нээх), бичлэг бүрийн camera, огноо, хэмжээ. Tag-тай бичлэг дээр tag-ийн тэмдэг гарна.</span><span data-en>Library: search, <b>Open</b> (show folder), and each recording’s camera, date and size. Recordings with tags show a tag icon.</span></figcaption>
       </figure>
       <ul data-mn>
         <li>Бичлэг дээр давхар товшиж player-ээр нээнэ.</li>
@@ -310,8 +314,83 @@
       <pre>%USERPROFILE%\Videos\NeuroReplay\</pre>
     </section>
 
+    <section id="analyze">
+      <h2><span class="n">09</span><span data-mn>Analyze: техник, оноо ба AI</span><span data-en>Analyze: techniques, score and AI</span></h2>
+      <p data-mn>Library-ээс бичлэгээ нээгээд дээд мөрний <b>ANALYZE</b> товчийг дарахад шинжилгээний самбар нээгдэнэ (Analyze лиценз шаардлагатай).</p>
+      <p data-en>Open a recording from the Library and press <b>ANALYZE</b> in the top bar to open the analysis panel (requires an Analyze license).</p>
+      <figure>
+        <img src="assets/help/mn/05-analyze.png" data-i18n-src="assets/help/{lang}/05-analyze.png" alt="Analyze panel with tags, score and position time" loading="lazy" />
+        <figcaption><span data-mn>Analyze: техникийн товчнууд, оноо ба тоо, momentum график, байрлалын цаг, AI хэсэг; tag-ууд доор timeline дээр харагдана.</span><span data-en>Analyze: technique buttons, score and counts, momentum graph, position time and the AI section; tags appear on the timeline below.</span></figcaption>
+      </figure>
+      <ul data-mn>
+        <li><b>Техник:</b> эхлээд <b>Миний / Өрсөлдөгч</b> талаа сонгоод техникийн товч (эсвэл <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd>, <kbd>-</kbd>, <kbd>=</kbd>) дарна. Тухайн агшинд tag нэмэгдэж, оноо автоматаар бодогдоно.</li>
+        <li><b>Жагсаалт:</b> tag бүрийн <b>Амжилттай / Амжилтгүй</b> төлөвийг сольж, талыг өөрчилж, клип хадгалж, устгана. Мөр дээр дарвал тэр агшин руу очно.</li>
+        <li><b>Байрлалын цаг:</b> байрлалын товч дарахад таймер эхэлж, дахин дарахад зогсоно — хэн хэдэн секунд давамгайлсныг тоолно.</li>
+        <li><b>Loop:</b> <kbd>L</kbd> дарахад ойрын tag-ийг (эсвэл ±3 секундыг) давтан тоглуулна. <kbd>[</kbd> / <kbd>]</kbd> — loop-ийн эхлэл / төгсгөл. Дээд мөрний шар товч loop-ийг хаана.</li>
+        <li><b>Харьцуулах:</b> <b>ХАРЬЦУУЛАХ</b> дарахад хоёр дахь дэлгэц нээгдэж, өөр агшин эсвэл өөр camera-ийн бичлэгийг зэрэгцүүлж үзнэ.</li>
+        <li><b>Export:</b> <b>CSV</b> — бүх tag ба байрлал, <b>Highlight</b> — бүх tag-ийн агшнуудыг нэг MP4 болгоно.</li>
+      </ul>
+      <ul data-en>
+        <li><b>Techniques:</b> choose the side (<b>Mine / Opponent</b>), then press a technique button (or <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd>, <kbd>-</kbd>, <kbd>=</kbd>). A tag is added at that moment and the score is counted for you.</li>
+        <li><b>List:</b> switch each tag between <b>Landed / Failed</b>, change its side, save a clip or delete it. Click a row to jump to that moment.</li>
+        <li><b>Position time:</b> press a position button to start its timer and press it again to stop — it adds up how long each side held it.</li>
+        <li><b>Loop:</b> press <kbd>L</kbd> to replay the nearest tag (or ±3 seconds) over and over. <kbd>[</kbd> / <kbd>]</kbd> set the loop start / end. The yellow chip in the top bar clears it.</li>
+        <li><b>Compare:</b> press <b>COMPARE</b> to open a second pane and watch another moment, or another camera’s recording, side by side.</li>
+        <li><b>Export:</b> <b>CSV</b> saves every tag and position; <b>Highlight</b> joins every tagged moment into one MP4.</li>
+      </ul>
+      <h3><span data-mn>Шүүгчийн дохио (AI)</span><span data-en>Referee signals (AI)</span></h3>
+      <p data-mn>Спортоо сонгоод <b>Бичлэгийг шалгах</b> дарахад AI бичлэгээс шүүгчийн оноо заасан дохиог хайж, санал болгосон tag-уудыг жагсаана. Санал бүрийг ✓ дарж батлах эсвэл ✕ дарж хасна — батлаагүй зүйл tag болохгүй.</p>
+      <p data-en>Choose the sport and press <b>Scan recording</b>: the AI looks for the referee’s scoring signals and lists suggested tags. Confirm each with ✓ or drop it with ✕ — nothing becomes a tag until you confirm it.</p>
+      <p data-mn><b>Pose</b> идэвхжүүлбэл тамирчдын биеийн байрлалыг дүрс дээр зурна. AI бүхэлдээ компьютер дээр ажилладаг — бичлэг интернетээр явахгүй.</p>
+      <p data-en>Turn on <b>Pose</b> to draw the athletes’ body positions on the picture. The AI runs entirely on the computer — no video is sent anywhere.</p>
+    </section>
+
+    <section id="tablet">
+      <h2><span class="n">10</span><span data-mn>iPad — ерөнхий шүүгчийн дэлгэц</span><span data-en>iPad — the head referee’s screen</span></h2>
+      <p data-mn>Ерөнхий шүүгч iPad эсвэл утсан дээрээ live болон replay-г тусдаа үзнэ. Тэнд хийсэн replay нь компьютер дээрх операторуудын дэлгэцэд нөлөөлөхгүй.</p>
+      <p data-en>The head referee watches live and replay on an iPad or phone. Replays there never affect the operators’ screen on the computer.</p>
+      <ol data-mn>
+        <li><b>Тохиргоо → Анхааруулга ба удирдлага</b> хэсэгт <b>iPad / утаснаас удирдах</b>-ыг асаана.</li>
+        <li>iPad болон компьютер <b>нэг Wi-Fi</b>-д холбогдсон байна. Windows дээр тэр сүлжээг <b>Private</b> болгоно.</li>
+        <li>Тохиргоонд харагдах хаягийг iPad-ын Safari-д нээж, PIN-ээ оруулна.</li>
+      </ol>
+      <ol data-en>
+        <li>Turn on <b>Control from iPad / phone</b> in <b>Settings → Alerts &amp; control</b>.</li>
+        <li>The iPad and the computer must be on the <b>same Wi-Fi</b>. In Windows, set that network to <b>Private</b>.</li>
+        <li>Open the address shown in Settings in Safari on the iPad and enter the PIN.</li>
+      </ol>
+      <figure>
+        <img src="assets/help/mn/06-settings.png" data-i18n-src="assets/help/{lang}/06-settings.png" alt="Settings with the iPad address and PIN" loading="lazy" />
+        <figcaption><span data-mn>Тохиргоо: iPad-ын хаяг ба PIN (зураг дээрх нь жишээ), дэлгэцийн хоцролт.</span><span data-en>Settings: the iPad address and PIN (example values shown) and the display delay.</span></figcaption>
+      </figure>
+      <figure>
+        <img src="assets/help/mn/07-tablet-live.png" data-i18n-src="assets/help/{lang}/07-tablet-live.png" alt="iPad showing live video" loading="lazy" />
+        <figcaption><span data-mn>iPad, live: компьютертэй ижил хоцролттой явна (жишээ нь REC үед 5 секунд).</span><span data-en>iPad, live: the same delay as the computer (for example 5 seconds while recording).</span></figcaption>
+      </figure>
+      <figure>
+        <img src="assets/help/mn/08-tablet-replay.png" data-i18n-src="assets/help/{lang}/08-tablet-replay.png" alt="iPad after dragging back on the timeline" loading="lazy" />
+        <figcaption><span data-mn>iPad, replay: timeline-ийг чирж ~10 секунд ухарсан. Ногоон товч live руу буцаана.</span><span data-en>iPad, replay: dragged about 10 seconds back on the timeline. The green button returns to live.</span></figcaption>
+      </figure>
+      <ul data-mn>
+        <li><b>Ухраах:</b> видеоны доорх timeline-ийг чирнэ, эсвэл <b>−5s</b> / <b>+5s</b>, кадраар алхах, ⏸ товчийг ашиглана.</li>
+        <li><b>Удаашруулах:</b> 0.25× / 0.5× / 1×. ◀ — буцааж тоглуулна.</li>
+        <li><b>Томруулах:</b> хоёр хуруугаар pinch хийх эсвэл хоёр товшино. Баруун дээд булангийн ✕ — буцаана.</li>
+        <li><b>Camera:</b> доорх товчоор camera солино. <b>АВТО</b> — эхний асаалттай camera.</li>
+        <li><b>Tag:</b> баруун талын жагсаалтаас tag дарвал тухайн агшин руу очно.</li>
+        <li><b>LIVE</b> дарах эсвэл тоглуулж байгаад live-д гүйцэхэд автоматаар live руу буцна.</li>
+      </ul>
+      <ul data-en>
+        <li><b>Going back:</b> drag the timeline under the video, or use <b>−5s</b> / <b>+5s</b>, frame steps and ⏸.</li>
+        <li><b>Slow motion:</b> 0.25× / 0.5× / 1×. ◀ plays backwards.</li>
+        <li><b>Zoom:</b> pinch with two fingers or double-tap. The ✕ in the top-right corner resets it.</li>
+        <li><b>Camera:</b> switch cameras with the buttons below. <b>AUTO</b> is the first running camera.</li>
+        <li><b>Tags:</b> tap a tag in the list on the right to jump to that moment.</li>
+        <li>Press <b>LIVE</b>, or play until you catch up, to return to live.</li>
+      </ul>
+    </section>
+
     <section id="export">
-      <h2><span class="n">09</span><span data-mn>Export ба highlight</span><span data-en>Export and highlights</span></h2>
+      <h2><span class="n">11</span><span data-mn>Export ба highlight</span><span data-en>Export and highlights</span></h2>
       <ol data-mn>
         <li>Library-ээс бичлэгээ сонгоно.</li>
         <li>Player дотор эхлэх, дуусах хугацааг тохируулна.</li>
@@ -331,7 +410,7 @@
     </section>
 
     <section id="keys">
-      <h2><span class="n">10</span><span data-mn>Гарын товчлуурууд</span><span data-en>Keyboard shortcuts</span></h2>
+      <h2><span class="n">12</span><span data-mn>Гарын товчлуурууд</span><span data-en>Keyboard shortcuts</span></h2>
       <table class="tbl">
         <thead><tr><th><span data-mn>Товч</span><span data-en>Key</span></th><th><span data-mn>Үйлдэл</span><span data-en>Action</span></th></tr></thead>
         <tbody>
@@ -347,6 +426,9 @@
           <tr><td><kbd>Ctrl</kbd>+<kbd>1</kbd>/<kbd>2</kbd>/<kbd>4</kbd>/<kbd>6</kbd>/<kbd>8</kbd></td><td><span data-mn>Camera-ийн тоо (layout)</span><span data-en>Camera count (layout)</span></td></tr>
           <tr><td><kbd>Ctrl</kbd>+<kbd>L</kbd></td><td><span data-mn>Library нээх</span><span data-en>Open the Library</span></td></tr>
           <tr><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td><span data-mn>Tags самбар нээх</span><span data-en>Open the Tags panel</span></td></tr>
+          <tr><td><kbd>L</kbd></td><td><span data-mn>Analyze: loop асаах / унтраах</span><span data-en>Analyze: loop on / off</span></td></tr>
+          <tr><td><kbd>[</kbd> <kbd>]</kbd></td><td><span data-mn>Analyze: loop-ийн эхлэл / төгсгөл</span><span data-en>Analyze: loop start / end</span></td></tr>
+          <tr><td><kbd>N</kbd> <kbd>P</kbd></td><td><span data-mn>Analyze: дараагийн / өмнөх tag</span><span data-en>Analyze: next / previous tag</span></td></tr>
         </tbody>
       </table>
       <p data-mn>Камерын тоог дээд мөрний товчоор (эсвэл <kbd>Ctrl</kbd>+<kbd>1</kbd>/<kbd>2</kbd>/<kbd>4</kbd>/<kbd>6</kbd>/<kbd>8</kbd>) сольж, цэсний <b>Language</b> хэсгээс Монгол, Англи, Орос, Узбек хэлийг сонгоно.</p>
@@ -354,7 +436,7 @@
     </section>
 
     <section id="trouble">
-      <h2><span class="n">11</span><span data-mn>Асуудал шийдвэрлэх</span><span data-en>Troubleshooting</span></h2>
+      <h2><span class="n">13</span><span data-mn>Асуудал шийдвэрлэх</span><span data-en>Troubleshooting</span></h2>
       <table class="tbl">
         <thead><tr><th><span data-mn>Асуудал</span><span data-en>Problem</span></th><th><span data-mn>Шалгах зүйл</span><span data-en>What to check</span></th></tr></thead>
         <tbody>
@@ -366,6 +448,7 @@
           <tr><td><span data-mn>Export амжилтгүй</span><span data-en>Export failed</span></td><td><span data-mn>Эх файл байгаа эсэх, output path, дискний зай.</span><span data-en>Source file exists, output path, free disk space.</span></td></tr>
           <tr><td><span data-mn>License идэвхжихгүй</span><span data-en>License won't activate</span></td><td><span data-mn>Системийн огноо/цаг, Machine ID, key эсвэл <code>.lic</code> файлын хугацаа.</span><span data-en>System date/time, Machine ID, key or the <code>.lic</code> file's validity period.</span></td></tr>
           <tr><td><span data-mn>Программ удаан байна</span><span data-en>App feels slow</span></td><td><span data-mn>Ашиглаагүй camera-г зогсоох, resolution багасгах, зэрэг ажиллаж буй программуудыг хаах.</span><span data-en>Stop unused cameras, lower the resolution, close other heavy apps.</span></td></tr>
+          <tr><td><span data-mn>iPad дээр дүрс гарахгүй</span><span data-en>No picture on the iPad</span></td><td><span data-mn>Нэг Wi-Fi эсэх, Windows сүлжээ <b>Private</b> эсэх. Компьютер дээрх NeuroReplay-г бүрэн хааж дахин асаагаад iPad-ыг refresh хийнэ.</span><span data-en>Same Wi-Fi, Windows network set to <b>Private</b>. Fully restart NeuroReplay on the computer, then refresh the iPad.</span></td></tr>
         </tbody>
       </table>
       <p data-mn>Асуудал үргэлжилбэл алдааны screenshot, программын болон Windows-ийн хувилбар, camera-ийн төрөл, гарсан цагийг support-д илгээнэ. Password, private key, license secret зэрэг нууц мэдээллийг илгээж болохгүй.</p>
@@ -373,7 +456,7 @@
     </section>
 
     <section id="contact">
-      <h2><span class="n">12</span><span data-mn>Холбоо барих</span><span data-en>Contact</span></h2>
+      <h2><span class="n">14</span><span data-mn>Холбоо барих</span><span data-en>Contact</span></h2>
       <p data-mn>License, захиалга болон техникийн тусламж авахдаа NeuroReplay-ийн борлуулалт, support багтай холбогдоно.</p>
       <p data-en>For licenses, orders and technical help, contact the NeuroReplay sales and support team.</p>
       <ul>

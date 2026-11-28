@@ -13,11 +13,13 @@ Mongolian), light minimal design, accessible, responsive, works offline once loa
 neuroreplay-site/
 ├── index.html        # public marketing / demo-request page (markup only)
 ├── styles.css        # all site styles (split out of index.html)
-├── help.html         # user guide
+├── help.html         # full user guide
+├── competition.html  # short competition-day guide (operators + head referee, no Analyze)
 ├── app.js            # index.html behaviour: form, nav, reveal, layout
-├── i18n.js           # shared language registry, switcher and copy swapping (both pages)
+├── i18n.js           # shared language registry, switcher and copy swapping (all pages)
 ├── site-i18n.js      # translations for index.html (languages not written inline)
 ├── help-i18n.js      # translations for help.html
+├── competition-i18n.js # translations for competition.html
 ├── assets/           # logo, favicons, OG image, flags/ (language switcher)
 ├── robots.txt        # allows the site, disallows /admin/
 └── admin/            # INTERNAL license keygen — NOT linked from the public site
@@ -105,7 +107,10 @@ consent checkbox.
 - **Contact** — email, phone (+976 8555 1511) and Facebook (iderbat314) are set
   in the Direct-contact card and footer.
 - **`manualUrl`** / footer **User manual** link — points to `help.html` (4-language
-  guide with screenshots in `assets/help/`; PDFs in `assets/NeuroReplay-User-Manual-{mn,en,ru,uz}.pdf`).
+  guide; screenshots per language in `assets/help/{mn,en,ru,uz}/`, switched with
+  `<img data-i18n-src="assets/help/{lang}/…">`; PDFs in `assets/NeuroReplay-User-Manual-{mn,en,ru,uz}.pdf`).
+  `competition.html` is the short competition-day guide; its PDFs are
+  `assets/NeuroReplay-Competition-Guide-{mn,en,ru,uz}.pdf`.
   Regenerate a PDF after editing the guide (Chrome, A4, no header/footer):
   `chrome --headless=new --no-pdf-header-footer --virtual-time-budget=6000 --print-to-pdf=assets/NeuroReplay-User-Manual-ru.pdf "http://localhost/…/help.html?lang=ru"`.
 - **`downloadUrl`** — Windows installer link is empty for now (Download button

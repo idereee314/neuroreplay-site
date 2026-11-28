@@ -10,6 +10,7 @@
  *   - Per-page metadata uses the same idea: <title data-i18n-en="…"> and
  *     <meta name="description" data-i18n-en="…"> hold the English, the element itself holds Mongolian.
  *   - Links that depend on the language: <a data-i18n-href="file-{lang}.pdf">.
+ *   - Images that depend on the language: <img data-i18n-src="shot-{lang}.png">.
  *   - The switcher is rendered into every [data-lang-switch] mount point.
  *
  * Adding a language = add one entry to LANGUAGES, a flag in assets/flags/, and its column in the
@@ -104,6 +105,10 @@
     });
     [].forEach.call(document.querySelectorAll('[data-i18n-href]'), function (a) {
       a.setAttribute('href', a.getAttribute('data-i18n-href').replace(/\{lang\}/g, code));
+    });
+    [].forEach.call(document.querySelectorAll('[data-i18n-src]'), function (img) {
+      var src = img.getAttribute('data-i18n-src').replace(/\{lang\}/g, code);
+      if (img.getAttribute('src') !== src) img.setAttribute('src', src);
     });
     switchers.forEach(function (s) { s.update(lang); });
   }

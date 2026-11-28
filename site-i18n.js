@@ -4,6 +4,10 @@
    Changing English copy in index.html changes its key: update the key here too.
    Loaded after i18n.js (see the language registry there). */
 NRI18n.addTranslations({
+  "Competition guide": {
+    ru: "Руководство для соревнований",
+    uz: "Musobaqa qo‘llanmasi"
+  },
   // ── Page metadata (<title>, meta description)
   "NeuroReplay — Multi-camera Instant Replay & Video Review": {
     ru: "NeuroReplay — Многокамерный Instant Replay и видеоразбор",
