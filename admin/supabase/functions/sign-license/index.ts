@@ -68,6 +68,15 @@ function encodeToken(obj: Record<string, unknown>): string {
 }
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+// Same rule as license.js isStrictDate(): the app rejects impossible dates
+// (2026-02-30), so signing one would hand out a license that never works.
+function isStrictDate(s: unknown): boolean {
+  if (typeof s !== "string" || !DATE_RE.test(s)) return false;
+  const [y, m, d] = s.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+}
+const MAX_CAMERAS = 64;
 const ALL_FEATURES = ["competition", "analyze", "minimal", "legacy", "multiview"];
 
 // Mirrors license.js's normalizeFeatures() exactly — dedupe, drop anything
@@ -97,6 +106,12 @@ Deno.serve(async (req) => {
     );
     const { data, error } = await sb.auth.getUser();
     if (error || !data?.user) return json({ error: "Unauthorized" }, 401);
+    // Optional allowlist: NR_ADMIN_EMAILS="a@x.mn,b@y.mn". Sign-ups are
+    // disabled in Auth today; this keeps signing locked even if that changes.
+    const allow = (Deno.env.get("NR_ADMIN_EMAILS") ?? "").split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
+    if (allow.length && !allow.includes((data.user.email ?? "").toLowerCase())) {
+      return json({ error: "Forbidden" }, 403);
+    }
   } catch (_) {
     return json({ error: "Unauthorized" }, 401);
   }
@@ -111,14 +126,20 @@ Deno.serve(async (req) => {
   const { type, event, hwid, start, end } = body as Record<string, string>;
   const features = normalizeFeatures(body.features);
   const maxCameras = normalizeMaxCameras(body.maxCameras);
-  if (!DATE_RE.test(start ?? "") || !DATE_RE.test(end ?? "")) {
+  if (!isStrictDate(start) || !isStrictDate(end)) {
     return json({ error: "Bad dates (YYYY-MM-DD)" }, 400);
   }
   if (end < start) return json({ error: "end before start" }, 400);
+  if (maxCameras !== null && maxCameras > MAX_CAMERAS) {
+    return json({ error: `maxCameras must be 1-${MAX_CAMERAS}` }, 400);
+  }
 
   try {
     if (type === "lic") {
-      if (!event) return json({ error: "event required" }, 400);
+      if (typeof event !== "string" || !event.trim()) return json({ error: "event required" }, 400);
+      if (event.length > 120 || /[\u0000-\u001f\u007f]/.test(event)) {
+        return json({ error: "event must be 1-120 printable characters" }, 400);
+      }
       const issued = new Date().toISOString().slice(0, 10);
       const sig = await sign(`${event}|${start}|${end}|${issued}|${features.join(",")}|${maxCameras ?? ""}`);
       return json({ token: encodeToken({ event, start, end, issued, features, maxCameras, sig }) });
@@ -126,7 +147,7 @@ Deno.serve(async (req) => {
 
     if (type === "key") {
       const id = (hwid ?? "").toUpperCase();
-      if (id.length !== 16) return json({ error: "hwid must be 16 chars" }, 400);
+      if (!/^[0-9A-F]{16}$/.test(id)) return json({ error: "hwid must be 16 hex chars" }, 400);
       const sig = await sign(`${id}|${start}|${end}|${features.join(",")}|${maxCameras ?? ""}`);
       return json({ token: encodeToken({ start, end, features, maxCameras, sig }) });
     }

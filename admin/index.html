@@ -4,835 +4,490 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow" />
-<title>NeuroReplay Keygen</title>
+<meta name="theme-color" content="#060912">
+<title>NeuroReplay · License Console</title>
 <!-- "../admin/" prefix: works whether served as /admin (Vercel cleanUrls, no trailing slash) or /admin/ -->
 <link rel="icon" type="image/x-icon" href="../admin/assets/images/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
-/* Reset & Base */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --bg:       #f4f5fa;
-  --surface:  #ffffff;
-  --panel:    #ffffff;
-  --border:   #e7e9f2;
-  --border2:  #d5d8e6;
-  --text:     #1a1c2b;
-  --muted:    #6b7186;
-  --accent:   #7c5cfc;
-  --accent2:  #ec4899;
-  --green:    #12b877;
-  --amber:    #d98704;
-  --red:      #ef4444;
-  --font-ui:  'Syne', sans-serif;
-  --font-mono:'JetBrains Mono', monospace;
+  color-scheme: dark;
+  --bg: #060912; --bg2: #0a0f1d; --card: #0e1424; --card2: #131b31; --field: #0a1020;
+  --ink: #eef1fb; --muted: #a4adc6; --faint: #6f7894;
+  --line: rgba(255,255,255,.07); --line2: rgba(255,255,255,.13);
+  --a: #5b7bff; --b: #9b5cff; --c: #ff4fd0;
+  --grad: linear-gradient(115deg, var(--a), var(--b) 52%, var(--c));
+  --brand: #bda4ff; --soft: rgba(155,92,255,.14);
+  --green: #34d27b; --amber: #ffb02e; --red: #ff4b5c; --cyan: #3ee0ff;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --sans: "Inter", system-ui, sans-serif;
+  --display: "Space Grotesk", system-ui, sans-serif;
+  --r: 16px;
 }
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font: 14px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(900px 500px at 85% -10%, rgba(155,92,255,.14), transparent 60%),
+              radial-gradient(700px 400px at -10% 110%, rgba(91,123,255,.10), transparent 60%); }
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 8px; }
+.mono { font-family: var(--mono); }
+.grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+[hidden] { display: none !important; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 8px; }
 
-html, body {
-  height: 100%;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-ui);
-  overflow: hidden;
-}
+/* ── Buttons ── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 16px;
+  border-radius: 11px; border: 1px solid var(--line2); background: rgba(255,255,255,.04); font-weight: 600; font-size: 13.5px;
+  transition: background .15s, border-color .15s, transform .1s, opacity .15s; white-space: nowrap; }
+.btn:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.2); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .45; cursor: default; transform: none; }
+.btn.primary { border: 0; background: var(--grad); color: #fff; box-shadow: 0 8px 28px rgba(155,92,255,.35); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.big { min-height: 52px; font-size: 15px; border-radius: 14px; width: 100%; }
+.btn.ok { background: rgba(52,210,123,.14); border-color: rgba(52,210,123,.35); color: var(--green); }
+.btn.ghost { background: transparent; border-color: transparent; color: var(--muted); }
+.btn.ghost:hover { color: var(--ink); background: rgba(255,255,255,.05); }
+.btn.danger:hover { color: var(--red); border-color: rgba(255,75,92,.4); background: rgba(255,75,92,.08); }
+.btn.sm { min-height: 32px; padding: 0 11px; font-size: 12.5px; border-radius: 9px; }
+.icon-btn { width: 32px; height: 32px; display: inline-grid; place-items: center; border-radius: 9px; border: 1px solid transparent; background: transparent; color: var(--muted); }
+.icon-btn:hover { background: rgba(255,255,255,.07); color: var(--ink); }
+.icon-btn.danger:hover { color: var(--red); background: rgba(255,75,92,.1); }
+svg.i { width: 17px; height: 17px; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-/* Background grid */
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image:
-    linear-gradient(rgba(124,92,252,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124,92,252,.03) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-  z-index: 0;
-}
+/* ── Login ── */
+#loginScreen { position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.login-card { position: relative; width: 100%; max-width: 400px; padding: 34px 30px 28px; border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)), var(--card);
+  border: 1px solid var(--line2); box-shadow: 0 40px 90px rgba(0,0,0,.55), 0 0 80px rgba(139,92,255,.14); }
+.login-card .brand { margin-bottom: 26px; }
+.login-card h2 { font: 700 24px var(--display); letter-spacing: -.02em; margin: 0 0 4px; }
+.login-card p.sub { color: var(--muted); margin: 0 0 22px; font-size: 13px; }
+.login-err { min-height: 20px; margin-top: 12px; color: var(--red); font-size: 12.5px; text-align: center; }
 
-/* Login Screen */
-#loginScreen {
-  position: fixed; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  z-index: 100;
-  background: var(--bg);
-}
+/* ── Brand ── */
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand img { height: 30px; width: auto; }
+.brand b { display: block; font: 700 15px var(--display); letter-spacing: -.01em; }
+.brand small { display: block; font: 500 10.5px var(--mono); color: var(--faint); letter-spacing: .14em; text-transform: uppercase; }
 
-.login-card {
-  width: 380px;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 16px;
-  padding: 36px 32px;
-  position: relative;
-  box-shadow: 0 0 80px rgba(124,92,252,.08), 0 32px 64px rgba(80,60,160,.16);
-}
+/* ── Shell ── */
+#appShell { position: relative; z-index: 1; display: none; min-height: 100vh; grid-template-columns: 240px 1fr; }
+.side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 6px; padding: 20px 14px; border-right: 1px solid var(--line); background: rgba(6,9,18,.6); }
+.side .brand { padding: 4px 8px 20px; }
+.nav { display: flex; align-items: center; gap: 11px; width: 100%; min-height: 42px; padding: 0 12px; border-radius: 11px; border: 1px solid transparent;
+  background: transparent; color: var(--muted); font-weight: 600; text-align: left; }
+.nav:hover { color: var(--ink); background: rgba(255,255,255,.04); }
+.nav.active { color: var(--ink); background: var(--soft); border-color: rgba(155,92,255,.28); }
+.nav.active svg { stroke: var(--brand); }
+.nav .count { margin-left: auto; font: 600 11px var(--mono); padding: 1px 8px; border-radius: 99px; background: rgba(255,255,255,.07); color: var(--muted); }
+.nav .count.hot { background: var(--c); color: #fff; }
+.side-foot { margin-top: auto; padding: 14px 8px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.who { font: 500 12px var(--mono); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row { display: flex; align-items: center; gap: 8px; }
+.seg { display: inline-flex; padding: 3px; border-radius: 10px; background: rgba(255,255,255,.04); border: 1px solid var(--line); }
+.seg button { border: 0; background: transparent; color: var(--muted); font: 600 12px var(--mono); padding: 5px 10px; border-radius: 7px; }
+.seg button.on { background: rgba(255,255,255,.1); color: var(--ink); }
 
-.login-card::before {
-  content: '';
-  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: 120px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-}
+main { min-width: 0; padding: 30px clamp(16px, 3vw, 40px) 60px; }
+.view { display: none; max-width: 1120px; margin: 0 auto; animation: fade .25s ease; }
+.view.active { display: block; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } }
+.head { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+.head h1 { font: 700 28px var(--display); letter-spacing: -.025em; margin: 0; }
+.head p { margin: 4px 0 0; color: var(--muted); }
+.head .tools { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
 
-.login-logo {
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: 28px;
-}
-.login-logo img {
-  height: 52px; width: auto; flex-shrink: 0;
-}
-.login-logo h1 {
-  font-size: 16px; font-weight: 800; letter-spacing: -.01em;
-}
-.login-logo p {
-  font-size: 10px; color: var(--muted); font-family: var(--font-mono);
-  letter-spacing: .08em; text-transform: uppercase;
-}
+/* ── Kind picker ── */
+.kinds { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+.kind { position: relative; display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border-radius: var(--r); text-align: left;
+  border: 1px solid var(--line2); background: var(--card); transition: border-color .15s, background .15s; }
+.kind:hover { border-color: rgba(255,255,255,.22); }
+.kind .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(255,255,255,.05); flex: none; }
+.kind b { display: block; font: 600 15px var(--display); }
+.kind span { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+.kind.on { border-color: rgba(155,92,255,.6); background: linear-gradient(180deg, rgba(155,92,255,.12), rgba(155,92,255,.04)), var(--card); box-shadow: 0 0 0 3px rgba(155,92,255,.12); }
+.kind.on .ic { background: var(--grad); }
+.kind.on .ic svg { stroke: #fff; }
 
-.login-title {
-  font-size: 22px; font-weight: 800; margin-bottom: 6px;
-  background: linear-gradient(135deg, #1a1c2b 0%, #7c5cfc 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.login-sub {
-  font-size: 12px; color: var(--muted); margin-bottom: 28px;
-  font-family: var(--font-mono);
-}
+/* ── Issue layout ── */
+.issue { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 18px; align-items: start; }
+.card { border-radius: var(--r); background: var(--card); border: 1px solid var(--line); }
+.sec { padding: 20px 22px; }
+.sec + .sec { border-top: 1px solid var(--line); }
+.sec-t { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.sec-t i { font-style: normal; width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center; background: var(--soft); color: var(--brand); font-size: 11px; letter-spacing: 0; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.f { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.f + .f, .grid2 + .f, .f + .grid2, .grid2 + .grid2 { margin-top: 12px; }
+.f label { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.f label em { font-style: normal; color: var(--faint); font-weight: 500; }
+.in { width: 100%; min-height: 42px; padding: 0 13px; border-radius: 11px; border: 1px solid var(--line2); background: var(--field);
+  outline: none; transition: border-color .15s, box-shadow .15s; }
+textarea.in { min-height: 96px; padding: 11px 13px; resize: vertical; font: 12.5px/1.5 var(--mono); }
+.in::placeholder { color: var(--faint); }
+.in:focus { border-color: rgba(155,92,255,.7); box-shadow: 0 0 0 3px rgba(155,92,255,.16); }
+.in.err { border-color: rgba(255,75,92,.7); box-shadow: 0 0 0 3px rgba(255,75,92,.14); }
+.in.mono { font-family: var(--mono); letter-spacing: .08em; }
+input[type=date].in { color-scheme: dark; }
+input[type=number].in::-webkit-inner-spin-button { opacity: .4; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.chip { min-height: 30px; padding: 0 12px; border-radius: 99px; border: 1px solid var(--line2); background: transparent; color: var(--muted); font: 500 12.5px var(--mono); transition: all .12s; }
+.chip:hover { color: var(--ink); border-color: rgba(255,255,255,.25); }
+.chip.on { color: #fff; border-color: transparent; background: var(--b); }
+.hint { font-size: 12px; color: var(--faint); margin-top: 8px; }
+.hint b { color: var(--ink); font-weight: 600; }
+.hint.warn { color: var(--amber); }
 
-.l-field { margin-bottom: 14px; }
-.l-field label {
-  display: block; font-size: 10px; font-weight: 700;
-  color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
-  margin-bottom: 6px;
-}
-.l-field input {
-  width: 100%; padding: 10px 13px;
-  background: rgba(20,21,27,.03);
-  border: 1px solid var(--border);
-  border-radius: 8px; color: var(--text);
-  font-family: var(--font-mono); font-size: 13px;
-  outline: none; transition: border-color .15s, box-shadow .15s;
-}
-.l-field input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(124,92,252,.12);
-}
+.feat { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line2); background: var(--field); cursor: pointer; }
+.feat + .feat { margin-top: 8px; }
+.feat b { display: block; font-weight: 600; }
+.feat span { display: block; font-size: 12px; color: var(--muted); }
+.feat.locked { cursor: default; opacity: .8; }
+.sw { position: relative; flex: none; width: 40px; height: 24px; margin-left: auto; appearance: none; -webkit-appearance: none; border-radius: 99px; background: rgba(255,255,255,.14); transition: background .15s; cursor: pointer; }
+.sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .18s cubic-bezier(.3,1.4,.6,1); box-shadow: 0 1px 3px rgba(0,0,0,.4); }
+.sw:checked { background: var(--green); }
+.sw:checked::after { transform: translateX(16px); }
+.sw:disabled { cursor: default; }
+.err-msg { min-height: 0; color: var(--red); font-size: 13px; font-weight: 500; }
+.err-msg:not(:empty) { padding: 10px 12px; margin-top: 12px; border-radius: 10px; background: rgba(255,75,92,.1); border: 1px solid rgba(255,75,92,.3); }
 
-.login-btn {
-  width: 100%; padding: 12px;
-  background: linear-gradient(135deg, #7c5cfc, #ec4899);
-  color: #fff; border: none; border-radius: 8px;
-  font-family: var(--font-ui); font-size: 13px; font-weight: 700;
-  cursor: pointer; margin-top: 8px;
-  transition: opacity .15s, transform .1s;
-  letter-spacing: .02em;
-}
-.login-btn:hover { opacity: .9; transform: translateY(-1px); }
-.login-btn:active { transform: translateY(0); }
-.login-btn:disabled { opacity: .5; cursor: default; transform: none; }
+/* ── License card (preview / result) ── */
+.preview { position: sticky; top: 24px; display: flex; flex-direction: column; gap: 12px; }
+.lic-card { position: relative; overflow: hidden; padding: 20px; border-radius: 20px; border: 1px solid var(--line2);
+  background: linear-gradient(160deg, rgba(91,123,255,.16), rgba(155,92,255,.08) 45%, rgba(255,79,208,.06)), var(--card2);
+  box-shadow: 0 30px 70px rgba(0,0,0,.45); }
+.lic-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--grad); opacity: .9; }
+.lic-card.issued { border-color: rgba(52,210,123,.5); }
+.lic-card.issued::before { background: var(--green); }
+.lc-top { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; font: 600 11px var(--mono); letter-spacing: .06em; text-transform: uppercase;
+  background: rgba(255,255,255,.07); color: var(--muted); white-space: nowrap; }
+.pill.lic { background: rgba(62,224,255,.12); color: var(--cyan); }
+.pill.key { background: var(--soft); color: var(--brand); }
+.pill.ok { background: rgba(52,210,123,.14); color: var(--green); }
+.pill.warn { background: rgba(255,176,46,.14); color: var(--amber); }
+.pill.bad { background: rgba(255,75,92,.14); color: var(--red); }
+.pill.dim { background: rgba(255,255,255,.05); color: var(--faint); }
+.lc-top .pill:last-child { margin-left: auto; }
+.lc-title { font: 700 21px/1.25 var(--display); letter-spacing: -.02em; word-break: break-word; min-height: 26px; }
+.lc-title.ph { color: var(--faint); }
+.lc-org { color: var(--muted); font-size: 13px; margin-top: 2px; min-height: 19px; }
+.lc-rows { margin-top: 16px; display: grid; gap: 10px; }
+.lc-row { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
+.lc-row > span:first-child { color: var(--faint); }
+.lc-row > span:last-child { text-align: right; font-family: var(--mono); font-size: 12.5px; }
+.lc-days { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line2); display: flex; align-items: baseline; gap: 8px; }
+.lc-days b { font: 700 30px var(--display); letter-spacing: -.03em; }
+.lc-days span { color: var(--muted); font-size: 13px; }
+.result { display: flex; flex-direction: column; gap: 8px; }
+.keybox { padding: 12px 13px; border-radius: 12px; background: var(--field); border: 1px solid var(--line2); font: 11.5px/1.55 var(--mono); color: var(--brand); word-break: break-all; max-height: 120px; overflow: auto; user-select: all; }
+.fname { font: 12px var(--mono); color: var(--muted); word-break: break-all; text-align: center; }
+.btns2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-.login-err {
-  margin-top: 12px; font-size: 11px; color: var(--red);
-  font-family: var(--font-mono); min-height: 16px; text-align: center;
-}
+/* ── Lists (history / orders) ── */
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+.search { position: relative; flex: 1 1 260px; }
+.search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--faint); }
+.search .in { padding-left: 38px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+.stat { padding: 14px 16px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
+.stat b { display: block; font: 700 24px var(--display); letter-spacing: -.02em; }
+.stat span { font-size: 12px; color: var(--muted); }
+.list { display: flex; flex-direction: column; gap: 8px; }
+.item { display: grid; grid-template-columns: 22px auto minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); transition: border-color .12s; }
+.item:hover { border-color: var(--line2); }
+.item .nm { min-width: 0; }
+.item .nm b { display: block; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .nm span { display: block; font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .per { font: 12px var(--mono); color: var(--muted); text-align: right; white-space: nowrap; }
+.item .per small { display: block; color: var(--faint); font-size: 11px; }
+.item .acts { display: flex; gap: 2px; }
+.item .tags { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+.cb { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--line2); background: var(--field); cursor: pointer; }
+.cb:checked { border-color: var(--b); background: var(--b) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/12px no-repeat; }
+.empty { padding: 50px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line2); border-radius: var(--r); }
+.paid-tg { border: 0; }
 
-/* App Shell */
-#appShell {
-  display: none;
-  height: 100vh;
-  flex-direction: column;
-  position: relative; z-index: 1;
-  max-width: 960px;
-  margin: 0 auto;
-  border-left: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-  background: rgba(255,255,255,.55);
-}
+.order { padding: 18px 20px; }
+.order + .order { margin-top: 10px; }
+.order-top { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+.order-top b { font: 600 16px var(--display); }
+.order-top .org { color: var(--muted); font-size: 13px; }
+.order-top .when { margin-left: auto; font: 12px var(--mono); color: var(--faint); }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.meta span { font: 12px var(--mono); padding: 4px 10px; border-radius: 8px; background: rgba(255,255,255,.04); border: 1px solid var(--line); color: var(--muted); }
+.meta a { color: var(--brand); text-decoration: none; }
+.msg { margin-top: 12px; padding-left: 12px; border-left: 2px solid var(--line2); color: var(--muted); white-space: pre-wrap; }
+.order-acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+.order-acts .sp { flex: 1; }
 
-/* Header */
-.header {
-  display: flex; align-items: center; gap: 10px;
-  padding: 13px 20px 11px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-  background: rgba(255,255,255,.85);
-  backdrop-filter: blur(8px);
-}
-.header .dot {
-  height: 36px; width: auto; flex-shrink: 0;
-}
-.header-text h1 { font-size: 14px; font-weight: 800; letter-spacing: -.01em; }
-.header-text p  { font-size: 10px; color: var(--muted); font-family: var(--font-mono); letter-spacing: .06em; }
+/* ── Verify ── */
+.drop { display: grid; place-items: center; gap: 6px; padding: 26px; border: 1.5px dashed var(--line2); border-radius: 14px; color: var(--muted); text-align: center; cursor: pointer; transition: border-color .15s, background .15s; }
+.drop.over, .drop:hover { border-color: rgba(155,92,255,.6); background: var(--soft); color: var(--ink); }
+.vres { margin-top: 16px; }
+.vres .big-st { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; font-weight: 600; }
+.vres .big-st.ok { background: rgba(52,210,123,.12); color: var(--green); border: 1px solid rgba(52,210,123,.35); }
+.vres .big-st.warn { background: rgba(255,176,46,.12); color: var(--amber); border: 1px solid rgba(255,176,46,.35); }
+.vres .big-st.bad { background: rgba(255,75,92,.12); color: var(--red); border: 1px solid rgba(255,75,92,.35); }
+.kv { margin-top: 12px; display: grid; grid-template-columns: 140px 1fr; gap: 8px 14px; font-size: 13px; }
+.kv dt { color: var(--faint); }
+.kv dd { margin: 0; font-family: var(--mono); font-size: 12.5px; word-break: break-all; }
 
-.header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+#toast { position: fixed; left: 50%; bottom: 24px; z-index: 50; transform: translate(-50%, 90px); padding: 11px 18px; border-radius: 12px;
+  background: #1b2440; border: 1px solid var(--line2); box-shadow: 0 18px 50px rgba(0,0,0,.5); font-weight: 500; font-size: 13px;
+  transition: transform .3s cubic-bezier(.3,1.4,.6,1); pointer-events: none; max-width: calc(100vw - 32px); }
+#toast.show { transform: translate(-50%, 0); }
 
-.warn-badge {
-  font-size: 10px; color: var(--amber);
-  background: rgba(245,158,11,.07);
-  border: 1px solid rgba(245,158,11,.18);
-  border-radius: 4px; padding: 2px 8px;
-  font-family: var(--font-mono);
+/* ── Responsive ── */
+@media (max-width: 1100px) { .issue { grid-template-columns: 1fr; } .preview { position: static; } }
+@media (max-width: 820px) {
+  #appShell { grid-template-columns: 1fr; }
+  .side { position: sticky; top: 0; z-index: 5; height: auto; flex-direction: row; align-items: center; overflow-x: auto; padding: 10px 12px; border-right: 0; border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); background: rgba(6,9,18,.85); }
+  .side .brand { padding: 0 8px 0 0; } .side .brand div { display: none; }
+  .nav { width: auto; flex: none; min-height: 38px; } .nav .lbl { display: none; }
+  .side-foot { margin: 0 0 0 auto; padding: 0; border: 0; flex-direction: row; align-items: center; } .who { display: none; }
+  .kinds, .grid2, .stats { grid-template-columns: 1fr 1fr; }
+  .item { grid-template-columns: 22px minmax(0,1fr) auto; }
+  .item .per, .item .tags { grid-column: 2 / -1; text-align: left; justify-content: flex-start; }
 }
-
-.user-info {
-  display: flex; align-items: center; gap: 7px;
-}
-.user-email {
-  font-size: 10px; color: var(--muted); font-family: var(--font-mono);
-  max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.logout-btn {
-  font-size: 10px; color: var(--muted);
-  background: rgba(20,21,27,.03);
-  border: 1px solid var(--border); border-radius: 4px;
-  padding: 3px 8px; cursor: pointer;
-  font-family: var(--font-ui); font-weight: 600;
-  transition: color .12s, border-color .12s;
-}
-.logout-btn:hover { color: var(--red); border-color: rgba(239,68,68,.3); }
-
-.lang-switch {
-  display: flex; border: 1px solid var(--border); border-radius: 4px;
-  overflow: hidden; flex-shrink: 0;
-}
-.lang-btn {
-  font-size: 10px; font-weight: 700; color: var(--muted);
-  background: transparent; border: none; cursor: pointer;
-  padding: 3px 7px; font-family: var(--font-mono);
-  letter-spacing: .04em; transition: color .12s, background .12s;
-}
-.lang-btn.active { color: #fff; background: var(--accent); }
-.lang-btn:not(.active):hover { color: var(--text); }
-
-/* Tabs */
-.tabs {
-  display: flex; border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-  background: rgba(248,249,252,.85);
-}
-.tab {
-  flex: 1; padding: 10px; text-align: center;
-  font-size: 11px; font-weight: 700; color: var(--muted);
-  cursor: pointer; border-bottom: 2px solid transparent;
-  transition: all .15s; letter-spacing: .04em; text-transform: uppercase;
-  font-family: var(--font-mono);
-}
-.tab:hover { color: var(--text); }
-.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-/* Tab content */
-.tab-content { display: none; flex: 1; overflow-y: auto; flex-direction: column; }
-.tab-content.active { display: flex; }
-.form { padding: 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; width: 100%; max-width: 600px; margin: 0 auto; }
-
-/* Fields */
-.field label {
-  display: block; font-size: 10px; font-weight: 700;
-  color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
-  margin-bottom: 5px; font-family: var(--font-mono);
-}
-.field input[type=text], .field input[type=date] {
-  width: 100%; padding: 9px 12px;
-  background: rgba(20,21,27,.03);
-  border: 1px solid var(--border);
-  border-radius: 7px; color: var(--text);
-  font-size: 13px; font-family: var(--font-mono);
-  outline: none; transition: border-color .15s, box-shadow .15s;
-}
-.field input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(124,92,252,.1);
-}
-.field input.error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(239,68,68,.08); }
-
-.date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-.presets { display: flex; gap: 5px; margin-top: 5px; }
-.presets span { font-size: 10px; color: var(--muted); align-self: center; font-family: var(--font-mono); }
-.preset {
-  padding: 3px 10px;
-  border: 1px solid var(--border);
-  border-radius: 999px; background: transparent;
-  color: var(--muted); font-size: 11px; cursor: pointer;
-  font-family: var(--font-mono); font-weight: 600;
-  transition: all .12s;
-}
-.preset:hover { border-color: var(--accent); color: var(--text); background: rgba(124,92,252,.08); }
-
-.err-msg { font-size: 11px; color: var(--red); min-height: 16px; font-family: var(--font-mono); }
-
-/* Result boxes */
-.result { display: none; border-radius: 9px; padding: 12px 14px; flex-shrink: 0; }
-.result.show { display: block; }
-.result-lic { background: rgba(16,217,138,.05); border: 1px solid rgba(16,217,138,.2); }
-.result-key { background: rgba(124,92,252,.05); border: 1px solid rgba(124,92,252,.2); }
-.result-title { font-size: 11px; font-weight: 700; margin-bottom: 9px; letter-spacing: .04em; }
-.result-lic .result-title { color: var(--green); }
-.result-key .result-title { color: var(--accent); }
-.rrow { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 4px; }
-.rlabel {
-  font-size: 10px; color: var(--muted); min-width: 70px;
-  text-transform: uppercase; letter-spacing: .05em;
-  font-family: var(--font-mono); padding-top: 1px;
-}
-.rval { font-size: 11px; color: var(--text); flex: 1; word-break: break-all; font-family: var(--font-mono); }
-.rval.key-val { font-size: 12px; color: var(--accent); letter-spacing: .06em; }
-.rval.path-val { color: var(--green); font-size: 11px; }
-
-.copy-btn {
-  margin-top: 9px; padding: 6px 14px;
-  border: 1px solid rgba(124,92,252,.25);
-  border-radius: 6px; background: rgba(124,92,252,.08);
-  color: var(--accent); font-size: 11px; font-weight: 700;
-  cursor: pointer; transition: all .12s; width: 100%;
-  font-family: var(--font-mono);
-}
-.copy-btn:hover { background: rgba(124,92,252,.16); }
-.copy-btn.copied { color: var(--green); border-color: rgba(16,217,138,.25); background: rgba(16,217,138,.06); }
-
-.lic-dl-btn {
-  margin-top: 7px; padding: 6px 14px;
-  border: 1px solid rgba(16,217,138,.25);
-  border-radius: 6px; background: rgba(16,217,138,.07);
-  color: var(--green); font-size: 11px; font-weight: 700;
-  cursor: pointer; transition: all .12s; width: 100%;
-  font-family: var(--font-mono);
-}
-.lic-dl-btn:hover { background: rgba(16,217,138,.14); }
-
-/* Generate button */
-.gen-btn {
-  width: 100%; padding: 12px;
-  background: linear-gradient(135deg, #7c5cfc, #ec4899);
-  color: #fff; border: none; border-radius: 9px;
-  font-size: 13px; font-weight: 700; cursor: pointer;
-  transition: opacity .15s, transform .1s;
-  display: flex; align-items: center; justify-content: center; gap: 7px;
-  flex-shrink: 0; font-family: var(--font-ui); letter-spacing: .02em;
-}
-.gen-btn:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
-.gen-btn:active:not(:disabled) { transform: translateY(0); }
-.gen-btn:disabled { opacity: .45; cursor: default; }
-
-/* History */
-.hist-section { flex-shrink: 0; border-top: 1px solid var(--border); }
-.hist-hdr {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 20px; cursor: pointer; transition: background .1s;
-}
-.hist-hdr:hover { background: rgba(20,21,27,.025); }
-.hist-title {
-  font-size: 10px; font-weight: 700; color: var(--muted);
-  text-transform: uppercase; letter-spacing: .08em;
-  display: flex; align-items: center; gap: 5px;
-  font-family: var(--font-mono);
-}
-.hist-actions { display: flex; gap: 4px; align-items: center; }
-.hist-act-btn {
-  font-size: 10px; color: var(--muted); background: transparent;
-  border: none; cursor: pointer; padding: 2px 6px; font-family: var(--font-ui); font-weight: 600;
-  transition: color .12s;
-}
-.hist-act-btn:hover { color: var(--text); }
-.hist-act-btn.danger:hover { color: var(--red); }
-
-.hist-body { max-height: 130px; overflow-y: auto; padding: 0 20px 8px; }
-.hist-item {
-  display: flex; align-items: center; gap: 7px;
-  padding: 5px 7px; border-radius: 5px; font-size: 11px;
-  border: 1px solid transparent; transition: background .1s;
-}
-.hist-item:hover { background: rgba(20,21,27,.028); border-color: var(--border); }
-.hist-badge {
-  font-size: 9px; padding: 1px 6px; border-radius: 3px;
-  flex-shrink: 0; font-family: var(--font-mono); font-weight: 700; letter-spacing: .04em;
-}
-.hist-lic { background: rgba(16,217,138,.1); color: var(--green); }
-.hist-key { background: rgba(124,92,252,.1); color: var(--accent); }
-.hist-ev {
-  flex: 1; font-weight: 600; color: #3a3550;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-family: var(--font-mono); font-size: 10px;
-}
-.hist-dt { color: var(--amber); font-size: 10px; flex-shrink: 0; font-family: var(--font-mono); }
-.hist-user { color: var(--muted); font-size: 9px; flex-shrink: 0; font-family: var(--font-mono); }
-.hist-empty { font-size: 11px; color: var(--muted); text-align: center; padding: 10px 0; font-family: var(--font-mono); }
-
-.hist-key-row {
-  display: flex; align-items: center; gap: 6px;
-  width: 100%; padding: 3px 0 0 0;
-}
-.hist-key-val {
-  font-family: var(--font-mono); font-size: 11px;
-  color: var(--accent); letter-spacing: .06em;
-  flex: 1; word-break: break-all;
-}
-.hist-copy-btn {
-  background: transparent; border: none;
-  cursor: pointer; font-size: 12px; padding: 2px 4px;
-  opacity: .6; transition: opacity .12s; flex-shrink: 0;
-}
-.hist-copy-btn:hover { opacity: 1; }
-
-.paid-check-label {
-  display: flex; align-items: center; gap: 8px;
-  cursor: pointer; user-select: none;
-  font-family: var(--font-mono); font-size: 12px;
-  color: var(--muted); padding: 4px 0;
-}
-/* Custom checkboxes */
-.paid-check-label input[type=checkbox] {
-  -webkit-appearance: none; appearance: none;
-  width: 18px; height: 18px; flex-shrink: 0; cursor: pointer;
-  border: 1.5px solid var(--border2); border-radius: 5px;
-  background: #fff; position: relative; transition: background .12s, border-color .12s;
-}
-.paid-check-label input[type=checkbox]:hover:not(:disabled) { border-color: var(--green); }
-.paid-check-label input[type=checkbox]:checked {
-  border-color: var(--green);
-  background: var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/12px no-repeat;
-}
-.paid-check-label input[type=checkbox]:disabled { opacity: .5; cursor: default; }
-.paid-check-label:has(input:checked) { color: var(--green); }
-
-.mode-check-label input[type=checkbox]:hover:not(:disabled) { border-color: var(--accent2); }
-.mode-check-label input[type=checkbox]:checked { border-color: var(--accent2); background-color: var(--accent2); }
-.mode-check-label:has(input:checked) { color: var(--accent2); }
-
-.lic-copy-part-btn {
-  padding: 5px 12px;
-  border: 1px solid rgba(16,217,138,.25);
-  border-radius: 6px; background: rgba(16,217,138,.07);
-  color: var(--green); font-size: 11px; font-weight: 700;
-  cursor: pointer; transition: all .12s;
-  font-family: var(--font-mono); flex: 1;
-}
-.lic-copy-part-btn:hover { background: rgba(16,217,138,.15); }
-.lic-copy-part-btn.copied { color: var(--accent); border-color: rgba(124,92,252,.3); background: rgba(124,92,252,.07); }
-
-.hist-meta {
-  font-family: var(--font-mono); font-size: 10px;
-  color: var(--muted); padding: 1px 0;
-}
-.hist-meta-notes {
-  font-family: var(--font-mono); font-size: 10px;
-  color: #8a86a0; font-style: italic; padding: 1px 0;
-}
-.hist-paid-label {
-  display: flex; align-items: center; gap: 5px;
-  cursor: pointer; flex-shrink: 0;
-  font-family: var(--font-mono); font-size: 10px;
-  color: var(--muted); user-select: none;
-}
-.hist-paid-label:has(input:checked) { color: var(--green); }
-.hist-paid-check {
-  -webkit-appearance: none; appearance: none;
-  width: 15px; height: 15px; flex-shrink: 0; cursor: pointer;
-  border: 1.5px solid var(--border2); border-radius: 4px; background: #fff;
-  transition: background .12s, border-color .12s;
-}
-.hist-paid-check:checked {
-  border-color: var(--green);
-  background: var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/10px no-repeat;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #cfd2e0; border-radius: 2px; }
-
-/* Orders tab */
-.orders-wrap { padding: 18px 20px; flex: 1; overflow-y: auto; }
-.orders-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-.orders-bar h2 { font-size: 14px; font-weight: 800; letter-spacing: -.01em; }
-.orders-count { font-size: 10px; font-family: var(--font-mono); color: var(--muted); background: rgba(124,92,252,.1); border: 1px solid rgba(124,92,252,.2); padding: 2px 8px; border-radius: 999px; }
-.orders-refresh { margin-left: auto; padding: 6px 13px; border: 1px solid var(--border2); border-radius: 7px; background: rgba(20,21,27,.03); color: var(--text); font-size: 11px; font-weight: 700; cursor: pointer; font-family: var(--font-mono); transition: all .12s; }
-.orders-refresh:hover { border-color: var(--accent); color: var(--accent); }
-.order-card { border: 1px solid var(--border); border-radius: 12px; background: rgba(20,21,27,.02); padding: 15px 17px; margin-bottom: 11px; transition: border-color .12s; }
-.order-card:hover { border-color: var(--border2); }
-.order-top { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
-.order-name { font-size: 15px; font-weight: 800; letter-spacing: -.01em; }
-.order-org { font-size: 12px; color: var(--muted); font-family: var(--font-mono); }
-.order-when { margin-left: auto; font-size: 10px; color: var(--amber); font-family: var(--font-mono); white-space: nowrap; }
-.order-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
-.order-chip { font-size: 11px; font-family: var(--font-mono); color: #3a3550; background: rgba(20,21,27,.03); border: 1px solid var(--border); border-radius: 6px; padding: 3px 9px; display: inline-flex; gap: 6px; align-items: center; }
-.order-chip a { color: var(--accent); text-decoration: none; }
-.order-chip a:hover { text-decoration: underline; }
-.order-chip b { color: var(--muted); font-weight: 600; }
-.order-msg { margin-top: 10px; font-size: 12.5px; color: #4a4560; line-height: 1.55; border-left: 2px solid var(--border2); padding-left: 11px; }
-.order-actions { display: flex; gap: 6px; margin-top: 13px; flex-wrap: wrap; align-items: center; }
-.order-status { font-size: 10px; font-family: var(--font-mono); font-weight: 700; padding: 3px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: .05em; }
-.st-new { background: rgba(124,92,252,.14); color: var(--accent); }
-.st-contacted { background: rgba(245,158,11,.14); color: var(--amber); }
-.st-done { background: rgba(16,217,138,.14); color: var(--green); }
-.order-set { font-size: 10px; font-family: var(--font-mono); font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--muted); transition: all .12s; }
-.order-set:hover { color: var(--text); border-color: var(--border2); }
-.order-del { margin-left: auto; font-size: 10px; font-family: var(--font-mono); font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; background: transparent; color: var(--muted); transition: all .12s; }
-.order-del:hover { color: var(--red); border-color: rgba(239,68,68,.3); background: rgba(239,68,68,.06); }
-.order-del.confirm { color: var(--red); border-color: rgba(239,68,68,.4); background: rgba(239,68,68,.1); }
-.orders-empty { text-align: center; color: var(--muted); font-family: var(--font-mono); font-size: 12px; padding: 50px 0; }
-
-/* Toast */
-#toast {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(60px);
-  background: var(--panel); border: 1px solid var(--border2);
-  border-radius: 8px; padding: 8px 18px;
-  font-size: 12px; font-family: var(--font-mono);
-  color: var(--text); z-index: 999;
-  transition: transform .25s cubic-bezier(.34,1.56,.64,1);
-  pointer-events: none; white-space: nowrap;
-}
-#toast.show { transform: translateX(-50%) translateY(0); }
+@media (max-width: 520px) { .kinds, .grid2 { grid-template-columns: 1fr; } .kv { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M9 14l2 2 4-4"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 20 3"/><path d="m16 7 3 3"/><path d="m18 5 2 2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5h13L22 12v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 15h10l1-15"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-cash" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></symbol>
+</svg>
+
+<!-- LOGIN -->
 <div id="loginScreen">
-  <div class="login-card">
-    <div class="lang-switch" style="position:absolute;top:14px;right:14px">
-      <button class="lang-btn" id="langBtnMn" onclick="setLang('mn')">MN</button>
-      <button class="lang-btn" id="langBtnEn" onclick="setLang('en')">EN</button>
-    </div>
-    <div class="login-logo">
-      <img src="../admin/assets/images/logo.png" alt="NeuroReplay" />
-      <div>
-        <h1>NeuroReplay Keygen</h1>
-        <p data-i18n="subtitle">License Generator</p>
-      </div>
-    </div>
-    <div class="login-title" data-i18n="loginTitle">Нэвтрэх</div>
-    <!-- <div class="login-sub">// Зөвхөн Ideree дотоод хэрэглэгчид</div> -->
-
-    <div class="l-field">
-      <label data-i18n="email">И-мэйл</label>
-      <input type="email" id="loginEmail" placeholder="user@ideree.mn" autocomplete="email" />
-    </div>
-    <div class="l-field">
-      <label data-i18n="password">Нууц үг</label>
-      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" />
-    </div>
-
-    <button class="login-btn" id="loginBtn" onclick="doLogin()" data-i18n="loginBtn">Нэвтрэх →</button>
-    <div class="login-err" id="loginErr"></div>
-  </div>
+  <form class="login-card" onsubmit="doLogin(); return false;">
+    <div class="row" style="position:absolute;top:16px;right:16px"><div class="seg" data-langseg><button type="button" data-l="mn">MN</button><button type="button" data-l="en">EN</button></div></div>
+    <div class="brand"><img src="../assets/neuroreplay-mark.png" alt=""><div><b>NeuroReplay</b><small data-i18n="console">License Console</small></div></div>
+    <h2 data-i18n="loginTitle">Нэвтрэх</h2>
+    <p class="sub" data-i18n="loginSub">Зөвхөн NeuroReplay-н ажилтнуудад.</p>
+    <div class="f"><label for="loginEmail" data-i18n="email">И-мэйл</label><input class="in" type="email" id="loginEmail" autocomplete="email" required></div>
+    <div class="f"><label for="loginPass" data-i18n="password">Нууц үг</label><input class="in" type="password" id="loginPass" autocomplete="current-password" required></div>
+    <button class="btn primary big" id="loginBtn" style="margin-top:18px" data-i18n="loginBtn">Нэвтрэх</button>
+    <div class="login-err" id="loginErr" role="alert"></div>
+  </form>
 </div>
 
-<!-- APP SHELL -->
+<!-- APP -->
 <div id="appShell">
-
-  <!-- Header -->
-  <div class="header">
-    <img class="dot" src="../admin/assets/images/logo.png" alt="NeuroReplay" />
-    <div class="header-text">
-      <h1>NeuroReplay Keygen</h1>
-      <p data-i18n="subtitle">License Generator</p>
+  <aside class="side">
+    <div class="brand"><img src="../assets/neuroreplay-mark.png" alt="NeuroReplay"><div><b>NeuroReplay</b><small data-i18n="console">License Console</small></div></div>
+    <button class="nav active" data-view="issue"><svg class="i"><use href="#i-plus"/></svg><span class="lbl" data-i18n="navIssue">Шинэ лиценз</span></button>
+    <button class="nav" data-view="history"><svg class="i"><use href="#i-clock"/></svg><span class="lbl" data-i18n="navHistory">Түүх</span><span class="count" id="cntHist">0</span></button>
+    <button class="nav" data-view="orders"><svg class="i"><use href="#i-inbox"/></svg><span class="lbl" data-i18n="navOrders">Захиалга</span><span class="count" id="cntOrders">·</span></button>
+    <button class="nav" data-view="verify"><svg class="i"><use href="#i-shield"/></svg><span class="lbl" data-i18n="navVerify">Шалгах</span></button>
+    <div class="side-foot">
+      <div class="who" id="userEmail"></div>
+      <div class="row"><div class="seg" data-langseg><button data-l="mn">MN</button><button data-l="en">EN</button></div>
+        <button class="btn ghost sm" onclick="doLogout()" title="Logout"><svg class="i"><use href="#i-out"/></svg><span data-i18n="logout">Гарах</span></button></div>
     </div>
-    <div class="header-right">
-      <!-- <div class="warn-badge">⚠ Ideree дотоод</div> -->
-      <div class="lang-switch">
-        <button class="lang-btn" id="langBtnMn2" onclick="setLang('mn')">MN</button>
-        <button class="lang-btn" id="langBtnEn2" onclick="setLang('en')">EN</button>
-      </div>
-      <div class="user-info">
-        <span class="user-email" id="userEmail"></span>
-        <button class="logout-btn" onclick="doLogout()" data-i18n="logout">Гарах</button>
-      </div>
-    </div>
-  </div>
+  </aside>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab active" id="tab1" onclick="switchTab(1)"><span data-i18n="tabLic">▸ .lic Файл</span></div>
-    <div class="tab" id="tab2" onclick="switchTab(2)">⌘ License Key</div>
-    <div class="tab" id="tab3" onclick="switchTab(3)"><span data-i18n="tabOrders">◈ Захиалгууд</span></div>
-  </div>
+  <main>
+    <!-- ISSUE -->
+    <section class="view active" id="view-issue">
+      <div class="head"><div><h1 data-i18n="issueTitle">Шинэ лиценз</h1><p data-i18n="issueSub">Төрлөө сонгоод мэдээллээ бөглөнө. Гарын үсгийг сервер дээр зурна.</p></div></div>
 
-  <!-- TAB 1: .lic file -->
-  <div class="tab-content active" id="content1">
-    <div class="form">
-      <div class="field">
-        <label data-i18n="eventName">Тэмцээний нэр</label>
-        <input type="text" id="licEvent" data-i18n-ph="eventNamePh" placeholder="Тэмцээний нэрийг оруулна уу" />
+      <div class="kinds" role="radiogroup">
+        <button class="kind on" data-kind="lic" role="radio" aria-checked="true"><span class="ic"><svg class="i"><use href="#i-file"/></svg></span>
+          <div><b data-i18n="kindLic">.lic файл — тэмцээн</b><span data-i18n="kindLicSub">Ямар ч компьютер дээр ажиллана. Огноогоор хязгаарлагдана.</span></div></button>
+        <button class="kind" data-kind="key" role="radio" aria-checked="false"><span class="ic"><svg class="i"><use href="#i-key"/></svg></span>
+          <div><b data-i18n="kindKey">License Key — нэг компьютер</b><span data-i18n="kindKeySub">Хэрэглэгчийн Machine ID-д холбогдоно.</span></div></button>
       </div>
-      <div class="date-row">
-        <div class="field">
-          <label data-i18n="startDate">Эхлэх огноо</label>
-          <input type="date" id="licStart" />
-        </div>
-        <div class="field">
-          <label data-i18n="endDate">Дуусах огноо</label>
-          <input type="date" id="licEnd" />
-        </div>
-      </div>
-      <div class="presets">
-        <span data-i18n="quick">Хурдан:</span>
-        <button class="preset" onclick="licAddDays(1)">+1</button>
-        <button class="preset" onclick="licAddDays(3)">+3</button>
-        <button class="preset" onclick="licAddDays(7)">+7</button>
-        <button class="preset" onclick="licAddDays(30)">+30</button>
-      </div>
-      <div class="field">
-        <label data-i18n="org">Байгууллага / Клуб</label>
-        <input type="text" id="licOrg" data-i18n-ph="orgPh" placeholder="Байгууллагын нэр" />
-      </div>
-      <div class="date-row">
-        <div class="field">
-          <label data-i18n="phone">Утас</label>
-          <input type="text" id="licPhone" placeholder="9911xxxx" />
-        </div>
-        <div class="field">
-          <label data-i18n="email">И-мэйл</label>
-          <input type="text" id="licEmail" placeholder="contact@club.mn" />
-        </div>
-      </div>
-      <div class="field">
-        <label data-i18n="notes">Тэмдэглэл</label>
-        <input type="text" id="licNotes" data-i18n-ph="notesPh" placeholder="Нэмэлт мэдээлэл..." />
-      </div>
-      <div class="field">
-        <label data-i18n="features">Features</label>
-        <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
-          <label class="paid-check-label"><input type="checkbox" id="licFeatCompetition" checked disabled /><span>Competition</span></label>
-          <label class="paid-check-label"><input type="checkbox" id="licFeatAnalyze" /><span>Analyze</span></label>
-        </div>
-      </div>
-      <div class="field">
-        <label data-i18n="maxCams">Камерын дээд тоо (хоосон = хязгааргүй)</label>
-        <input type="number" id="licMaxCameras" min="1" step="1" data-i18n-ph="maxCamsPh" placeholder="хязгааргүй" />
-      </div>
-      <div class="field">
-        <label data-i18n="modes" style="color:var(--accent2)">Горим</label>
-        <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
-          <label class="paid-check-label mode-check-label"><input type="checkbox" id="licFeatMinimal" /><span>Minimal</span></label>
-          <label class="paid-check-label mode-check-label"><input type="checkbox" id="licFeatLegacy" /><span>Legacy</span></label>
-          <label class="paid-check-label mode-check-label"><input type="checkbox" id="licFeatMultiview" /><span>Multiview</span></label>
-        </div>
-      </div>
-      <label class="paid-check-label"><input type="checkbox" id="licIsPaid" onchange="toggleLicEmailSection()" /><span data-i18n="paid">Төлбөр төлсөн</span></label>
 
-      <div class="err-msg" id="licErr"></div>
-      <div class="result result-lic" id="licResult">
-        <div class="result-title" data-i18n="licReady">// .lic файл бэлэн боллоо</div>
-        <div class="rrow"><span class="rlabel">event</span><span class="rval" id="licResEvent"></span></div>
-        <div class="rrow"><span class="rlabel">period</span><span class="rval" id="licResDates" style="color:var(--amber)"></span></div>
-        <div class="rrow"><span class="rlabel">size</span><span class="rval path-val" id="licResSize"></span></div>
-        <button class="lic-dl-btn" id="licDlBtn" data-i18n="dlLicBtn">↓ .lic Файл татах</button>
-        <div id="licEmailSection" style="display:none;margin-top:10px;border-top:1px solid rgba(20,21,27,.06);padding-top:10px">
-          <div style="font-size:10px;color:var(--muted);font-family:var(--font-mono);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em" data-i18n="emailText">Имэйлийн текст</div>
-          <div style="display:flex;gap:6px">
-            <button class="lic-copy-part-btn" id="licCopySubject">📋 Subject</button>
-            <button class="lic-copy-part-btn" id="licCopyBody">📋 Body</button>
+      <div class="issue">
+        <form class="card" id="issueForm" autocomplete="off" onsubmit="generate(); return false;">
+          <div class="sec">
+            <div class="sec-t"><i>1</i><span data-i18n="secWhat">Юунд</span></div>
+            <div class="f" data-only="lic"><label for="fEvent" data-i18n="eventName">Тэмцээний нэр</label><input class="in" id="fEvent" maxlength="120" data-i18n-ph="eventNamePh" placeholder="Улсын аварга шалгаруулах тэмцээн 2026"></div>
+            <div class="f" data-only="key"><label for="fHwid"><span data-i18n="machineId">Machine ID</span> <em data-i18n="machineIdHint">— апп-ын лицензийн цонхонд харагдана</em></label>
+              <input class="in mono" id="fHwid" maxlength="40" placeholder="839ACE0A9244337A" spellcheck="false">
+              <div class="hint" id="hwidHint"></div></div>
           </div>
-        </div>
-      </div>
-      <div style="flex:1"></div>
-      <button class="gen-btn" id="licBtn" onclick="generateLic()" data-i18n="genLicBtn">🎫 .lic Файл Үүсгэх</button>
-    </div>
-  </div>
 
-  <!-- TAB 2: License Key -->
-  <div class="tab-content" id="content2">
-    <div class="form">
-      <div class="field">
-        <label data-i18n="machineId">Machine ID (16 тэмдэгт, хэрэглэгчийн илгээсэн)</label>
-        <input type="text" id="keyHwid" placeholder="839ACE0A9244337A" maxlength="16"
-               oninput="this.value=this.value.toUpperCase().replace(/[^A-F0-9]/g,'')" />
-      </div>
-      <div class="date-row">
-        <div class="field">
-          <label data-i18n="startDate">Эхлэх огноо</label>
-          <input type="date" id="keyStart" />
-        </div>
-        <div class="field">
-          <label data-i18n="endDate">Дуусах огноо</label>
-          <input type="date" id="keyEnd" />
-        </div>
-      </div>
-      <div class="presets">
-        <span data-i18n="quick">Хурдан:</span>
-        <button class="preset" onclick="keyAddDays(7)">+7</button>
-        <button class="preset" onclick="keyAddDays(30)">+30</button>
-        <button class="preset" onclick="keyAddDays(90)">+90</button>
-        <button class="preset" onclick="keyAddDays(365)" data-i18n="plusYear">+1 жил</button>
-      </div>
-      <div class="field">
-        <label data-i18n="org">Байгууллага / Клуб</label>
-        <input type="text" id="keyOrg" data-i18n-ph="orgPh" placeholder="Байгууллагын нэр" />
-      </div>
-      <div class="date-row">
-        <div class="field">
-          <label data-i18n="phone">Утас</label>
-          <input type="text" id="keyPhone" placeholder="9911xxxx" />
-        </div>
-        <div class="field">
-          <label data-i18n="email">И-мэйл</label>
-          <input type="text" id="keyEmail" placeholder="contact@club.mn" />
-        </div>
-      </div>
-      <div class="field">
-        <label data-i18n="notes">Тэмдэглэл</label>
-        <input type="text" id="keyNotes" data-i18n-ph="notesPh" placeholder="Нэмэлт мэдээлэл..." />
-      </div>
-      <div class="field">
-        <label data-i18n="features">Features</label>
-        <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
-          <label class="paid-check-label"><input type="checkbox" id="keyFeatCompetition" checked disabled /><span>Competition</span></label>
-          <label class="paid-check-label"><input type="checkbox" id="keyFeatAnalyze" /><span>Analyze</span></label>
-        </div>
-      </div>
-      <div class="field">
-        <label data-i18n="maxCams">Камерын дээд тоо (хоосон = хязгааргүй)</label>
-        <input type="number" id="keyMaxCameras" min="1" step="1" data-i18n-ph="maxCamsPh" placeholder="хязгааргүй" />
-      </div>
-      <div class="field">
-        <label data-i18n="modes" style="color:var(--accent2)">Горим</label>
-        <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
-          <label class="paid-check-label mode-check-label"><input type="checkbox" id="keyFeatMinimal" /><span>Minimal</span></label>
-          <label class="paid-check-label mode-check-label"><input type="checkbox" id="keyFeatLegacy" /><span>Legacy</span></label>
-          <label class="paid-check-label mode-check-label"><input type="checkbox" id="keyFeatMultiview" /><span>Multiview</span></label>
-        </div>
-      </div>
-      <label class="paid-check-label"><input type="checkbox" id="keyIsPaid" onchange="toggleKeyPaidFields()" /><span data-i18n="paid">Төлбөр төлсөн</span></label>
+          <div class="sec">
+            <div class="sec-t"><i>2</i><span data-i18n="secWhen">Хугацаа</span></div>
+            <div class="grid2">
+              <div class="f"><label for="fStart" data-i18n="startDate">Эхлэх огноо</label><input class="in" type="date" id="fStart"></div>
+              <div class="f"><label for="fEnd" data-i18n="endDate">Дуусах огноо</label><input class="in" type="date" id="fEnd"></div>
+            </div>
+            <div class="chips" id="durChips"></div>
+            <div class="hint" id="durHint"></div>
+          </div>
 
-      <div class="err-msg" id="keyErr"></div>
-      <div class="result result-key" id="keyResult">
-        <div class="result-title" data-i18n="keyReady">// License Key үүслээ</div>
-        <div class="rrow"><span class="rlabel">hwid</span><span class="rval" id="keyResHwid"></span></div>
-        <div class="rrow"><span class="rlabel">period</span><span class="rval" id="keyResDates" style="color:var(--amber)"></span></div>
-        <div class="rrow"><span class="rlabel">key</span><span class="rval key-val" id="keyResKey"></span></div>
-        <button class="copy-btn" id="copyKeyBtn" onclick="copyKey()" data-i18n="copyKeyBtn">📋 Key хуулах</button>
-      </div>
-      <div style="flex:1"></div>
-      <button class="gen-btn" id="keyBtn" onclick="generateKey()" data-i18n="genKeyBtn">🔑 License Key Үүсгэх</button>
-    </div>
-  </div>
+          <div class="sec">
+            <div class="sec-t"><i>3</i><span data-i18n="secRights">Эрх</span></div>
+            <label class="feat locked"><div><b>Competition</b><span data-i18n="featComp">Live, replay, бичлэг, TAG — үндсэн эрх</span></div><input type="checkbox" class="sw" checked disabled></label>
+            <label class="feat"><div><b>Analyze</b><span data-i18n="featAnalyze">Шинжилгээ, зураглал, харьцуулалт</span></div><input type="checkbox" class="sw" id="fAnalyze"></label>
+            <div class="f" style="margin-top:14px"><label data-i18n="maxCams">Камерын дээд тоо</label>
+              <div class="chips" id="camChips" style="margin-top:0"></div></div>
+          </div>
 
-  <!-- TAB 3: Demo / order requests -->
-  <div class="tab-content" id="content3">
-    <div class="orders-wrap">
-      <div class="orders-bar">
-        <h2 data-i18n="ordersTitle">Захиалга / Demo хүсэлт</h2>
-        <span class="orders-count" id="ordersCount">—</span>
-        <button class="orders-refresh" onclick="loadOrders()" data-i18n="refresh">↻ Шинэчлэх</button>
-      </div>
-      <div id="ordersList"><div class="orders-empty" data-i18n="ordersLoading">Ачаалж байна…</div></div>
-    </div>
-  </div>
+          <div class="sec">
+            <div class="sec-t"><i>4</i><span data-i18n="secWho">Хэнд</span></div>
+            <div class="f"><label for="fOrg" data-i18n="org">Байгууллага / Клуб</label><input class="in" id="fOrg" data-i18n-ph="orgPh" placeholder="Байгууллагын нэр"></div>
+            <div class="grid2">
+              <div class="f"><label for="fPhone" data-i18n="phone">Утас</label><input class="in" id="fPhone" inputmode="tel" placeholder="9911xxxx"></div>
+              <div class="f"><label for="fEmail" data-i18n="email">И-мэйл</label><input class="in" id="fEmail" type="email" placeholder="contact@club.mn"></div>
+            </div>
+            <div class="f"><label for="fNotes" data-i18n="notes">Тэмдэглэл</label><input class="in" id="fNotes" data-i18n-ph="notesPh" placeholder="Нэмэлт мэдээлэл…"></div>
+            <label class="feat" style="margin-top:14px"><div><b data-i18n="paid">Төлбөр төлсөн</b><span data-i18n="paidSub">Төлсөн бол байгууллага, утас, и-мэйл заавал.</span></div><input type="checkbox" class="sw" id="fPaid"></label>
+            <div class="err-msg" id="formErr" role="alert"></div>
+          </div>
+        </form>
 
-  <!-- History -->
-  <div class="hist-section">
-    <div class="hist-hdr" onclick="toggleHist()">
-      <span class="hist-title">
-        <span id="histCaret">▸</span> <span data-i18n="prevLicenses">Өмнөх license-үүд</span>
-        <span id="histCount" style="color:var(--muted)"></span>
-      </span>
-      <div class="hist-actions" onclick="event.stopPropagation()">
-        <button class="hist-act-btn" onclick="exportHist()">↓ Export</button>
-        <button class="hist-act-btn danger" onclick="deleteSelectedHist()" data-i18n="deleteSelected">Сонгосныг устгах</button>
+        <aside class="preview">
+          <div class="lic-card" id="licCard">
+            <div class="lc-top"><span class="pill" id="lcKind">.LIC</span><span class="pill dim" id="lcState">DRAFT</span></div>
+            <div class="lc-title" id="lcTitle"></div>
+            <div class="lc-org" id="lcOrg"></div>
+            <div class="lc-rows">
+              <div class="lc-row"><span data-i18n="period">Хугацаа</span><span id="lcPeriod">—</span></div>
+              <div class="lc-row"><span data-i18n="rights">Эрх</span><span id="lcFeats">competition</span></div>
+              <div class="lc-row"><span data-i18n="cameras">Камер</span><span id="lcCams">∞</span></div>
+              <div class="lc-row" data-only="key"><span>Machine ID</span><span id="lcHwid">—</span></div>
+            </div>
+            <div class="lc-days"><b id="lcDays">—</b><span id="lcDaysLbl"></span></div>
+          </div>
+          <button class="btn primary big" id="genBtn" onclick="generate()"><svg class="i"><use href="#i-shield"/></svg><span id="genLbl"></span></button>
+          <div class="result" id="result" hidden></div>
+        </aside>
       </div>
-    </div>
-    <div class="hist-body" id="histBody" style="display:none"></div>
-  </div>
+    </section>
 
+    <!-- HISTORY -->
+    <section class="view" id="view-history">
+      <div class="head"><div><h1 data-i18n="navHistory">Түүх</h1><p data-i18n="histSub">Гаргасан бүх лиценз. .lic-ийг дахин татаж, key-г хуулж болно.</p></div>
+        <div class="tools"><button class="btn sm" onclick="exportHist('csv')"><svg class="i"><use href="#i-dl"/></svg>CSV</button><button class="btn sm" onclick="exportHist('json')"><svg class="i"><use href="#i-dl"/></svg>JSON</button></div></div>
+      <div class="stats" id="histStats"></div>
+      <div class="toolbar">
+        <div class="search"><svg class="i"><use href="#i-search"/></svg><input class="in" id="histQ" data-i18n-ph="searchPh" placeholder="Хайх…"></div>
+        <div class="seg" id="histFilter"></div>
+        <button class="btn sm danger" id="histDelSel" onclick="deleteSelectedHist()" hidden><svg class="i"><use href="#i-trash"/></svg><span></span></button>
+      </div>
+      <div class="list" id="histList"></div>
+      <div style="margin-top:18px;text-align:right"><button class="btn ghost sm" onclick="purgeExpiredUnpaid()" data-i18n="purge">Хугацаа дууссан, төлөөгүйг цэвэрлэх</button></div>
+    </section>
+
+    <!-- ORDERS -->
+    <section class="view" id="view-orders">
+      <div class="head"><div><h1 data-i18n="ordersTitle">Захиалга / Demo хүсэлт</h1><p data-i18n="ordersSub">Сайтаас ирсэн хүсэлтүүд. "Лиценз гаргах" дарахад маягт автоматаар бөглөгдөнө.</p></div>
+        <div class="tools"><div class="seg" id="ordFilter"></div><button class="btn sm" onclick="loadOrders()"><svg class="i"><use href="#i-refresh"/></svg><span data-i18n="refresh">Шинэчлэх</span></button></div></div>
+      <div id="ordersList"></div>
+    </section>
+
+    <!-- VERIFY -->
+    <section class="view" id="view-verify">
+      <div class="head"><div><h1 data-i18n="verifyTitle">Лиценз шалгах</h1><p data-i18n="verifySub">Хэрэглэгч "ажиллахгүй байна" гэвэл .lic эсвэл key-г энд шалгана. Апп-тай яг ижил public key-ээр баталгаажуулна.</p></div></div>
+      <div class="card sec">
+        <label class="drop" id="drop"><input type="file" id="vFile" accept=".lic,text/plain" hidden>
+          <svg class="i" style="width:26px;height:26px"><use href="#i-file"/></svg><b data-i18n="dropLic">.lic файлаа энд чирж оруул эсвэл дарж сонго</b><span class="hint" data-i18n="orPaste">эсвэл доор token / key-г буулга</span></label>
+        <div class="f" style="margin-top:14px"><label for="vText">Token / License key</label><textarea class="in" id="vText" spellcheck="false"></textarea></div>
+        <div class="f"><label for="vHwid"><span data-i18n="machineId">Machine ID</span> <em data-i18n="vHwidHint">— зөвхөн License Key шалгахад</em></label><input class="in mono" id="vHwid" maxlength="40" placeholder="839ACE0A9244337A"></div>
+        <div class="vres" id="vRes"></div>
+      </div>
+    </section>
+  </main>
 </div>
 
-<!-- Toast -->
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
-// Supabase project settings
+// ── Config (public by design: anon key + EmailJS public key; the signing key lives only in the edge function) ──
 const SUPABASE_URL  = 'https://emopxwgbxwibchyiklpw.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtb3B4d2dieHdpYmNoeWlrbHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MzA2NzIsImV4cCI6MjA5NTQwNjY3Mn0.NewSLFAHdKLk9p-leBVeRsOgP6LAWZao5aaurbm1JK8';
-
-// signing happens on the server so the private key never touches the browser
-const SIGN_FN_URL = `${SUPABASE_URL}/functions/v1/sign-license`;
-
+const SIGN_FN_URL   = `${SUPABASE_URL}/functions/v1/sign-license`;
 const EMAILJS_PUBLIC_KEY  = 'PsBN-s2Sg1F_VRHhI';
 const EMAILJS_SERVICE_ID  = 'service_pkl4dei';
 const EMAILJS_TEMPLATE_ID = 'template_xa0iwzp';
+// Same public key the desktop app ships in nr-public.js (verify-only).
+const NR_PUBLIC_SPKI_B64 = 'MCowBQYDK2VwAyEANg7Cp6YWovMoHzJS9tq4Ft8TQmuBXjiBAHb1CYNPpq4=';
+// Must match license.js ALL_FEATURES (mode grants kept so old tokens still verify).
+const ALL_FEATURES = ['competition', 'analyze', 'legacy', 'minimal', 'multiview'];
 
-// i18n
+// ── i18n ──
 const I18N = {
   mn: {
-    subtitle: 'License Generator',
-    tabOrders: '◈ Захиалгууд',
-    ordersTitle: 'Захиалга / Demo хүсэлт',
-    refresh: '↻ Шинэчлэх',
-    ordersLoading: 'Ачаалж байна…',
-    ordersEmpty: 'Одоогоор захиалга алга.',
-    ordersLoadFail: 'Уншиж чадсангүй: ',
+    console: 'License Console', loginTitle: 'Нэвтрэх', loginSub: 'Зөвхөн NeuroReplay-н ажилтнуудад.', email: 'И-мэйл', password: 'Нууц үг',
+    loginBtn: 'Нэвтрэх', loggingIn: 'Нэвтэрч байна…', logout: 'Гарах',
+    errFillLoginFields: 'И-мэйл болон нууц үгээ оруулна уу.', errBadLogin: 'И-мэйл эсвэл нууц үг буруу.', errReLogin: 'Session дууссан — дахин нэвтэрнэ үү.',
+    navIssue: 'Шинэ лиценз', navHistory: 'Түүх', navOrders: 'Захиалга', navVerify: 'Шалгах',
+    issueTitle: 'Шинэ лиценз', issueSub: 'Төрлөө сонгоод мэдээллээ бөглөнө. Гарын үсгийг сервер дээр зурна.',
+    kindLic: '.lic файл — тэмцээн', kindLicSub: 'Ямар ч компьютер дээр ажиллана. Огноогоор хязгаарлагдана.',
+    kindKey: 'License Key — нэг компьютер', kindKeySub: 'Хэрэглэгчийн Machine ID-д холбогдоно.',
+    secWhat: 'Юунд', secWhen: 'Хугацаа', secRights: 'Эрх', secWho: 'Хэнд',
+    eventName: 'Тэмцээний нэр', eventNamePh: 'Улсын аварга шалгаруулах тэмцээн 2026',
+    machineId: 'Machine ID', machineIdHint: '— апп-ын лицензийн цонхонд харагдана',
+    hwidOk: '✓ Зөв формат', hwidLeft: n => `${n} тэмдэгт дутуу`, hwidKnown: (org) => `Өмнө нь лиценз авсан: ${org}`,
+    startDate: 'Эхлэх огноо', endDate: 'Дуусах огноо',
+    dDay: n => `${n} өдөр`, dYear: '1 жил', dMonth: n => `${n} сар`,
+    durHint: (n, s, e) => `<b>${n} өдөр</b> хүчинтэй — ${s} 00:00-аас ${e} 23:59 хүртэл (хэрэглэгчийн компьютерийн цагаар).`,
+    startPast: 'Эхлэх огноо өнгөрсөн байна — зөв эсэхийг шалгана уу.',
+    featComp: 'Live, replay, бичлэг, TAG — үндсэн эрх', featAnalyze: 'Шинжилгээ, зураглал, харьцуулалт',
+    maxCams: 'Камерын дээд тоо', unlimited: 'Хязгааргүй',
+    org: 'Байгууллага / Клуб', orgPh: 'Байгууллагын нэр', phone: 'Утас', notes: 'Тэмдэглэл', notesPh: 'Нэмэлт мэдээлэл…',
+    paid: 'Төлбөр төлсөн', paidSub: 'Төлсөн бол байгууллага, утас, и-мэйл заавал.',
+    period: 'Хугацаа', rights: 'Эрх', cameras: 'Камер', draft: 'Ноорог', signed: 'Гарын үсэгтэй',
+    eventPh: 'Тэмцээний нэр…', hwidPh: 'Machine ID…', daysLbl: 'өдөр хүчинтэй',
+    genLic: '.lic файл үүсгэх', genKey: 'License Key үүсгэх', generating: 'Гарын үсэг зурж байна…',
+    dlLic: '.lic файл татах', copyKey: 'Key хуулах', copySubject: 'Subject хуулах', copyBody: 'Имэйл текст хуулах',
+    sendEmail: 'Имэйлээр илгээх', newOne: 'Шинэ лиценз',
+    errNeedEventName: 'Тэмцээний нэр оруулна уу.', errNeedDates: 'Огноо оруулна уу.', errBadEndDate: 'Дуусах огноо эхлэхээс өмнө байна.',
+    errNeedOrg: 'Төлсөн лицензэд байгууллагын нэр заавал.', errNeedPhone: 'Төлсөн лицензэд утас заавал.', errNeedEmail: 'Төлсөн лицензэд и-мэйл заавал.',
+    errNeedHwid: 'Machine ID 16 тэмдэгт (0-9, A-F) байх ёстой.', errPrefix: 'Алдаа: ',
+    copied: 'Хуулагдлаа', emailCopied: 'Имэйлийн текст clipboard-д хуулагдлаа', keyCopied: 'Key clipboard-д хуулагдлаа',
+    toastHistSaveFail: 'Түүхэнд хадгалж чадсангүй', toastEmailSent: 'Имэйл илгээгдлээ → ', toastEmailFail: 'Имэйл илгээхэд алдаа гарлаа',
+    histSub: 'Гаргасан бүх лиценз. .lic-ийг дахин татаж, key-г хуулж болно.', searchPh: 'Нэр, байгууллага, утас, Machine ID…',
+    fAll: 'Бүгд', fActive: 'Хүчинтэй', fExpired: 'Дууссан', fUnpaid: 'Төлөөгүй',
+    stTotal: 'Нийт', stActive: 'Хүчинтэй', stSoon: '7 хоногт дуусна', stUnpaid: 'Төлөөгүй',
+    sActive: 'Хүчинтэй', sSoon: n => `${n} хоног үлдсэн`, sExpired: 'Дууссан', sFuture: 'Эхлээгүй',
+    paidLabel: 'Төлсөн', unpaidLabel: 'Төлөөгүй', togglePaid: 'Төлбөрийн төлөв солих',
+    histEmpty: 'Лиценз олдсонгүй.', noToken: 'Энэ .lic-ийн файл хадгалагдаагүй (хуучин бичлэг).',
+    deleteN: n => `${n} устгах`, confirmDeleteN: n => `${n} лицензийн түүхийг устгах уу? (Лиценз өөрөө хүчинтэй хэвээр үлдэнэ.)`,
+    confirmDelete1: 'Энэ түүхийг устгах уу? (Лиценз өөрөө хүчинтэй хэвээр үлдэнэ.)',
+    toastDeleteFail: 'Устгаж чадсангүй', toastDeleted: 'Устгалаа', toastUpdateFail: 'Шинэчилж чадсангүй',
+    purge: 'Хугацаа дууссан, төлөөгүйг цэвэрлэх', confirmPurge: n => `Хугацаа нь дууссан, төлөөгүй ${n} бичлэг устгах уу?`, purgeNone: 'Цэвэрлэх зүйл алга.',
+    ordersTitle: 'Захиалга / Demo хүсэлт', ordersSub: 'Сайтаас ирсэн хүсэлтүүд. "Лиценз гаргах" дарахад маягт автоматаар бөглөгдөнө.',
+    refresh: 'Шинэчлэх', ordersLoading: 'Ачаалж байна…', ordersEmpty: 'Захиалга алга.', ordersLoadFail: 'Уншиж чадсангүй: ',
     ordersNoTable: 'Хүснэгт үүсгээгүй бол admin/supabase/demo_requests.sql-ийг Supabase дээр ажиллуулна уу.',
-    stNew: 'Шинэ', stContacted: 'Холбогдсон', stDone: 'Дууссан',
-    orderDelete: '🗑 Устгах',
-    orderConfirmDelete: '⚠ Дарж баталгаажуул',
-    orderNoDeletePerm: 'Устгах эрх алга — delete SQL-ээ Supabase дээр ажиллуулна уу',
-    toastErrPrefix: 'Алдаа: ',
-    features: 'Features',
-    maxCams: 'Камерын дээд тоо (хоосон = хязгааргүй)',
-    maxCamsPh: 'хязгааргүй',
-    loginTitle: 'Нэвтрэх',
-    email: 'И-мэйл',
-    password: 'Нууц үг',
-    loginBtn: 'Нэвтрэх →',
-    loggingIn: 'Нэвтэрч байна…',
-    logout: 'Гарах',
-    tabLic: '▸ .lic Файл',
-    eventName: 'Тэмцээний нэр',
-    eventNamePh: 'Тэмцээний нэрийг оруулна уу',
-    startDate: 'Эхлэх огноо',
-    endDate: 'Дуусах огноо',
-    quick: 'Хурдан:',
-    org: 'Байгууллага / Клуб',
-    orgPh: 'Байгууллагын нэр',
-    phone: 'Утас',
-    notes: 'Тэмдэглэл',
-    notesPh: 'Нэмэлт мэдээлэл...',
-    modes: 'Горим',
-    paid: 'Төлбөр төлсөн',
-    licReady: '// .lic файл бэлэн боллоо',
-    dlLicBtn: '↓ .lic Файл татах',
-    emailText: 'Имэйлийн текст',
-    genLicBtn: '🎫 .lic Файл Үүсгэх',
-    generating: '⏳ Үүсгэж байна…',
-    machineId: 'Machine ID (16 тэмдэгт, хэрэглэгчийн илгээсэн)',
-    plusYear: '+1 жил',
-    keyReady: '// License Key үүслээ',
-    copyKeyBtn: '📋 Key хуулах',
-    copiedClipboard: '✅ Clipboard-д хуулагдлаа!',
-    copied: '✅ Хуулагдлаа!',
-    genKeyBtn: '🔑 License Key Үүсгэх',
-    prevLicenses: 'Өмнөх license-үүд',
-    deleteSelected: 'Сонгосныг устгах',
-    histEmpty: '// Одоохондоо хоосон байна.',
-    paidLabel: 'Төлсөн',
-    unpaidLabel: 'Төлөөгүй',
-    errFillLoginFields: '❌ И-мэйл болон нууц үгээ оруулна уу.',
-    errBadLogin: '❌ И-мэйл эсвэл нууц үг буруу.',
-    errReLogin: 'Дахин нэвтэрнэ үү.',
-    errNeedEventName: '❌ Тэмцээний нэр оруулна уу.',
-    errNeedDates: '❌ Огноо оруулна уу.',
-    errBadEndDate: '❌ Дуусах огноо буруу байна.',
-    errNeedOrg: '❌ Байгууллага / Клубийн нэр оруулна уу.',
-    errNeedPhone: '❌ Утас оруулна уу.',
-    errNeedEmail: '❌ И-мэйл оруулна уу.',
-    errNeedHwid: '❌ Machine ID 16 тэмдэгт байх ёстой.',
-    errPrefix: '❌ Алдаа: ',
-    toastHistSaveFail: '⚠ History хадгалж чадсангүй',
-    toastHistEmpty: 'Түүх хоосон байна.',
-    confirmDeleteHistItem: 'Энэ license history-г устгах уу?',
-    toastDeleteFail: '⚠ Устгаж чадсангүй',
-    toastDeleted: '✅ Устгалаа',
-    toastSelectToDelete: 'Устгах license сонгоно уу.',
-    confirmDeleteN: (n) => `${n} license history устгах уу?`,
-    toastSelectedDeleteFail: '⚠ Сонгосон history-г устгаж чадсангүй',
-    toastSelectedDeleted: '✅ Сонгосон history устлаа',
-    toastGenericError: '⚠ Алдаа гарлаа',
-    toastEmailSent: '✅ Имэйл илгээгдлээ → ',
-    toastEmailFail: '⚠ Имэйл илгээхэд алдаа гарлаа',
+    stNew: 'Шинэ', stContacted: 'Холбогдсон', stDone: 'Дууссан', orderIssue: 'Лиценз гаргах', orderDelete: 'Устгах', orderConfirmDelete: 'Дахин дарж баталгаажуул',
+    orderNoDeletePerm: 'Устгах эрх алга — delete SQL-ээ Supabase дээр ажиллуулна уу', prefilled: 'Захиалгын мэдээллээр бөглөлөө',
+    verifyTitle: 'Лиценз шалгах', verifySub: 'Хэрэглэгч "ажиллахгүй байна" гэвэл .lic эсвэл key-г энд шалгана. Апп-тай яг ижил public key-ээр баталгаажуулна.',
+    dropLic: '.lic файлаа энд чирж оруул эсвэл дарж сонго', orPaste: 'эсвэл доор token / key-г буулга', vHwidHint: '— зөвхөн License Key шалгахад',
+    vOk: 'Гарын үсэг зөв — хүчинтэй лиценз', vExpired: e => `Гарын үсэг зөв, гэхдээ ${e}-нд дууссан`, vFuture: s => `Гарын үсэг зөв, ${s}-нээс эхэлнэ`,
+    vBad: 'Гарын үсэг таарахгүй — хуурамч, засварласан эсвэл өөр түлхүүрээр үүссэн', vParse: 'Token уншигдахгүй байна (буруу хуулсан байж магадгүй)',
+    vNeedHwid: 'License Key байна — Machine ID оруулбал баталгаажуулна', vWrongHwid: 'Энэ Machine ID-д тохирохгүй (өөр компьютерийн key)',
+    vNoCrypto: 'Энэ browser Ed25519 дэмжихгүй — Chrome/Edge/Safari-ийн шинэ хувилбар ашиглана уу',
+    vType: 'Төрөл', vEvent: 'Тэмцээн', vIssued: 'Гаргасан', vFromHist: 'Түүхээс Machine ID олдлоо',
     emailSubject: (org, event) => `NeuroReplay License - ${org || event}`,
     emailBody: ({ org, phone, start, end }) => `Сайн байна уу,
 
@@ -856,81 +511,57 @@ License идэвхжүүлэх явцад асуудал гарвал бидэн
 Founder & Creator, NeuroReplay`,
   },
   en: {
-    subtitle: 'License Generator',
-    tabOrders: '◈ Orders',
-    ordersTitle: 'Demo / order requests',
-    refresh: '↻ Refresh',
-    ordersLoading: 'Loading…',
-    ordersEmpty: 'No orders yet.',
-    ordersLoadFail: 'Could not load: ',
+    console: 'License Console', loginTitle: 'Log in', loginSub: 'NeuroReplay staff only.', email: 'Email', password: 'Password',
+    loginBtn: 'Log in', loggingIn: 'Logging in…', logout: 'Log out',
+    errFillLoginFields: 'Enter your email and password.', errBadLogin: 'Invalid email or password.', errReLogin: 'Session expired — please log in again.',
+    navIssue: 'New license', navHistory: 'History', navOrders: 'Orders', navVerify: 'Verify',
+    issueTitle: 'New license', issueSub: 'Pick a type and fill in the details. Signing happens on the server.',
+    kindLic: '.lic file — event', kindLicSub: 'Works on any computer. Limited by dates.',
+    kindKey: 'License Key — one computer', kindKeySub: 'Bound to the customer\'s Machine ID.',
+    secWhat: 'What', secWhen: 'When', secRights: 'Rights', secWho: 'Who',
+    eventName: 'Event name', eventNamePh: 'National Championship 2026',
+    machineId: 'Machine ID', machineIdHint: '— shown in the app\'s license window',
+    hwidOk: '✓ Valid format', hwidLeft: n => `${n} characters missing`, hwidKnown: (org) => `Licensed before: ${org}`,
+    startDate: 'Start date', endDate: 'End date',
+    dDay: n => `${n} day${n > 1 ? 's' : ''}`, dYear: '1 year', dMonth: n => `${n} mo`,
+    durHint: (n, s, e) => `Valid for <b>${n} day${n > 1 ? 's' : ''}</b> — ${s} 00:00 to ${e} 23:59 (customer's local time).`,
+    startPast: 'Start date is in the past — double-check.',
+    featComp: 'Live, replay, recording, TAG — base rights', featAnalyze: 'Analysis, drawing, comparison',
+    maxCams: 'Max cameras', unlimited: 'Unlimited',
+    org: 'Organization / Club', orgPh: 'Organization name', phone: 'Phone', notes: 'Notes', notesPh: 'Additional info…',
+    paid: 'Payment received', paidSub: 'Paid licenses require organization, phone and email.',
+    period: 'Period', rights: 'Rights', cameras: 'Cameras', draft: 'Draft', signed: 'Signed',
+    eventPh: 'Event name…', hwidPh: 'Machine ID…', daysLbl: 'days valid',
+    genLic: 'Generate .lic file', genKey: 'Generate License Key', generating: 'Signing…',
+    dlLic: 'Download .lic file', copyKey: 'Copy key', copySubject: 'Copy subject', copyBody: 'Copy email text',
+    sendEmail: 'Send by email', newOne: 'New license',
+    errNeedEventName: 'Enter the event name.', errNeedDates: 'Enter the dates.', errBadEndDate: 'End date is before the start date.',
+    errNeedOrg: 'Paid licenses need an organization.', errNeedPhone: 'Paid licenses need a phone.', errNeedEmail: 'Paid licenses need an email.',
+    errNeedHwid: 'Machine ID must be 16 characters (0-9, A-F).', errPrefix: 'Error: ',
+    copied: 'Copied', emailCopied: 'Email text copied to clipboard', keyCopied: 'Key copied to clipboard',
+    toastHistSaveFail: 'Failed to save history', toastEmailSent: 'Email sent → ', toastEmailFail: 'Failed to send email',
+    histSub: 'Every license issued. Re-download a .lic or copy a key.', searchPh: 'Name, organization, phone, Machine ID…',
+    fAll: 'All', fActive: 'Active', fExpired: 'Expired', fUnpaid: 'Unpaid',
+    stTotal: 'Total', stActive: 'Active', stSoon: 'Expire within 7 days', stUnpaid: 'Unpaid',
+    sActive: 'Active', sSoon: n => `${n} day${n > 1 ? 's' : ''} left`, sExpired: 'Expired', sFuture: 'Not started',
+    paidLabel: 'Paid', unpaidLabel: 'Unpaid', togglePaid: 'Toggle payment status',
+    histEmpty: 'No licenses found.', noToken: 'This .lic file was not stored (older entry).',
+    deleteN: n => `Delete ${n}`, confirmDeleteN: n => `Delete ${n} history entries? (The licenses themselves stay valid.)`,
+    confirmDelete1: 'Delete this history entry? (The license itself stays valid.)',
+    toastDeleteFail: 'Failed to delete', toastDeleted: 'Deleted', toastUpdateFail: 'Failed to update',
+    purge: 'Clean up expired unpaid entries', confirmPurge: n => `Delete ${n} expired unpaid entries?`, purgeNone: 'Nothing to clean up.',
+    ordersTitle: 'Demo / order requests', ordersSub: 'Requests from the website. "Issue license" pre-fills the form.',
+    refresh: 'Refresh', ordersLoading: 'Loading…', ordersEmpty: 'No orders.', ordersLoadFail: 'Could not load: ',
     ordersNoTable: 'If the table does not exist yet, run admin/supabase/demo_requests.sql in Supabase.',
-    stNew: 'New', stContacted: 'Contacted', stDone: 'Done',
-    orderDelete: '🗑 Delete',
-    orderConfirmDelete: '⚠ Click to confirm',
-    orderNoDeletePerm: 'No delete permission — run the delete SQL in Supabase',
-    toastErrPrefix: 'Error: ',
-    features: 'Features',
-    maxCams: 'Max cameras (empty = unlimited)',
-    maxCamsPh: 'unlimited',
-    loginTitle: 'Log In',
-    email: 'Email',
-    password: 'Password',
-    loginBtn: 'Log In →',
-    loggingIn: 'Logging in…',
-    logout: 'Log Out',
-    tabLic: '▸ .lic File',
-    eventName: 'Event Name',
-    eventNamePh: 'Enter the event name',
-    startDate: 'Start Date',
-    endDate: 'End Date',
-    quick: 'Quick:',
-    org: 'Organization / Club',
-    orgPh: 'Organization name',
-    phone: 'Phone',
-    notes: 'Notes',
-    notesPh: 'Additional info...',
-    modes: 'Modes',
-    paid: 'Payment Received',
-    licReady: '// .lic file ready',
-    dlLicBtn: '↓ Download .lic File',
-    emailText: 'Email text',
-    genLicBtn: '🎫 Generate .lic File',
-    generating: '⏳ Generating…',
-    machineId: 'Machine ID (16 characters, sent by the user)',
-    plusYear: '+1 year',
-    keyReady: '// License Key generated',
-    copyKeyBtn: '📋 Copy Key',
-    copiedClipboard: '✅ Copied to clipboard!',
-    copied: '✅ Copied!',
-    genKeyBtn: '🔑 Generate License Key',
-    prevLicenses: 'Previous licenses',
-    deleteSelected: 'Delete Selected',
-    histEmpty: '// Nothing here yet.',
-    paidLabel: 'Paid',
-    unpaidLabel: 'Unpaid',
-    errFillLoginFields: '❌ Enter your email and password.',
-    errBadLogin: '❌ Invalid email or password.',
-    errReLogin: 'Please log in again.',
-    errNeedEventName: '❌ Enter the event name.',
-    errNeedDates: '❌ Enter the dates.',
-    errBadEndDate: '❌ End date is invalid.',
-    errNeedOrg: '❌ Enter the organization / club name.',
-    errNeedPhone: '❌ Enter the phone number.',
-    errNeedEmail: '❌ Enter the email.',
-    errNeedHwid: '❌ Machine ID must be 16 characters.',
-    errPrefix: '❌ Error: ',
-    toastHistSaveFail: '⚠ Failed to save history',
-    toastHistEmpty: 'History is empty.',
-    confirmDeleteHistItem: 'Delete this license history entry?',
-    toastDeleteFail: '⚠ Failed to delete',
-    toastDeleted: '✅ Deleted',
-    toastSelectToDelete: 'Select a license to delete.',
-    confirmDeleteN: (n) => `Delete ${n} license history entries?`,
-    toastSelectedDeleteFail: '⚠ Failed to delete selected history',
-    toastSelectedDeleted: '✅ Selected history deleted',
-    toastGenericError: '⚠ An error occurred',
-    toastEmailSent: '✅ Email sent → ',
-    toastEmailFail: '⚠ Failed to send email',
+    stNew: 'New', stContacted: 'Contacted', stDone: 'Done', orderIssue: 'Issue license', orderDelete: 'Delete', orderConfirmDelete: 'Click again to confirm',
+    orderNoDeletePerm: 'No delete permission — run the delete SQL in Supabase', prefilled: 'Form pre-filled from the order',
+    verifyTitle: 'Verify a license', verifySub: 'When a customer says it "doesn\'t work", check the .lic or key here — same public key as the app.',
+    dropLic: 'Drop a .lic file here or click to choose', orPaste: 'or paste a token / key below', vHwidHint: '— only for License Keys',
+    vOk: 'Signature valid — active license', vExpired: e => `Signature valid, but expired on ${e}`, vFuture: s => `Signature valid, starts on ${s}`,
+    vBad: 'Signature does not match — forged, edited, or signed with another key', vParse: 'Token cannot be read (probably copied incompletely)',
+    vNeedHwid: 'This is a License Key — enter the Machine ID to verify', vWrongHwid: 'Does not match this Machine ID (key for another computer)',
+    vNoCrypto: 'This browser lacks Ed25519 — use a recent Chrome/Edge/Safari',
+    vType: 'Type', vEvent: 'Event', vIssued: 'Issued', vFromHist: 'Machine ID found in history',
     emailSubject: (org, event) => `NeuroReplay License - ${org || event}`,
     emailBody: ({ org, phone, start, end }) => `Hello,
 
@@ -955,668 +586,547 @@ Founder & Creator, NeuroReplay`,
   },
 };
 
-let lang = localStorage.getItem('nr_lang') || 'mn';
-
-function t(key, ...args) {
-  const entry = (I18N[lang] && I18N[lang][key]) ?? (I18N.mn[key]);
-  return typeof entry === 'function' ? entry(...args) : entry;
-}
+let lang = localStorage.getItem('nr_lang') === 'en' ? 'en' : 'mn';
+const t = (k, ...a) => { const v = (I18N[lang] && I18N[lang][k]) ?? I18N.mn[k] ?? k; return typeof v === 'function' ? v(...a) : v; };
+const $ = id => document.getElementById(id);
+const esc = v => (v == null ? '' : String(v)).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const icon = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
 
 function applyLang() {
   document.documentElement.lang = lang;
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = t(el.getAttribute('data-i18n'));
-  });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-    el.placeholder = t(el.getAttribute('data-i18n-ph'));
-  });
-  ['langBtnMn','langBtnEn','langBtnMn2','langBtnEn2'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const isMn = id.includes('Mn');
-    el.classList.toggle('active', (isMn && lang === 'mn') || (!isMn && lang === 'en'));
-  });
-  if (typeof renderHist === 'function' && hist) renderHist();
-  if (typeof renderOrders === 'function' && lastOrders) renderOrders();
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  document.querySelectorAll('[data-langseg] button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+  if (currentUser) { renderChips(); renderPreview(); renderHist(); renderOrders(); renderFilters(); if (issued) renderResult(); }
+}
+document.querySelectorAll('[data-langseg] button').forEach(b => b.addEventListener('click', () => { lang = b.dataset.l; localStorage.setItem('nr_lang', lang); applyLang(); }));
+
+// ── Dates (local calendar — toISOString() is UTC and gives the wrong day before 08:00 in UB) ──
+const ymd = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const today = () => ymd(new Date());
+const parseYmd = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+const addDays = (s, n) => { const d = parseYmd(s); d.setDate(d.getDate() + n); return ymd(d); };
+const daysBetween = (a, b) => Math.round((parseYmd(b) - parseYmd(a)) / 864e5);
+const isYmd = s => { if (!/^\d{4}-\d{2}-\d{2}$/.test(s || '')) return false; const d = parseYmd(s); return ymd(d) === s; };
+function licStatus(start, end) {
+  const td = today();
+  if (end < td) return { k: 'expired', cls: 'bad', txt: t('sExpired') };
+  if (start > td) return { k: 'future', cls: 'dim', txt: t('sFuture') };
+  const left = daysBetween(td, end) + 1;
+  if (left <= 7) return { k: 'soon', cls: 'warn', txt: t('sSoon', left), left };
+  return { k: 'active', cls: 'ok', txt: t('sActive'), left };
 }
 
-function setLang(l) {
-  lang = l;
-  localStorage.setItem('nr_lang', l);
-  applyLang();
-}
-
-// Init Supabase
-const { createClient } = supabase;
-const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
-
+// ── Supabase ──
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 emailjs.init(EMAILJS_PUBLIC_KEY);
+let currentUser = null, hist = [], orders = null, issued = null;
+let kind = 'lic', cams = null, histFilter = 'all', ordFilter = 'open';
 
-let currentUser = null;
-let hist = [];
-let histOpen = false;
-let _licBlob = null, _licFilename = '';
-let lastOrders = null;
-
-// Local calendar date as YYYY-MM-DD (toISOString() is UTC → wrong day before 08:00 UB time)
-function ymd(d) {
-  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-}
-function localToday() { return ymd(new Date()); }
-function addDaysYmd(base, n) {
-  const [y, m, d] = base.split('-').map(Number);
-  return ymd(new Date(y, m - 1, d + n));
-}
-
-applyLang();
-
-// Auth
-sb.auth.onAuthStateChange(async (event, session) => {
-  if (session?.user) {
-    currentUser = session.user;
-    showApp();
-  } else {
-    currentUser = null;
-    showLogin();
-  }
+sb.auth.onAuthStateChange((_e, session) => {
+  const u = session?.user || null;
+  if (u && currentUser && u.id === currentUser.id) return; // token refresh — don't reset the form
+  currentUser = u;
+  u ? showApp() : showLogin();
 });
 
 async function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass  = document.getElementById('loginPass').value;
-  const err   = document.getElementById('loginErr');
-  const btn   = document.getElementById('loginBtn');
-
+  const email = $('loginEmail').value.trim(), pass = $('loginPass').value, err = $('loginErr'), btn = $('loginBtn');
   err.textContent = '';
   if (!email || !pass) { err.textContent = t('errFillLoginFields'); return; }
-
   btn.disabled = true; btn.textContent = t('loggingIn');
   const { error } = await sb.auth.signInWithPassword({ email, password: pass });
   btn.disabled = false; btn.textContent = t('loginBtn');
-
-  if (error) {
-    err.textContent = error.message.includes('Invalid') ? t('errBadLogin') : '❌ ' + error.message;
-  }
+  if (error) err.textContent = /invalid/i.test(error.message) ? t('errBadLogin') : error.message;
 }
-
-async function doLogout() {
-  await sb.auth.signOut();
-}
-
-function showLogin() {
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('appShell').style.display = 'none';
-}
-
+async function doLogout() { await sb.auth.signOut(); }
+function showLogin() { $('loginScreen').style.display = 'flex'; $('appShell').style.display = 'none'; }
 async function showApp() {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('appShell').style.display = 'flex';
-  document.getElementById('userEmail').textContent = currentUser.email;
-
-  const today = localToday();
-  document.getElementById('licStart').value = today;
-  document.getElementById('keyStart').value = today;
-  licAddDays(1);
-  keyAddDays(30);
-
-  await deleteExpired();
-  await loadHistory();
+  $('loginScreen').style.display = 'none';
+  $('appShell').style.display = 'grid';
+  $('userEmail').textContent = currentUser.email;
+  setKind('lic', true);
+  applyLang();
+  loadHistory();
+  loadOrders(true);
 }
 
-// Enter key on login
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    if (document.getElementById('loginScreen').style.display !== 'none') {
-      doLogin();
-      return;
-    }
-    const active = document.querySelector('.tab-content.active');
-    if (active?.id === 'content1') generateLic();
-    else if (active?.id === 'content2') generateKey();
-  }
-});
+// ── Navigation ──
+function go(view) {
+  document.querySelectorAll('.nav').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + view));
+  if (view === 'orders') loadOrders();
+  window.scrollTo({ top: 0 });
+}
+document.querySelectorAll('.nav').forEach(b => b.addEventListener('click', () => go(b.dataset.view)));
 
-// calls the sign-license edge function with the user's access token
+// ── Issue form ──
+const DUR = { lic: [[1, 'd'], [2, 'd'], [3, 'd'], [7, 'd'], [30, 'd']], key: [[30, 'm1'], [90, 'm3'], [180, 'm6'], [365, 'y']] };
+const CAMS = [1, 2, 4, 6, 8, null];
+
+function setKind(k, reset) {
+  kind = k;
+  document.querySelectorAll('.kind').forEach(b => { const on = b.dataset.kind === k; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
+  document.querySelectorAll('[data-only]').forEach(el => { el.hidden = el.dataset.only !== k; });
+  if (reset || !$('fStart').value) $('fStart').value = today();
+  $('fEnd').value = addDays($('fStart').value, (k === 'lic' ? 1 : 365) - 1);
+  dirty();
+}
+document.querySelectorAll('.kind').forEach(b => b.addEventListener('click', () => setKind(b.dataset.kind)));
+
+function renderChips() {
+  const s = $('fStart').value, e = $('fEnd').value;
+  const cur = isYmd(s) && isYmd(e) ? daysBetween(s, e) + 1 : 0;
+  $('durChips').innerHTML = DUR[kind].map(([n, u]) => {
+    const lbl = u === 'd' ? t('dDay', n) : u === 'y' ? t('dYear') : t('dMonth', +u.slice(1));
+    return `<button type="button" class="chip${cur === n ? ' on' : ''}" data-dur="${n}">${esc(lbl)}</button>`;
+  }).join('');
+  $('camChips').innerHTML = CAMS.map(n => `<button type="button" class="chip${cams === n ? ' on' : ''}" data-cams="${n ?? ''}">${n ?? '∞ ' + esc(t('unlimited'))}</button>`).join('');
+}
+$('durChips').addEventListener('click', e => { const b = e.target.closest('[data-dur]'); if (!b) return; if (!isYmd($('fStart').value)) $('fStart').value = today(); $('fEnd').value = addDays($('fStart').value, +b.dataset.dur - 1); dirty(); });
+$('camChips').addEventListener('click', e => { const b = e.target.closest('[data-cams]'); if (!b) return; cams = b.dataset.cams ? +b.dataset.cams : null; dirty(); });
+
+const normHwid = v => (v || '').toUpperCase().replace(/[^0-9A-F]/g, '');
+$('fHwid').addEventListener('input', () => { const p = $('fHwid').selectionStart, before = $('fHwid').value; $('fHwid').value = normHwid(before).slice(0, 16); if (before === $('fHwid').value) $('fHwid').setSelectionRange(p, p); });
+$('fStart').addEventListener('change', () => { const s = $('fStart').value, e = $('fEnd').value; if (isYmd(s) && isYmd(e) && e < s) $('fEnd').value = s; });
+$('issueForm').addEventListener('input', dirty);
+$('issueForm').addEventListener('change', dirty);
+
+function readForm() {
+  const features = ['competition'];
+  if ($('fAnalyze').checked) features.push('analyze');
+  return {
+    kind, event: $('fEvent').value.trim(), hwid: normHwid($('fHwid').value), start: $('fStart').value, end: $('fEnd').value,
+    features, maxCameras: cams, org: $('fOrg').value.trim(), phone: $('fPhone').value.trim(), email: $('fEmail').value.trim(),
+    notes: $('fNotes').value.trim(), paid: $('fPaid').checked,
+  };
+}
+
+// Any edit after signing returns the card to draft — the shown result must always match the form.
+function dirty() {
+  if (issued) { issued = null; $('result').hidden = true; $('result').innerHTML = ''; }
+  document.querySelectorAll('.in.err').forEach(el => el.classList.remove('err'));
+  $('formErr').textContent = '';
+  renderChips(); renderPreview();
+}
+
+function renderPreview() {
+  const f = readForm();
+  $('lcKind').textContent = f.kind === 'lic' ? '.LIC' : 'KEY';
+  $('lcKind').className = 'pill ' + f.kind;
+  $('lcState').textContent = issued ? '✓ ' + t('signed') : t('draft');
+  $('lcState').className = 'pill ' + (issued ? 'ok' : 'dim');
+  $('licCard').classList.toggle('issued', !!issued);
+  const title = f.kind === 'lic' ? f.event : (f.org || (f.hwid ? 'Machine ' + f.hwid.slice(0, 4) + '…' : ''));
+  $('lcTitle').textContent = title || (f.kind === 'lic' ? t('eventPh') : t('hwidPh'));
+  $('lcTitle').classList.toggle('ph', !title);
+  $('lcOrg').textContent = f.kind === 'lic' ? f.org : '';
+  $('lcHwid').textContent = f.hwid || '—';
+  $('lcFeats').textContent = f.features.join(' + ');
+  $('lcCams').textContent = f.maxCameras ?? '∞';
+  const okDates = isYmd(f.start) && isYmd(f.end) && f.end >= f.start;
+  const n = okDates ? daysBetween(f.start, f.end) + 1 : 0;
+  $('lcPeriod').textContent = okDates ? `${f.start} → ${f.end}` : '—';
+  $('lcDays').textContent = okDates ? n : '—';
+  $('lcDaysLbl').textContent = t('daysLbl');
+  const hint = $('durHint');
+  if (okDates) {
+    hint.innerHTML = t('durHint', n, esc(f.start), esc(f.end)) + (f.start < today() ? '<br>' + esc(t('startPast')) : '');
+    hint.className = 'hint' + (f.start < today() ? ' warn' : '');
+  } else hint.textContent = '';
+  // Machine ID feedback (+ who had it before, from history)
+  const hh = $('hwidHint');
+  if (f.kind === 'key' && f.hwid) {
+    const prev = hist.find(h => h.hwid === f.hwid && h.organization);
+    hh.textContent = f.hwid.length === 16 ? t('hwidOk') + (prev ? ' · ' + t('hwidKnown', prev.organization) : '') : t('hwidLeft', 16 - f.hwid.length);
+    hh.className = 'hint' + (f.hwid.length === 16 ? '' : ' warn');
+  } else hh.textContent = '';
+  if (!$('genBtn').disabled) $('genLbl').textContent = f.kind === 'lic' ? t('genLic') : t('genKey');
+}
+
+function fail(msg, id) { $('formErr').textContent = msg; if (id) { $(id).classList.add('err'); $(id).focus(); } }
+
 async function callSign(payload) {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) throw new Error(t('errReLogin'));
   const res = await fetch(SIGN_FN_URL, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${session.access_token}`,
-      'apikey': SUPABASE_ANON,
-    },
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}`, apikey: SUPABASE_ANON },
     body: JSON.stringify(payload),
   });
   const out = await res.json().catch(() => ({}));
+  if (res.status === 401) throw new Error(t('errReLogin'));
   if (!res.ok || !out.token) throw new Error(out.error || `Signing failed (${res.status})`);
-  return out.token; // base64 license token
+  return out.token;
 }
 
-async function generateLicBytes(event, start, end, features, maxCameras) {
-  const token = await callSign({ type: 'lic', event, start, end, features, maxCameras });
-  // The .lic file content is exactly the base64 token bytes (UTF-8).
-  return new TextEncoder().encode(token);
-}
+// Latin file names even for Cyrillic event names (old code stripped them to "_").
+const TR = { а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'yo',ж:'j',з:'z',и:'i',й:'i',к:'k',л:'l',м:'m',н:'n',о:'o',ө:'u',п:'p',р:'r',с:'s',т:'t',у:'u',ү:'u',ф:'f',х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'sh',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya' };
+const fileSafe = s => s.toLowerCase().split('').map(c => TR[c] ?? c).join('').replace(/\s+/g, '_').replace(/[^a-z0-9_\-]/g, '').replace(/_+/g, '_').slice(0, 60) || 'event';
+const licFilename = (event, start, end) => `${fileSafe(event)}_${start}_${end}_neuroreplay.lic`;
 
-async function generateKeyStr(hwid, start, end, features, maxCameras) {
-  return await callSign({ type: 'key', hwid: hwid.toUpperCase(), start, end, features, maxCameras });
-}
-
-// Tab
-function switchTab(n) {
-  [1,2,3].forEach(i => {
-    document.getElementById('tab'+i).classList.toggle('active', i===n);
-    document.getElementById('content'+i).classList.toggle('active', i===n);
-  });
-  // history section is only relevant to the license tabs
-  var hist = document.querySelector('.hist-section');
-  if (hist) hist.style.display = (n===3) ? 'none' : '';
-  if (n===3) loadOrders();
-}
-
-// ── Demo / order requests ──
-const ORDER_STATUS = ['new','contacted','done'];
-function orderStatusLabel(s){ return ({new:t('stNew'),contacted:t('stContacted'),done:t('stDone')})[s] || s; }
-function esc(v){ return (v==null?'':String(v)).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-
-async function loadOrders() {
-  const list = document.getElementById('ordersList');
-  const count = document.getElementById('ordersCount');
-  list.innerHTML = '<div class="orders-empty">' + esc(t('ordersLoading')) + '</div>';
-  const { data, error } = await sb
-    .from('demo_requests')
-    .select('*')
-    .order('created_at', { ascending: false });
-  if (error) {
-    list.innerHTML = '<div class="orders-empty">' + esc(t('ordersLoadFail')) + esc(error.message) +
-      '<br><br>' + esc(t('ordersNoTable')) + '</div>';
-    count.textContent = '0';
-    lastOrders = null;
-    return;
+let busy = false;
+async function generate() {
+  if (busy) return;
+  const f = readForm();
+  $('formErr').textContent = '';
+  if (f.kind === 'lic' && !f.event) return fail(t('errNeedEventName'), 'fEvent');
+  if (f.kind === 'key' && f.hwid.length !== 16) return fail(t('errNeedHwid'), 'fHwid');
+  if (!isYmd(f.start) || !isYmd(f.end)) return fail(t('errNeedDates'), isYmd(f.start) ? 'fEnd' : 'fStart');
+  if (f.end < f.start) return fail(t('errBadEndDate'), 'fEnd');
+  if (f.paid) {
+    if (!f.org) return fail(t('errNeedOrg'), 'fOrg');
+    if (!f.phone) return fail(t('errNeedPhone'), 'fPhone');
+    if (!f.email) return fail(t('errNeedEmail'), 'fEmail');
   }
-  lastOrders = data;
-  renderOrders();
-}
-
-function renderOrders() {
-  const list = document.getElementById('ordersList');
-  document.getElementById('ordersCount').textContent = lastOrders.length;
-  if (!lastOrders.length) { list.innerHTML = '<div class="orders-empty">' + esc(t('ordersEmpty')) + '</div>'; return; }
-  list.innerHTML = lastOrders.map(renderOrder).join('');
-}
-
-function renderOrder(o) {
-  const dt = o.created_at ? new Date(o.created_at).toLocaleString('mn-MN', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '';
-  const st = ORDER_STATUS.indexOf(o.status)>=0 ? o.status : 'new';
-  const chips = [];
-  if (o.email)   chips.push('<span class="order-chip"><b>@</b><a href="mailto:'+esc(o.email)+'">'+esc(o.email)+'</a></span>');
-  if (o.phone)   chips.push('<span class="order-chip"><b>☎</b><a href="tel:'+esc(o.phone)+'">'+esc(o.phone)+'</a></span>');
-  if (o.usecase) chips.push('<span class="order-chip"><b>use</b>'+esc(o.usecase)+'</span>');
-  if (o.cameras) chips.push('<span class="order-chip"><b>cam</b>'+esc(o.cameras)+'</span>');
-  if (o.plan)    chips.push('<span class="order-chip"><b>plan</b>'+esc(o.plan)+'</span>');
-  if (o.preferred_language) chips.push('<span class="order-chip"><b>lang</b>'+esc(o.preferred_language)+'</span>');
-  const next = ORDER_STATUS[(ORDER_STATUS.indexOf(st)+1)%ORDER_STATUS.length];
-  return '<div class="order-card">' +
-    '<div class="order-top">' +
-      '<div><div class="order-name">'+esc(o.fullname||'—')+'</div>' +
-      (o.organization?'<div class="order-org">'+esc(o.organization)+'</div>':'') + '</div>' +
-      '<span class="order-when">'+esc(dt)+'</span>' +
-    '</div>' +
-    (chips.length?'<div class="order-meta">'+chips.join('')+'</div>':'') +
-    (o.message?'<div class="order-msg">'+esc(o.message)+'</div>':'') +
-    '<div class="order-actions">' +
-      '<span class="order-status st-'+st+'">'+orderStatusLabel(st)+'</span>' +
-      '<button class="order-set" onclick="setOrderStatus('+o.id+',\''+next+'\')">→ '+orderStatusLabel(next)+'</button>' +
-      '<button class="order-del" data-id="'+o.id+'" onclick="deleteOrder(this,'+o.id+')">'+t('orderDelete')+'</button>' +
-    '</div>' +
-  '</div>';
-}
-
-async function setOrderStatus(id, status) {
-  const { error } = await sb.from('demo_requests').update({ status }).eq('id', id);
-  if (error) { showToast(t('toastErrPrefix') + error.message); return; }
-  loadOrders();
-}
-
-// Two-step delete: first click asks to confirm, second click deletes.
-async function deleteOrder(btn, id) {
-  if (!btn.classList.contains('confirm')) {
-    btn.classList.add('confirm');
-    btn.textContent = t('orderConfirmDelete');
-    clearTimeout(btn._t);
-    btn._t = setTimeout(function () {
-      btn.classList.remove('confirm');
-      btn.textContent = t('orderDelete');
-    }, 3000);
-    return;
-  }
-  const { data, error } = await sb.from('demo_requests').delete().eq('id', id).select();
-  if (error) { showToast(t('toastErrPrefix') + error.message); return; }
-  if (!data || data.length === 0) {
-    showToast(t('orderNoDeletePerm'));
-    return;
-  }
-  showToast(t('toastDeleted'));
-  loadOrders();
-}
-
-// Date helpers
-function licAddDays(n) {
-  const base = document.getElementById('licStart').value || localToday();
-  document.getElementById('licEnd').value = addDaysYmd(base, n);
-}
-function keyAddDays(n) {
-  const base = document.getElementById('keyStart').value || localToday();
-  document.getElementById('keyEnd').value = addDaysYmd(base, n);
-}
-
-// Generate .lic
-async function generateLic() {
-  const event = document.getElementById('licEvent').value.trim();
-  const start = document.getElementById('licStart').value;
-  const end   = document.getElementById('licEnd').value;
-  const err   = document.getElementById('licErr');
-  const btn   = document.getElementById('licBtn');
-
-  err.textContent = '';
-  document.getElementById('licEvent').classList.remove('error');
-
-  if (!event) {
-    err.textContent = t('errNeedEventName');
-    document.getElementById('licEvent').classList.add('error'); return;
-  }
-  if (!start || !end) { err.textContent = t('errNeedDates'); return; }
-  if (end < start)    { err.textContent = t('errBadEndDate'); return; }
-
-  const licOrg   = document.getElementById('licOrg').value.trim();
-  const licPhone = document.getElementById('licPhone').value.trim();
-  const licEmail = document.getElementById('licEmail').value.trim();
-  const licNotes = document.getElementById('licNotes').value.trim();
-  const licIsPaid = document.getElementById('licIsPaid').checked;
-  const features = ['competition'];
-  if (document.getElementById('licFeatAnalyze').checked)   features.push('analyze');
-  if (document.getElementById('licFeatMinimal').checked)   features.push('minimal');
-  if (document.getElementById('licFeatLegacy').checked)    features.push('legacy');
-  if (document.getElementById('licFeatMultiview').checked) features.push('multiview');
-  const licMaxCamerasRaw = document.getElementById('licMaxCameras').value.trim();
-  const maxCameras = licMaxCamerasRaw && Number(licMaxCamerasRaw) > 0 ? Math.floor(Number(licMaxCamerasRaw)) : undefined;
-
-  if (licIsPaid) {
-    if (!licOrg) {
-      err.textContent = t('errNeedOrg');
-      document.getElementById('licOrg').classList.add('error'); return;
-    }
-    if (!licPhone) {
-      err.textContent = t('errNeedPhone');
-      document.getElementById('licPhone').classList.add('error'); return;
-    }
-    if (!licEmail) {
-      err.textContent = t('errNeedEmail');
-      document.getElementById('licEmail').classList.add('error'); return;
-    }
-  }
-
-  btn.disabled = true; btn.textContent = t('generating');
-
+  busy = true;
+  const btn = $('genBtn'); btn.disabled = true; $('genLbl').textContent = t('generating');
   try {
-    const bytes    = await generateLicBytes(event, start, end, features, maxCameras);
-    const safe     = event.replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_\-]/g,'');
-    _licFilename   = `${safe}_${start}_${end}_neuroreplay.lic`;
-    _licBlob       = new Blob([bytes], { type: 'application/octet-stream' });
-
-    document.getElementById('licResEvent').textContent = event;
-    document.getElementById('licResDates').textContent = `${start}  →  ${end}`;
-    document.getElementById('licResSize').textContent  = `${bytes.length} bytes  ·  ${features.join(', ')}  ·  cams:${maxCameras ?? '∞'}`;
-    document.getElementById('licResult').className = 'result result-lic show';
-
-    // Wire up download button
-    const dlBtn = document.getElementById('licDlBtn');
-    dlBtn.onclick = () => {
-      const url = URL.createObjectURL(_licBlob);
-      const a = document.createElement('a');
-      a.href = url; a.download = _licFilename; a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    };
-
-    // Auto copy email subject + body to clipboard
-    const emailSubject = t('emailSubject', licOrg, event);
-    const emailBody = t('emailBody', { org: licOrg, phone: licPhone, start, end });
-
-    const fullClip = `Subject: ${emailSubject}
-
-${emailBody}`;
-    await navigator.clipboard.writeText(fullClip).catch(() => {});
-
-    await saveHistoryItem({ type:'lic', event_name: event, event, start, end, generated_key: null,
-      organization: licOrg, phone: licPhone, email: licEmail, notes: licNotes, is_paid: licIsPaid, features, max_cameras: maxCameras ?? null });
-
-  } catch(e) {
-    err.textContent = t('errPrefix') + e.message;
+    const token = await callSign(f.kind === 'lic'
+      ? { type: 'lic', event: f.event, start: f.start, end: f.end, features: f.features, maxCameras: f.maxCameras ?? undefined }
+      : { type: 'key', hwid: f.hwid, start: f.start, end: f.end, features: f.features, maxCameras: f.maxCameras ?? undefined });
+    issued = { ...f, token, filename: f.kind === 'lic' ? licFilename(f.event, f.start, f.end) : null };
+    renderPreview(); renderResult();
+    if (f.kind === 'lic') {
+      await copyText(`Subject: ${t('emailSubject', f.org, f.event)}\n\n${t('emailBody', { org: f.org, phone: f.phone, start: f.start, end: f.end })}`, t('emailCopied'));
+    } else {
+      await copyText(token, t('keyCopied'));
+    }
+    await saveHistoryItem(issued);
+    if (f.kind === 'key' && f.paid && f.email) sendKeyEmail(issued);
+  } catch (e) {
+    fail(t('errPrefix') + e.message);
+  } finally {
+    busy = false; btn.disabled = false; renderPreview();
   }
-
-  btn.disabled = false; btn.textContent = t('genLicBtn');
 }
 
-// Generate Key
-async function generateKey() {
-  const hwid  = document.getElementById('keyHwid').value.trim().toUpperCase();
-  const start = document.getElementById('keyStart').value;
-  const end   = document.getElementById('keyEnd').value;
-  const err   = document.getElementById('keyErr');
-  const btn   = document.getElementById('keyBtn');
-
-  err.textContent = '';
-  document.getElementById('keyHwid').classList.remove('error');
-
-  if (hwid.length !== 16) {
-    err.textContent = t('errNeedHwid');
-    document.getElementById('keyHwid').classList.add('error'); return;
+function renderResult() {
+  const r = $('result'), i = issued;
+  if (!i) { r.hidden = true; return; }
+  r.hidden = false;
+  if (i.kind === 'lic') {
+    r.innerHTML = `<button class="btn ok big" id="rDl">${icon('dl')}${esc(t('dlLic'))}</button>
+      <div class="fname">${esc(i.filename)}</div>
+      <div class="btns2"><button class="btn sm" id="rSubj">${icon('copy')}${esc(t('copySubject'))}</button><button class="btn sm" id="rBody">${icon('mail')}${esc(t('copyBody'))}</button></div>`;
+    $('rDl').onclick = () => downloadLic(i.token, i.filename);
+    $('rSubj').onclick = () => copyText(t('emailSubject', i.org, i.event));
+    $('rBody').onclick = () => copyText(t('emailBody', { org: i.org, phone: i.phone, start: i.start, end: i.end }));
+  } else {
+    r.innerHTML = `<div class="keybox">${esc(i.token)}</div>
+      <div class="btns2"><button class="btn ok" id="rCopy">${icon('copy')}${esc(t('copyKey'))}</button>
+      <button class="btn" id="rMail" ${i.email ? '' : 'disabled'}>${icon('mail')}${esc(t('sendEmail'))}</button></div>`;
+    $('rCopy').onclick = () => copyText(i.token, t('keyCopied'));
+    $('rMail').onclick = () => sendKeyEmail(i);
   }
-  if (!start || !end) { err.textContent = t('errNeedDates'); return; }
-  if (end < start)    { err.textContent = t('errBadEndDate'); return; }
+}
 
-  const keyOrg   = document.getElementById('keyOrg').value.trim();
-  const keyIsPaid = document.getElementById('keyIsPaid').checked;
-  const features = ['competition'];
-  if (document.getElementById('keyFeatAnalyze').checked)   features.push('analyze');
-  if (document.getElementById('keyFeatMinimal').checked)   features.push('minimal');
-  if (document.getElementById('keyFeatLegacy').checked)    features.push('legacy');
-  if (document.getElementById('keyFeatMultiview').checked) features.push('multiview');
-  const keyMaxCamerasRaw = document.getElementById('keyMaxCameras').value.trim();
-  const maxCameras = keyMaxCamerasRaw && Number(keyMaxCamerasRaw) > 0 ? Math.floor(Number(keyMaxCamerasRaw)) : undefined;
+function downloadLic(token, filename) {
+  const url = URL.createObjectURL(new Blob([token], { type: 'application/octet-stream' }));
+  const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+async function copyText(s, msg) {
+  try { await navigator.clipboard.writeText(s); toast(msg || t('copied')); } catch (_) {}
+}
 
-  if (keyIsPaid) {
-    if (!keyOrg) {
-      err.textContent = t('errNeedOrg');
-      document.getElementById('keyOrg').classList.add('error'); return;
-    }
-    const keyPhone = document.getElementById('keyPhone').value.trim();
-    if (!keyPhone) {
-      err.textContent = t('errNeedPhone');
-      document.getElementById('keyPhone').classList.add('error'); return;
-    }
-    const keyEmail = document.getElementById('keyEmail').value.trim();
-    if (!keyEmail) {
-      err.textContent = t('errNeedEmail');
-      document.getElementById('keyEmail').classList.add('error'); return;
-    }
-  }
-
-  btn.disabled = true; btn.textContent = t('generating');
-
+async function sendKeyEmail(i) {
   try {
-    const key = await generateKeyStr(hwid, start, end, features, maxCameras);
-
-    document.getElementById('keyResHwid').textContent  = hwid;
-    document.getElementById('keyResDates').textContent = `${start}  →  ${end}  ·  ${features.join(', ')}  ·  cams:${maxCameras ?? '∞'}`;
-    document.getElementById('keyResKey').textContent   = key;
-    document.getElementById('keyResult').className = 'result result-key show';
-
-    // Auto copy
-    await navigator.clipboard.writeText(key).catch(() => {});
-    const copyBtn = document.getElementById('copyKeyBtn');
-    copyBtn.textContent = t('copiedClipboard');
-    copyBtn.className = 'copy-btn copied';
-    setTimeout(() => { copyBtn.textContent = t('copyKeyBtn'); copyBtn.className = 'copy-btn'; }, 2000);
-
-    const keyPhone = document.getElementById('keyPhone').value.trim();
-    const keyEmail = document.getElementById('keyEmail').value.trim();
-    const keyNotes = document.getElementById('keyNotes').value.trim();
-    await saveHistoryItem({ type:'key', hwid, start, end, generated_key: key,
-      organization: keyOrg, phone: keyPhone, email: keyEmail, notes: keyNotes, is_paid: keyIsPaid, features, max_cameras: maxCameras ?? null });
-    if (keyEmail && keyIsPaid) {
-      await sendLicenseEmail(keyEmail, {
-        org_name:    keyOrg,
-        phone:       keyPhone,
-        start_date:  start,
-        end_date:    end,
-        machine_id:  hwid,
-        license_key: key,
-      });
-    }
-  } catch(e) {
-    err.textContent = t('errPrefix') + e.message;
-  }
-
-  btn.disabled = false; btn.textContent = t('genKeyBtn');
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email: i.email, org_name: i.org || '—', phone: i.phone || '—', start_date: i.start, end_date: i.end,
+      machine_id: i.hwid || '—', license_key: i.token || '—',
+    });
+    toast(t('toastEmailSent') + i.email);
+  } catch (e) { toast(t('toastEmailFail')); console.warn('EmailJS error:', e); }
 }
 
-function copyKey() {
-  const key = document.getElementById('keyResKey').textContent;
-  if (!key) return;
-  navigator.clipboard.writeText(key).then(() => {
-    const btn = document.getElementById('copyKeyBtn');
-    btn.textContent = t('copied'); btn.className = 'copy-btn copied';
-    setTimeout(() => { btn.textContent = t('copyKeyBtn'); btn.className = 'copy-btn'; }, 1500);
-  });
-}
+// Enter in a single-line field signs (as before); never from the login form or textareas.
+$('issueForm').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); generate(); } });
 
-// History (Supabase)
+// ── History ──
 async function loadHistory() {
-  const { data, error } = await sb
-    .from('keygen_history')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(100);
-  if (error) { console.warn('History load error:', error.message); hist = []; }
-  else hist = data || [];
-  renderHist();
+  const { data, error } = await sb.from('keygen_history').select('*').order('created_at', { ascending: false }).limit(500);
+  if (error) { console.warn('History load error:', error.message); hist = []; } else hist = data || [];
+  renderHist(); renderPreview();
 }
 
-async function saveHistoryItem(item) {
+async function saveHistoryItem(i) {
   const row = {
-    type:          item.type,
-    event_name:    item.event_name || item.event || null,
-    hwid:          item.hwid  || null,
-    start_date:    item.start,
-    end_date:      item.end,
-    generated_key: item.generated_key || null,
-    organization:  item.organization  || null,
-    phone:         item.phone         || null,
-    email:         item.email         || null,
-    notes:         item.notes         || null,
-    is_paid:       item.is_paid       || false,
-    features:      (item.features && item.features.length ? item.features : ['competition']).join(','),
-    max_cameras:   item.max_cameras ?? null,
-    created_by:    currentUser?.email || 'unknown'
+    type: i.kind, event_name: i.kind === 'lic' ? i.event : null, hwid: i.kind === 'key' ? i.hwid : null,
+    start_date: i.start, end_date: i.end,
+    // .lic tokens are stored too so the file can be downloaded again later.
+    generated_key: i.token,
+    organization: i.org || null, phone: i.phone || null, email: i.email || null, notes: i.notes || null,
+    is_paid: !!i.paid, features: i.features.join(','), max_cameras: i.maxCameras ?? null,
+    created_by: currentUser?.email || 'unknown',
   };
   const { error } = await sb.from('keygen_history').insert(row);
-  // fails here if the features/max_cameras columns are missing — see SETUP_GUIDE.md
-  if (error) { showToast(t('toastHistSaveFail')); console.warn(error); }
-  else { await loadHistory(); }
+  if (error) { toast(t('toastHistSaveFail')); console.warn(error); } else await loadHistory();
 }
 
-function toggleHist() {
-  histOpen = !histOpen;
-  document.getElementById('histBody').style.display = histOpen ? 'block' : 'none';
-  document.getElementById('histCaret').textContent  = histOpen ? '▾' : '▸';
+const FILTERS = ['all', 'active', 'expired', 'unpaid'];
+function renderFilters() {
+  $('histFilter').innerHTML = FILTERS.map(k => `<button class="${histFilter === k ? 'on' : ''}" data-f="${k}">${esc(t('f' + k[0].toUpperCase() + k.slice(1)))}</button>`).join('');
+  $('ordFilter').innerHTML = ['open', 'all'].map(k => `<button class="${ordFilter === k ? 'on' : ''}" data-o="${k}">${k === 'open' ? esc(t('stNew')) + ' + ' + esc(t('stContacted')) : esc(t('fAll'))}</button>`).join('');
 }
+$('histFilter').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; histFilter = b.dataset.f; renderFilters(); renderHist(); });
+$('ordFilter').addEventListener('click', e => { const b = e.target.closest('[data-o]'); if (!b) return; ordFilter = b.dataset.o; renderFilters(); renderOrders(); });
+$('histQ').addEventListener('input', () => renderHist());
 
-function exportHist() {
-  if (!hist.length) { showToast(t('toastHistEmpty')); return; }
-  const json = JSON.stringify(hist, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url;
-  a.download = `neuroreplay-history-${localToday()}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
+function histRows() {
+  const q = $('histQ').value.trim().toLowerCase();
+  return hist.filter(h => {
+    const st = licStatus(h.start_date, h.end_date).k;
+    if (histFilter === 'active' && !(st === 'active' || st === 'soon')) return false;
+    if (histFilter === 'expired' && st !== 'expired') return false;
+    if (histFilter === 'unpaid' && h.is_paid) return false;
+    if (!q) return true;
+    return [h.event_name, h.hwid, h.organization, h.phone, h.email, h.notes, h.created_by].some(v => v && String(v).toLowerCase().includes(q));
+  });
 }
 
 function renderHist() {
-  const body  = document.getElementById('histBody');
-  const count = document.getElementById('histCount');
-  count.textContent = hist.length ? `(${hist.length})` : '';
-  if (!hist.length) {
-    body.innerHTML = `<div class="hist-empty">${t('histEmpty')}</div>`;
+  $('cntHist').textContent = hist.length;
+  const sts = hist.map(h => licStatus(h.start_date, h.end_date).k);
+  const stat = (n, l) => `<div class="stat"><b>${n}</b><span>${esc(l)}</span></div>`;
+  $('histStats').innerHTML = stat(hist.length, t('stTotal')) + stat(sts.filter(s => s === 'active' || s === 'soon').length, t('stActive'))
+    + stat(sts.filter(s => s === 'soon').length, t('stSoon')) + stat(hist.filter(h => !h.is_paid).length, t('stUnpaid'));
+  const rows = histRows();
+  if (!rows.length) { $('histList').innerHTML = `<div class="empty">${esc(t('histEmpty'))}</div>`; updateSel(); return; }
+  $('histList').innerHTML = rows.map(h => {
+    const st = licStatus(h.start_date, h.end_date);
+    const name = h.type === 'lic' ? (h.event_name || '—') : (h.organization || h.hwid || '—');
+    const sub = [h.type === 'key' ? h.hwid : h.organization, h.phone, h.email].filter(Boolean).join(' · ');
+    const extra = (h.features || '').split(',').filter(f => f && f !== 'competition');
+    const dl = h.generated_key
+      ? (h.type === 'lic' ? `<button class="icon-btn" title=".lic" data-act="dl" data-id="${h.id}">${icon('dl')}</button>` : `<button class="icon-btn" title="Copy" data-act="copy" data-id="${h.id}">${icon('copy')}</button>`)
+      : `<button class="icon-btn" title="${esc(t('noToken'))}" disabled style="opacity:.3">${icon('dl')}</button>`;
+    return `<div class="item">
+      <input type="checkbox" class="cb" value="${h.id}" aria-label="select">
+      <span class="pill ${h.type === 'lic' ? 'lic' : 'key'}">${h.type === 'lic' ? '.LIC' : 'KEY'}</span>
+      <div class="nm"><b title="${esc(name)}">${esc(name)}</b><span title="${esc(sub)}">${esc(sub) || '&nbsp;'}${h.notes ? ' — <i>' + esc(h.notes) + '</i>' : ''}</span></div>
+      <div class="tags">
+        ${extra.map(f => `<span class="pill key">+${esc(f)}</span>`).join('')}
+        ${h.max_cameras ? `<span class="pill dim">${esc(h.max_cameras)} cam</span>` : ''}
+        <span class="pill ${st.cls}">${esc(st.txt)}</span>
+        <button class="pill ${h.is_paid ? 'ok' : 'warn'} paid-tg" data-act="paid" data-id="${h.id}" title="${esc(t('togglePaid'))}">${esc(h.is_paid ? t('paidLabel') : t('unpaidLabel'))}</button>
+      </div>
+      <div class="row"><div class="per">${esc(h.start_date)} → ${esc(h.end_date)}<small>${esc((h.created_by || '').split('@')[0])} · ${esc((h.created_at || '').slice(0, 10))}</small></div>
+        <div class="acts">${dl}<button class="icon-btn danger" title="Delete" data-act="del" data-id="${h.id}">${icon('trash')}</button></div></div>
+    </div>`;
+  }).join('');
+  updateSel();
+}
+
+$('histList').addEventListener('change', e => { if (e.target.classList.contains('cb')) updateSel(); });
+$('histList').addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const h = hist.find(x => String(x.id) === b.dataset.id); if (!h) return;
+  if (b.dataset.act === 'dl') downloadLic(h.generated_key, licFilename(h.event_name || 'event', h.start_date, h.end_date));
+  if (b.dataset.act === 'copy') copyText(h.generated_key, t('keyCopied'));
+  if (b.dataset.act === 'del') {
+    if (!confirm(t('confirmDelete1'))) return;
+    const { error } = await sb.from('keygen_history').delete().eq('id', h.id);
+    if (error) { toast(t('toastDeleteFail')); return; }
+    toast(t('toastDeleted')); loadHistory();
+  }
+  if (b.dataset.act === 'paid') {
+    const { data, error } = await sb.from('keygen_history').update({ is_paid: !h.is_paid }).eq('id', h.id).select();
+    if (error || !data || !data.length) { toast(t('toastUpdateFail')); return; }
+    h.is_paid = !h.is_paid; renderHist();
+  }
+});
+function updateSel() {
+  const n = document.querySelectorAll('#histList .cb:checked').length;
+  $('histDelSel').hidden = !n;
+  $('histDelSel').querySelector('span').textContent = t('deleteN', n);
+}
+async function deleteSelectedHist() {
+  const ids = [...document.querySelectorAll('#histList .cb:checked')].map(el => Number(el.value)).filter(Boolean);
+  if (!ids.length || !confirm(t('confirmDeleteN', ids.length))) return;
+  const { error } = await sb.from('keygen_history').delete().in('id', ids);
+  if (error) { toast(t('toastDeleteFail')); return; }
+  toast(t('toastDeleted')); loadHistory();
+}
+// Used to run silently on every login — now an explicit, confirmed action.
+async function purgeExpiredUnpaid() {
+  const n = hist.filter(h => !h.is_paid && h.end_date < today()).length;
+  if (!n) { toast(t('purgeNone')); return; }
+  if (!confirm(t('confirmPurge', n))) return;
+  const { error } = await sb.from('keygen_history').delete().lt('end_date', today()).eq('is_paid', false);
+  if (error) { toast(t('toastDeleteFail')); return; }
+  toast(t('toastDeleted')); loadHistory();
+}
+function exportHist(fmt) {
+  const rows = histRows();
+  if (!rows.length) { toast(t('histEmpty')); return; }
+  let blob;
+  if (fmt === 'csv') {
+    const cols = ['id', 'created_at', 'type', 'event_name', 'hwid', 'start_date', 'end_date', 'features', 'max_cameras', 'organization', 'phone', 'email', 'notes', 'is_paid', 'created_by'];
+    const cell = v => { const s = v == null ? '' : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+    blob = new Blob(['﻿' + [cols.join(',')].concat(rows.map(r => cols.map(c => cell(r[c])).join(','))).join('\n')], { type: 'text/csv' });
+  } else blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `neuroreplay-licenses-${today()}.${fmt}`; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+// ── Orders ──
+const ORDER_STATUS = ['new', 'contacted', 'done'];
+const stLabel = s => ({ new: t('stNew'), contacted: t('stContacted'), done: t('stDone') })[s] || s;
+async function loadOrders(quiet) {
+  if (!quiet) $('ordersList').innerHTML = `<div class="empty">${esc(t('ordersLoading'))}</div>`;
+  const { data, error } = await sb.from('demo_requests').select('*').order('created_at', { ascending: false });
+  if (error) {
+    orders = null; $('cntOrders').textContent = '·';
+    $('ordersList').innerHTML = `<div class="empty">${esc(t('ordersLoadFail'))}${esc(error.message)}<br><br>${esc(t('ordersNoTable'))}</div>`;
     return;
   }
-  body.innerHTML = hist.map((item) => {
-    const label   = item.type === 'lic' ? '.LIC' : 'KEY';
-    const name    = esc(item.event_name || item.hwid || '—');
-    const dates   = `${item.start_date}→${item.end_date}`;
-    const who     = item.created_by ? item.created_by.split('@')[0] : '';
-    const isPaid  = item.is_paid;
-    const extraFeats = (item.features || '').split(',').filter(f => f && f !== 'competition');
-    const featBadge = extraFeats.map(f =>
-      `<span class="hist-badge" style="background:rgba(124,92,252,.15);color:var(--accent)">+${esc(f.toUpperCase())}</span>`
-    ).join('');
-    const orgLine = [item.organization, item.phone, item.email].filter(Boolean).map(esc).join(' · ');
-    const notesLine = item.notes ? `<div class="hist-meta-notes">${esc(item.notes)}</div>` : '';
-    const orgRow = orgLine ? `<div class="hist-meta">${orgLine}</div>` : '';
-    const paidBtn = `<label class="hist-paid-label">
-      <span>${isPaid ? t('paidLabel') : t('unpaidLabel')}</span>
-    </label>`;
-    const keyRow  = item.generated_key ? `
-      <div class="hist-key-row">
-        <span class="hist-key-val">${item.generated_key}</span>
-        <button class="hist-copy-btn" onclick="copyHistKey(this, '${item.generated_key}')">📋</button>
-      </div>` : '';
-    return `
-      <div class="hist-item" style="flex-direction:column;align-items:flex-start;gap:4px">
-        <div style="display:flex;align-items:center;gap:7px;width:100%">
-          <input type="checkbox" class="hist-select" value="${item.id}" onclick="event.stopPropagation()">
-          <span class="hist-badge ${item.type==='lic'?'hist-lic':'hist-key'}">${label}</span>
-          ${featBadge}
-          <span class="hist-ev" title="${name}">${name}</span>
-          <span class="hist-dt">${dates}</span>
-          <span class="hist-user">${who}</span>
-          ${paidBtn}
-          <button class="hist-copy-btn" onclick="deleteHistItem(${item.id}); event.stopPropagation()">🗑</button>
-        </div>
-        ${keyRow}
-        ${orgRow}
-        ${notesLine}
-      </div>`;
+  orders = data || [];
+  renderOrders();
+}
+function renderOrders() {
+  if (!orders) return;
+  const fresh = orders.filter(o => (o.status || 'new') === 'new').length;
+  $('cntOrders').textContent = fresh || orders.length;
+  $('cntOrders').classList.toggle('hot', fresh > 0);
+  const list = ordFilter === 'open' ? orders.filter(o => o.status !== 'done') : orders;
+  if (!list.length) { $('ordersList').innerHTML = `<div class="empty">${esc(t('ordersEmpty'))}</div>`; return; }
+  $('ordersList').innerHTML = list.map(o => {
+    const st = ORDER_STATUS.includes(o.status) ? o.status : 'new';
+    const next = ORDER_STATUS[(ORDER_STATUS.indexOf(st) + 1) % ORDER_STATUS.length];
+    const when = o.created_at ? new Date(o.created_at).toLocaleString(lang === 'mn' ? 'mn-MN' : 'en-GB', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+    const meta = [];
+    if (o.email) meta.push(`<span><a href="mailto:${esc(o.email)}">${esc(o.email)}</a></span>`);
+    if (o.phone) meta.push(`<span><a href="tel:${esc(o.phone)}">${esc(o.phone)}</a></span>`);
+    if (o.usecase) meta.push(`<span>${esc(o.usecase)}</span>`);
+    if (o.cameras) meta.push(`<span>${esc(o.cameras)} cam</span>`);
+    if (o.plan) meta.push(`<span>${esc(o.plan)}</span>`);
+    if (o.preferred_language) meta.push(`<span>${esc(o.preferred_language)}</span>`);
+    return `<div class="card order">
+      <div class="order-top"><div><b>${esc(o.fullname || '—')}</b>${o.organization ? `<div class="org">${esc(o.organization)}</div>` : ''}</div><span class="when">${esc(when)}</span></div>
+      ${meta.length ? `<div class="meta">${meta.join('')}</div>` : ''}
+      ${o.message ? `<div class="msg">${esc(o.message)}</div>` : ''}
+      <div class="order-acts">
+        <span class="pill ${st === 'new' ? 'key' : st === 'contacted' ? 'warn' : 'ok'}">${esc(stLabel(st))}</span>
+        <button class="btn sm" data-oact="status" data-id="${o.id}" data-next="${next}">→ ${esc(stLabel(next))}</button>
+        <span class="sp"></span>
+        <button class="btn sm danger" data-oact="del" data-id="${o.id}">${icon('trash')}<span>${esc(t('orderDelete'))}</span></button>
+        <button class="btn sm primary" data-oact="issue" data-id="${o.id}">${icon('arrow')}${esc(t('orderIssue'))}</button>
+      </div></div>`;
   }).join('');
 }
-
-async function deleteHistItem(id) {
-  if (!confirm(t('confirmDeleteHistItem'))) return;
-
-  const { error } = await sb
-    .from('keygen_history')
-    .delete()
-    .eq('id', id);
-
-  if (error) {
-    showToast(t('toastDeleteFail'));
-    console.warn(error);
-    return;
+$('ordersList').addEventListener('click', async e => {
+  const b = e.target.closest('[data-oact]'); if (!b) return;
+  const o = orders.find(x => String(x.id) === b.dataset.id); if (!o) return;
+  if (b.dataset.oact === 'status') {
+    const { error } = await sb.from('demo_requests').update({ status: b.dataset.next }).eq('id', o.id);
+    if (error) { toast(t('errPrefix') + error.message); return; }
+    o.status = b.dataset.next; renderOrders();
   }
-
-  showToast(t('toastDeleted'));
-  await loadHistory();
-}
-
-async function deleteSelectedHist() {
-  const ids = Array.from(document.querySelectorAll('.hist-select:checked'))
-    .map(el => Number(el.value))
-    .filter(Boolean);
-
-  if (!ids.length) {
-    showToast(t('toastSelectToDelete'));
-    return;
+  if (b.dataset.oact === 'del') {
+    if (!b.classList.contains('confirm')) {
+      b.classList.add('confirm'); b.querySelector('span').textContent = t('orderConfirmDelete');
+      clearTimeout(b._t); b._t = setTimeout(() => { b.classList.remove('confirm'); b.querySelector('span').textContent = t('orderDelete'); }, 3000);
+      return;
+    }
+    const { data, error } = await sb.from('demo_requests').delete().eq('id', o.id).select();
+    if (error) { toast(t('errPrefix') + error.message); return; }
+    if (!data || !data.length) { toast(t('orderNoDeletePerm')); return; }
+    toast(t('toastDeleted')); loadOrders(true);
   }
-
-  if (!confirm(t('confirmDeleteN', ids.length))) return;
-
-  const { error } = await sb
-    .from('keygen_history')
-    .delete()
-    .in('id', ids);
-
-  if (error) {
-    showToast(t('toastSelectedDeleteFail'));
-    console.warn(error);
-    return;
+  if (b.dataset.oact === 'issue') {
+    go('issue');
+    $('fOrg').value = o.organization || o.fullname || '';
+    $('fPhone').value = o.phone || '';
+    $('fEmail').value = o.email || '';
+    $('fNotes').value = `#${o.id} ${o.fullname || ''}`.trim();
+    const n = Number(o.cameras);
+    cams = CAMS.includes(n) ? n : (n > 0 ? n : null);
+    dirty();
+    (kind === 'lic' ? $('fEvent') : $('fHwid')).focus();
+    toast(t('prefilled'));
   }
+});
 
-  showToast(t('toastSelectedDeleted'));
-  await loadHistory();
+// ── Verify (same rules as license.js verifyLic / verifyKey) ──
+let pubKeyP = null;
+function pubKey() {
+  if (!pubKeyP) {
+    const der = Uint8Array.from(atob(NR_PUBLIC_SPKI_B64), c => c.charCodeAt(0));
+    pubKeyP = crypto.subtle.importKey('spki', der, { name: 'Ed25519' }, false, ['verify']);
+  }
+  return pubKeyP;
 }
-
-async function deleteExpired() {
-  const today = localToday();
-  await sb.from('keygen_history')
-    .delete()
-    .lt('end_date', today)
-    .eq('is_paid', false);
-}
-
-async function sendLicenseEmail(toEmail, params) {
-  if (!toEmail) return;
+async function edVerify(str, sigB64) {
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_email:    toEmail,
-      org_name:    params.org_name    || '—',
-      phone:       params.phone       || '—',
-      start_date:  params.start_date,
-      end_date:    params.end_date,
-      machine_id:  params.machine_id  || '—',
-      license_key: params.license_key || '—',
-    });
-    showToast(t('toastEmailSent') + toEmail);
-  } catch(e) {
-    showToast(t('toastEmailFail'));
-    console.warn('EmailJS error:', e);
+    const sig = Uint8Array.from(atob(sigB64), c => c.charCodeAt(0));
+    return await crypto.subtle.verify({ name: 'Ed25519' }, await pubKey(), sig, new TextEncoder().encode(str));
+  } catch (_) { return false; }
+}
+const normFeats = f => [...new Set(Array.isArray(f) && f.length ? f : ['competition'])].filter(x => ALL_FEATURES.includes(x)).sort();
+const normCams = c => { const n = Number(c); return Number.isFinite(n) && n > 0 ? Math.floor(n) : null; };
+function decodeTok(s) {
+  const bin = atob(s.replace(/\s+/g, ''));
+  return JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))));
+}
+function payloadFor(prefix, o) {
+  const hasF = Array.isArray(o.features), hasC = Object.prototype.hasOwnProperty.call(o, 'maxCameras');
+  const f = hasF ? normFeats(o.features) : ['competition'], c = hasC ? normCams(o.maxCameras) : null;
+  const p = hasC ? `${prefix}|${f.join(',')}|${c ?? ''}` : hasF ? `${prefix}|${f.join(',')}` : prefix;
+  return { p, f, c };
+}
+
+let vTimer;
+async function runVerify() {
+  const out = $('vRes'), raw = $('vText').value.trim();
+  if (!raw) { out.innerHTML = ''; return; }
+  const box = (cls, msg) => `<div class="big-st ${cls}">${icon(cls === 'ok' ? 'check' : 'shield')}<span>${esc(msg)}</span></div>`;
+  if (!crypto.subtle) { out.innerHTML = box('bad', t('vNoCrypto')); return; }
+  let o;
+  try { o = decodeTok(raw); } catch (_) { out.innerHTML = box('bad', t('vParse')); return; }
+  if (!o || !o.sig || !isYmd(o.start) || !isYmd(o.end)) { out.innerHTML = box('bad', t('vParse')); return; }
+  const isLic = typeof o.event === 'string';
+  let ok = false, f, c, note = '';
+  try { await pubKey(); } catch (_) { out.innerHTML = box('bad', t('vNoCrypto')); return; }
+  if (isLic) {
+    if (!isYmd(o.issued)) { out.innerHTML = box('bad', t('vParse')); return; }
+    ({ f, c } = payloadFor('', o));
+    const r = payloadFor(`${o.event}|${o.start}|${o.end}|${o.issued}`, o);
+    ok = await edVerify(r.p, o.sig);
+  } else {
+    let hw = normHwid($('vHwid').value);
+    if (hw.length !== 16) {
+      const h = hist.find(x => x.generated_key && x.generated_key.replace(/\s+/g, '') === raw.replace(/\s+/g, ''));
+      if (h && h.hwid) { hw = h.hwid; $('vHwid').value = hw; note = t('vFromHist'); }
+    }
+    ({ f, c } = payloadFor('', o));
+    if (hw.length === 16) ok = await edVerify(payloadFor(`${hw}|${o.start}|${o.end}`, o).p, o.sig);
+    else { out.innerHTML = box('warn', t('vNeedHwid')) + details(); return; }
+    if (!ok) { out.innerHTML = box('bad', t('vWrongHwid') + ' / ' + t('vBad')) + details(); return; }
   }
+  function details() {
+    const rows = [[t('vType'), isLic ? '.lic' : 'License Key'], ...(isLic ? [[t('vEvent'), o.event], [t('vIssued'), o.issued]] : []),
+      [t('period'), `${o.start} → ${o.end}`], [t('rights'), (f || normFeats(o.features)).join(' + ')], [t('cameras'), (c ?? normCams(o.maxCameras)) ?? '∞']];
+    return `<dl class="kv">${rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>${note ? `<div class="hint">${esc(note)}</div>` : ''}`;
+  }
+  if (!ok) { out.innerHTML = box('bad', t('vBad')) + details(); return; }
+  const st = licStatus(o.start, o.end);
+  out.innerHTML = (st.k === 'expired' ? box('warn', t('vExpired', o.end)) : st.k === 'future' ? box('warn', t('vFuture', o.start)) : box('ok', t('vOk'))) + details();
 }
+$('vText').addEventListener('input', () => { clearTimeout(vTimer); vTimer = setTimeout(runVerify, 150); });
+$('vHwid').addEventListener('input', () => { $('vHwid').value = normHwid($('vHwid').value).slice(0, 16); runVerify(); });
+async function readLicFile(file) { if (!file) return; $('vText').value = (await file.text()).trim(); runVerify(); }
+$('vFile').addEventListener('change', e => readLicFile(e.target.files[0]));
+const drop = $('drop');
+['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => readLicFile(e.dataTransfer.files[0]));
 
-function toggleLicEmailSection() {
-  const isPaid  = document.getElementById('licIsPaid').checked;
-  const section = document.getElementById('licEmailSection');
-  if (!section) return;
-  section.style.display = isPaid ? 'block' : 'none';
-  if (!isPaid) return;
+// ── Toast ──
+let toastT;
+function toast(msg) { const el = $('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 2600); }
 
-  // Build subject/body from current form values
-  const org   = document.getElementById('licOrg').value.trim();
-  const phone = document.getElementById('licPhone').value.trim();
-  const start = document.getElementById('licStart').value;
-  const end   = document.getElementById('licEnd').value;
-  const event = document.getElementById('licEvent').value.trim();
-
-  const subject = t('emailSubject', org, event);
-  const body = t('emailBody', { org, phone, start, end });
-
-  const subjectBtn = document.getElementById('licCopySubject');
-  const bodyBtn    = document.getElementById('licCopyBody');
-
-  subjectBtn.onclick = () => {
-    navigator.clipboard.writeText(subject).then(() => {
-      subjectBtn.textContent = '✅ Subject';
-      subjectBtn.className = 'lic-copy-part-btn copied';
-      setTimeout(() => { subjectBtn.textContent = '📋 Subject'; subjectBtn.className = 'lic-copy-part-btn'; }, 1500);
-    });
-  };
-
-  bodyBtn.onclick = () => {
-    navigator.clipboard.writeText(body).then(() => {
-      bodyBtn.textContent = '✅ Body';
-      bodyBtn.className = 'lic-copy-part-btn copied';
-      setTimeout(() => { bodyBtn.textContent = '📋 Body'; bodyBtn.className = 'lic-copy-part-btn'; }, 1500);
-    });
-  };
-}
-
-function copyHistKey(btn, key) {
-  navigator.clipboard.writeText(key).then(() => {
-    btn.textContent = '✅';
-    setTimeout(() => btn.textContent = '📋', 1500);
-  });
-}
-
-// Toast
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
+applyLang();
 </script>
 </body>
 </html>
