@@ -49,21 +49,17 @@ NRI18n.addTranslations({
   },
 
   // ── Hero
-  "Built for combat sports": {
-    ru: "Создано для единоборств",
-    uz: "Yakkakurashlar uchun yaratilgan"
+  "Wrestling, judo, BJJ, MMA, sambo": {
+    ru: "Борьба, дзюдо, BJJ, MMA, самбо",
+    uz: "Kurash, dzyudo, BJJ, MMA, sambo"
   },
-  "Rewind every bout in an instant.": {
-    ru: "Перемотайте любую схватку <span class=\"grad\">в одно мгновение.</span>",
-    uz: "Har bir bellashuvni <span class=\"grad\">bir zumda orqaga qaytaring.</span>"
+  "Multi-camera instant replay for combat sports": {
+    ru: "Многокамерный instant replay для единоборств",
+    uz: "Yakkakurashlar uchun ko‘p kamerali instant replay"
   },
-  "NeuroReplay is multi-camera instant replay software for combat sports — wrestling, judo, BJJ, MMA, sambo. Record every mat with USB and RTSP/IP cameras, rewind a disputed moment live, slow it down, telestrate and export MP4.": {
-    ru: "NeuroReplay — многокамерная система мгновенного повтора (instant replay) для единоборств: борьбы, дзюдо, BJJ, MMA, самбо. Записывайте каждый татами USB- и RTSP/IP-камерами, отматывайте спорный момент прямо во время схватки, замедляйте, рисуйте поверх видео и экспортируйте в MP4.",
-    uz: "NeuroReplay — yakkakurashlar uchun ko‘p kamerali instant replay dasturi: kurash, dzyudo, BJJ, MMA, sambo. Har bir gilamni USB va RTSP/IP kameralar bilan yozib oling, bahsli lahzani jonli efirda orqaga qaytaring, sekinlashtiring, video ustiga chizing va MP4 formatida eksport qiling."
-  },
-  "Works fully offline · Mongolian, English, Russian, Uzbek · No capture card needed": {
-    ru: "Работает полностью офлайн · монгольский, английский, русский, узбекский · Карта захвата не нужна",
-    uz: "To‘liq oflayn ishlaydi · mo‘g‘ul, ingliz, rus, o‘zbek tillari · Capture karta kerak emas"
+  "Connect the USB and IP cameras around each mat to one PC and record them all at once. Rewind a disputed moment without stopping the recording, slow it down and show it to the officials on the spot.": {
+    ru: "Подключите USB- и IP-камеры у каждого татами к одному компьютеру и записывайте их одновременно. Спорный момент можно отмотать, не останавливая запись, замедлить и сразу показать судьям.",
+    uz: "Har bir gilam atrofidagi USB va IP kameralarni bitta kompyuterga ulang va barchasini bir vaqtda yozib oling. Bahsli lahzani yozuvni to‘xtatmasdan orqaga qaytaring, sekinlashtiring va hakamlarga shu zahoti ko‘rsating."
   },
   "Try the instant replay": {
     ru: "Попробуйте instant replay",
