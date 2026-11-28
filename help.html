@@ -92,7 +92,7 @@
 <main class="wrap help">
   <aside class="toc" aria-label="Contents">
     <h4><span data-mn>Агуулга</span><span data-en>Contents</span></h4>
-    <a href="#start"><span data-mn>Эхлэхээс өмнө</span><span data-en>Before you start</span></a>
+    <a href="#start"><span data-mn>Техникийн шаардлага</span><span data-en>Requirements</span></a>
     <a href="#install"><span data-mn>Суулгах</span><span data-en>Install</span></a>
     <a href="#license"><span data-mn>License</span><span data-en>License</span></a>
     <a href="#cameras"><span data-mn>Camera тохиргоо</span><span data-en>Camera setup</span></a>
@@ -112,8 +112,8 @@
     <header>
       <span class="kicker"><span data-mn>Гарын авлага</span><span data-en>User guide</span></span>
       <h1><span data-mn>NeuroReplay <span class="grad">хэрэглэгчийн гарын авлага</span></span><span data-en>NeuroReplay <span class="grad">user guide</span></span></h1>
-      <p data-mn>Олон камерын дүрсийг зэрэг бичиж, instant replay, DVR ухраалт, frame-by-frame шинжилгээ, tag болон telestration хийх Windows программын өдөр тутмын заавар.</p>
-      <p data-en>Day-to-day instructions for the Windows app that records several cameras at once and gives you instant replay, DVR rewind, frame-by-frame review, tags and telestration.</p>
+      <p data-mn>Олон камерын дүрсийг зэрэг бичиж, instant replay, DVR ухраалт, frame-by-frame шинжилгээ, tag болон telestration хийх Windows, Mac программын өдөр тутмын заавар.</p>
+      <p data-en>Day-to-day instructions for the Windows and Mac app that records several cameras at once and gives you instant replay, DVR rewind, frame-by-frame review, tags and telestration.</p>
       <div class="doc-actions noprint">
         <a class="btn btn--primary" href="assets/NeuroReplay-User-Manual-mn.pdf" data-i18n-href="assets/NeuroReplay-User-Manual-{lang}.pdf" download>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
@@ -125,39 +125,72 @@
     </header>
 
     <section id="start">
-      <h2><span class="n">01</span><span data-mn>Эхлэхээс өмнө</span><span data-en>Before you start</span></h2>
-      <ul data-mn>
-        <li>Windows 10 эсвэл Windows 11 компьютер</li>
-        <li>Нэг буюу хэд хэдэн USB камер, эсвэл тохируулсан RTSP/IP камер</li>
-        <li>Бичлэг хадгалах хангалттай сул дискний зай</li>
-        <li>Идэвхтэй NeuroReplay license</li>
-      </ul>
-      <ul data-en>
-        <li>A Windows 10 or Windows 11 computer</li>
-        <li>One or more USB cameras, or a configured RTSP/IP camera</li>
-        <li>Enough free disk space for recordings</li>
-        <li>An active NeuroReplay license</li>
-      </ul>
-      <p data-mn>Windows-ийн <b>Settings → Privacy &amp; security → Camera</b> хэсэгт desktop application-д camera access зөвшөөрсөн эсэхийг шалгана.</p>
-      <p data-en>In Windows, check <b>Settings → Privacy &amp; security → Camera</b> and make sure desktop apps are allowed to use the camera.</p>
+      <h2><span class="n">01</span><span data-mn>Техникийн шаардлага</span><span data-en>System requirements</span></h2>
+      <table class="tbl">
+        <thead><tr><th></th><th><span data-mn>Доод шаардлага</span><span data-en>Minimum</span></th><th><span data-mn>Зөвлөмж</span><span data-en>Recommended</span></th></tr></thead>
+        <tbody>
+          <tr><td><span data-mn>Үйлдлийн систем</span><span data-en>Operating system</span></td><td><span data-mn>Windows 10 / 11 (64-бит) эсвэл macOS 12 Monterey+</span><span data-en>Windows 10 / 11 (64-bit) or macOS 12 Monterey+</span></td><td><span data-mn>Windows 11 эсвэл сүүлийн macOS</span><span data-en>Windows 11 or the latest macOS</span></td></tr>
+          <tr><td><span data-mn>Процессор</span><span data-en>Processor</span></td><td><span data-mn>4 цөм (Intel Core i5 8-р үе, AMD Ryzen 5) · Apple M1</span><span data-en>4 cores (Intel Core i5 8th gen, AMD Ryzen 5) · Apple M1</span></td><td><span data-mn>6+ цөм (Intel Core i7 10-р үе+, AMD Ryzen 7) · Apple M2+</span><span data-en>6+ cores (Intel Core i7 10th gen+, AMD Ryzen 7) · Apple M2+</span></td></tr>
+          <tr><td><span data-mn>Санах ой (RAM)</span><span data-en>Memory (RAM)</span></td><td><span data-mn>8 GB</span><span data-en>8 GB</span></td><td><span data-mn>16 GB</span><span data-en>16 GB</span></td></tr>
+          <tr><td><span data-mn>График</span><span data-en>Graphics</span></td><td><span data-mn>H.264 кодлох чадвартай суурилуулсан график</span><span data-en>Integrated graphics with H.264 encoding</span></td><td><span data-mn>Intel Quick Sync, NVIDIA NVENC эсвэл AMD VCN; Mac-ийн суурилуулсан</span><span data-en>Intel Quick Sync, NVIDIA NVENC or AMD VCN; any Mac</span></td></tr>
+          <tr><td><span data-mn>Диск</span><span data-en>Disk</span></td><td><span data-mn>Програмд 1 GB + нэг камерт цагт ~2 GB</span><span data-en>1 GB for the app + about 2 GB per camera per hour</span></td><td><span data-mn>SSD, 200 GB+ сул зай</span><span data-en>SSD with 200 GB+ free</span></td></tr>
+          <tr><td><span data-mn>Камер</span><span data-en>Cameras</span></td><td><span data-mn>1 USB (UVC) эсвэл RTSP/IP камер</span><span data-en>1 USB (UVC) or RTSP/IP camera</span></td><td><span data-mn>8 хүртэл; 1080p-д USB 3.0</span><span data-en>Up to 8; USB 3.0 for 1080p</span></td></tr>
+          <tr><td><span data-mn>Дэлгэц</span><span data-en>Display</span></td><td><span data-mn>1366 × 768</span><span data-en>1366 × 768</span></td><td><span data-mn>1920 × 1080 буюу түүнээс дээш</span><span data-en>1920 × 1080 or higher</span></td></tr>
+          <tr><td><span data-mn>iPad / утас (сонголттой)</span><span data-en>iPad / phone (optional)</span></td><td><span data-mn>Safari-тай iPad эсвэл iPhone, компьютертэй нэг Wi-Fi</span><span data-en>iPad or iPhone with Safari, on the same Wi-Fi as the computer</span></td><td><span data-mn>5 GHz Wi-Fi роутер, компьютер кабелиар холбогдсон</span><span data-en>5 GHz Wi-Fi router, computer connected by cable</span></td></tr>
+          <tr><td><span data-mn>Интернет</span><span data-en>Internet</span></td><td><span data-mn>Шаардлагагүй — бичлэг, replay, license бүгд офлайн ажиллана</span><span data-en>Not needed — recording, replay and the license all work offline</span></td><td><span data-mn>—</span><span data-en>—</span></td></tr>
+        </tbody>
+      </table>
+      <p data-mn>4 цөмтэй эсвэл 6 GB-аас бага санах ойтой компьютер дээр NeuroReplay нягтралыг автоматаар 540p болгож, жигд ажиллахыг эрхэмлэнэ. Бичлэгийн хэмжээ чанараас хамаарна: нэг камерт цагт 0.7 GB (бага), 1.8 GB (дунд), 3.6 GB (өндөр).</p>
+      <p data-en>On a computer with 4 cores or less than 6 GB of memory NeuroReplay lowers the resolution to 540p by itself to stay smooth. Recording size depends on quality: 0.7 GB (low), 1.8 GB (medium) or 3.6 GB (high) per camera per hour.</p>
+      <p data-mn>Мөн идэвхтэй NeuroReplay лиценз хэрэгтэй (03-р хэсгийг үз).</p>
+      <p data-en>You also need an active NeuroReplay license (see section 03).</p>
     </section>
 
     <section id="install">
       <h2><span class="n">02</span><span data-mn>Суулгах ба анх нээх</span><span data-en>Install and first launch</span></h2>
+      <h3><span data-mn>Windows</span><span data-en>Windows</span></h3>
       <ol data-mn>
-        <li><code>NeuroReplay-Setup.exe</code> installer-ийг ажиллуул.</li>
-        <li>Суулгах хавтсаа сонгоод <b>Next → Install</b> дар.</li>
-        <li>Start цэс эсвэл desktop shortcut-аас NeuroReplay-ийг нээ.</li>
+        <li>Вэбсайтын <b>Windows-д татах</b> товчоор <code>NeuroReplay-Setup-Windows.exe</code>-г татна.</li>
+        <li>Файлыг ажиллуулаад суулгах хэлээ сонгоно: Монгол, English, Русский, Oʻzbek.</li>
+        <li>Лицензийн гэрээг зөвшөөрч, <b>зөвхөн надад</b> эсвэл <b>бүх хэрэглэгчид</b> суулгахаа сонгоно.</li>
+        <li>Суулгах хавтсаа сонгоод <b>Install</b> дарна. Дуусахад <b>Finish</b>.</li>
+        <li>Start цэс эсвэл desktop-ийн <b>NeuroReplay</b> товчоор нээнэ.</li>
       </ol>
       <ol data-en>
-        <li>Run the <code>NeuroReplay-Setup.exe</code> installer.</li>
-        <li>Choose an install folder and click <b>Next → Install</b>.</li>
-        <li>Open NeuroReplay from the Start menu or the desktop shortcut.</li>
+        <li>Download <code>NeuroReplay-Setup-Windows.exe</code> with the <b>Download for Windows</b> button on the website.</li>
+        <li>Run the file and pick the installer language: Mongolian, English, Russian or Uzbek.</li>
+        <li>Accept the license agreement and choose to install <b>only for me</b> or for <b>all users</b>.</li>
+        <li>Choose the install folder and click <b>Install</b>, then <b>Finish</b>.</li>
+        <li>Open <b>NeuroReplay</b> from the Start menu or the desktop shortcut.</li>
       </ol>
       <div class="note">
-        <p data-mn>Windows <code>Unknown Publisher</code> анхааруулга гарвал installer код гарын үсэггүй байж болно. Файлыг зөв эх сурвалжаас авсан эсэхээ баталгаажуулаад <b>More info → Run anyway</b> сонгоно.</p>
-        <p data-en>If Windows shows an <code>Unknown Publisher</code> warning, the installer may be unsigned. Once you have confirmed the file came from the right source, choose <b>More info → Run anyway</b>.</p>
+        <p data-mn>Windows <b>“Windows protected your PC”</b> эсвэл <code>Unknown Publisher</code> гэж гарвал файлыг NeuroReplay-ийн вэбсайтаас татсан эсэхээ шалгаад <b>More info → Run anyway</b> дарна.</p>
+        <p data-en>If Windows shows <b>“Windows protected your PC”</b> or <code>Unknown Publisher</code>, make sure the file came from the NeuroReplay website, then click <b>More info → Run anyway</b>.</p>
       </div>
+      <p data-mn>Камер харагдахгүй бол Windows-ийн <b>Settings → Privacy &amp; security → Camera</b> хэсэгт desktop програмд камер ашиглахыг зөвшөөрсөн эсэхийг шалгана.</p>
+      <p data-en>If no camera appears, check <b>Settings → Privacy &amp; security → Camera</b> in Windows and allow desktop apps to use the camera.</p>
+
+      <h3><span data-mn>Mac (macOS)</span><span data-en>Mac (macOS)</span></h3>
+      <ol data-mn>
+        <li>Mac-аа шалгана: Apple цэс → <b>About This Mac</b> дээр <b>Chip: Apple M…</b> бол <b>Apple Silicon</b>, <b>Processor: Intel</b> бол <b>Intel</b> хувилбарыг татна.</li>
+        <li>Татсан <code>.dmg</code> файлыг нээгээд <b>NeuroReplay</b>-г <b>Applications</b> хавтас руу чирнэ.</li>
+        <li><b>Анх нээхдээ</b>: Applications доторх NeuroReplay дээр хулганы баруун товч (эсвэл Control + товшилт) → <b>Open</b> → дахин <b>Open</b>. Дараагийн удаа энгийнээр нээгдэнэ.</li>
+        <li>Камер ашиглах зөвшөөрөл асуухад <b>Allow</b> дарна. iPad ашиглах бол сүлжээний холболтыг ч зөвшөөрнө.</li>
+      </ol>
+      <ol data-en>
+        <li>Check your Mac: Apple menu → <b>About This Mac</b>. <b>Chip: Apple M…</b> means the <b>Apple Silicon</b> download, <b>Processor: Intel</b> means the <b>Intel</b> one.</li>
+        <li>Open the downloaded <code>.dmg</code> and drag <b>NeuroReplay</b> into the <b>Applications</b> folder.</li>
+        <li><b>The first time</b>: in Applications, right-click NeuroReplay (or Control-click) → <b>Open</b> → <b>Open</b> again. After that it opens normally.</li>
+        <li>When it asks for camera access, click <b>Allow</b>. If you use the iPad, allow network connections too.</li>
+      </ol>
+      <div class="note">
+        <p data-mn><b>“NeuroReplay cannot be opened”</b> гэж гарвал <b>System Settings → Privacy &amp; Security</b> хэсгийн доод талд <b>Open Anyway</b> дарна. Камерын зөвшөөрлийг дараа нь <b>System Settings → Privacy &amp; Security → Camera</b>-аас өөрчилнө.</p>
+        <p data-en>If you see <b>“NeuroReplay cannot be opened”</b>, go to <b>System Settings → Privacy &amp; Security</b> and click <b>Open Anyway</b> near the bottom. Camera access can be changed later in <b>System Settings → Privacy &amp; Security → Camera</b>.</p>
+      </div>
+
+      <h3><span data-mn>Устгах</span><span data-en>Uninstall</span></h3>
+      <p data-mn><b>Windows</b>: Settings → Apps → NeuroReplay → <b>Uninstall</b>. <b>Mac</b>: Applications доторх NeuroReplay-г Trash руу чирнэ. Бичлэгүүд (<code>Videos\NeuroReplay</code> / <code>Movies/NeuroReplay</code>) устахгүй.</p>
+      <p data-en><b>Windows</b>: Settings → Apps → NeuroReplay → <b>Uninstall</b>. <b>Mac</b>: drag NeuroReplay from Applications to the Trash. Your recordings (<code>Videos\NeuroReplay</code> / <code>Movies/NeuroReplay</code>) are kept.</p>
     </section>
 
     <section id="license">

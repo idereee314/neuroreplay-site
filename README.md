@@ -1,6 +1,6 @@
 # NeuroReplay — Demo / order site
 
-Production-ready landing + demo-request site for **NeuroReplay**, a Windows
+Production-ready landing + demo-request site for **NeuroReplay**, a Windows / macOS
 desktop app for multi-camera instant replay & video review (sports, combat
 sports, coaching, competitions, VR training).
 
@@ -22,10 +22,15 @@ neuroreplay-site/
 ├── competition-i18n.js # translations for competition.html
 ├── assets/           # logo, favicons, OG image, flags/ (language switcher)
 ├── robots.txt        # allows the site, disallows /admin/
+├── vercel.json       # Vercel: clean URLs, no trailing slash
+├── .github/workflows/supabase-keepalive.yml   # pings Supabase every 3 days
 └── admin/            # INTERNAL license keygen — NOT linked from the public site
-    ├── index.html    # Supabase-auth login + .lic / license-key generator
+    ├── index.html    # Supabase-auth login + .lic / license-key generator + demo requests
     ├── assets/images/
-    └── supabase/functions/sign-license/index.ts   # edge function (deployed via Supabase CLI)
+    └── supabase/
+        ├── demo_requests.sql   # table + RLS for the public demo form
+        ├── keepalive.sql       # keepalive() RPC used by the GitHub workflow
+        └── functions/sign-license/index.ts   # edge function (deployed via Supabase CLI)
 ```
 
 The public page (`index.html`) links `styles.css` + `i18n.js` + `site-i18n.js` + `app.js`;
@@ -39,7 +44,7 @@ language-dependent links (`data-i18n-href="…{lang}…"`, e.g. the PDF manual) 
 
 - Mongolian and English are written inline in the markup:
   `<span data-mn>…</span><span data-en>…</span>`.
-- Other languages live in `site-i18n.js` / `help-i18n.js` as
+- Other languages live in `site-i18n.js` / `help-i18n.js` / `competition-i18n.js` as
   `"English text": { ru: "…", uz: "…" }`. The key is the element's English text with tags
   stripped and whitespace collapsed; a missing translation falls back to English. Edit the
   English copy → update its key too.
@@ -81,9 +86,18 @@ The form submission target lives in a **config variable** near the top of
 ```html
 <script>
   window.NR_CONFIG = {
-    formEndpoint: "",                               // POST endpoint, or "" for mailto fallback
+    supabaseUrl: "https://<project>.supabase.co",   // demo requests are stored here
+    supabaseAnonKey: "…",                           // public anon key (RLS: anon INSERT only)
+    formEndpoint: "",                               // fallback POST endpoint, or "" for mailto
     contactEmail: "idereee.engineering@gmail.com",  // used by the form + mailto fallback
-    manualUrl: "#"                                  // user-manual URL
+    manualUrl: "help.html",                         // user-manual URL
+    downloads: {                                    // installer URL per platform
+      windows:  "…/releases/latest/download/NeuroReplay-Setup-Windows.exe",
+      macArm:   "…/releases/latest/download/NeuroReplay-mac-arm64.dmg",
+      macIntel: "…/releases/latest/download/NeuroReplay-mac-x64.dmg"
+    },
+    version: "1.0.1",                               // shown under the Download buttons
+    fileSize: ""                                    // e.g. "140 MB"; "" hides it
   };
 </script>
 ```
@@ -113,8 +127,20 @@ consent checkbox.
   `assets/NeuroReplay-Competition-Guide-{mn,en,ru,uz}.pdf`.
   Regenerate a PDF after editing the guide (Chrome, A4, no header/footer):
   `chrome --headless=new --no-pdf-header-footer --virtual-time-budget=6000 --print-to-pdf=assets/NeuroReplay-User-Manual-ru.pdf "http://localhost/…/help.html?lang=ru"`.
-- **`downloadUrl`** — Windows installer link is empty for now (Download button
-  routes to the demo form until it's set).
+- **Downloads (`downloads`)** — Windows and Mac (Apple Silicon / Intel) installers
+  are served from the **latest release** of the public
+  [`idereee314/neuroreplay-releases`](https://github.com/idereee314/neuroreplay-releases)
+  repo under fixed file names (`NeuroReplay-Setup-Windows.exe`,
+  `NeuroReplay-mac-arm64.dmg`, `NeuroReplay-mac-x64.dmg`). Publishing a new release
+  with the same asset names needs **no site change** — only bump `version`.
+  An empty URL hides that button (Windows falls back to the demo form); the Mac
+  "right-click → Open" hint appears only when a Mac link is set. The old single
+  `downloadUrl` key still works as the Windows link.
+- **System requirements / install guide** — `help.html#start` (minimum /
+  recommended table: Windows 10/11 64-bit or macOS 12+, 4+ cores, 8 GB RAM, about
+  2 GB per camera per hour) and `help.html#install` (Windows installer, Mac `.dmg`,
+  uninstall). The Download card links to both. Keep these, `competition.html` and
+  the PDFs in sync when the numbers change.
 - **Demo requests → Supabase** — the public form saves each request to the
   Supabase table `demo_requests`, and admins read them in `/admin/` → **Захиалгууд**
   tab. **One-time setup:** open Supabase → SQL Editor and run
@@ -123,6 +149,11 @@ consent checkbox.
   form shows a network error and the admin list shows a "table not found" hint.
   If Supabase is unreachable the form falls back to `formEndpoint`, then to a
   `mailto:` link — it never fakes a submit.
+- **Supabase keep-alive** — free-plan projects pause after 7 idle days.
+  `.github/workflows/supabase-keepalive.yml` calls the `keepalive()` RPC every
+  3 days (and on manual *Run workflow*). **One-time setup:** run
+  `admin/supabase/keepalive.sql` in the SQL Editor. A failed ping fails the job,
+  so GitHub emails you.
 - **`formEndpoint`** — optional fallback POST endpoint if you don't use Supabase.
 - **Pricing** — the site shows one main event-day package: **180,000 MNT per
   event day** with the Competition licence, up to 4 cameras, and on-site technical
@@ -134,9 +165,16 @@ consent checkbox.
 - **Screenshots** — the hero uses a clearly labelled interactive product mockup;
   swap in real product screenshots when available (keep stable dimensions).
 
-## Deploy on GitHub Pages
+## Deploy
 
-1. Create a repo and push these files:
+The site is plain static files, so any static host works.
+
+**Vercel** — import the repo, framework preset *Other*, no build command, output
+directory `/`. `vercel.json` enables clean URLs (`/help` → `help.html`).
+
+**GitHub Pages**
+
+1. Push the repo:
    ```bash
    git init && git add . && git commit -m "NeuroReplay demo site"
    git branch -M main

@@ -35,10 +35,6 @@ NRI18n.addTranslations({
     ru: "Содержание",
     uz: "Mundarija"
   },
-  "Before you start": {
-    ru: "Перед началом",
-    uz: "Boshlashdan oldin"
-  },
   "Install": {
     ru: "Установка",
     uz: "O‘rnatish"
@@ -91,9 +87,9 @@ NRI18n.addTranslations({
     ru: "NeuroReplay <span class='grad'>руководство пользователя</span>",
     uz: "NeuroReplay <span class='grad'>foydalanuvchi qo‘llanmasi</span>"
   },
-  "Day-to-day instructions for the Windows app that records several cameras at once and gives you instant replay, DVR rewind, frame-by-frame review, tags and telestration.": {
-    ru: "Повседневная инструкция к программе для Windows, которая записывает сразу несколько камер и даёт мгновенный повтор (instant replay), DVR-перемотку, покадровый разбор, теги и телестрацию.",
-    uz: "Bir vaqtning o‘zida bir nechta kamerani yozib oladigan hamda instant replay, DVR orqaga o‘tkazish, kadrma-kadr tahlil, teglar va telestratsiyani taqdim etadigan Windows dasturi uchun kundalik qo‘llanma."
+  "Day-to-day instructions for the Windows and Mac app that records several cameras at once and gives you instant replay, DVR rewind, frame-by-frame review, tags and telestration.": {
+    ru: "Повседневная инструкция к программе для Windows и Mac, которая записывает сразу несколько камер и даёт мгновенный повтор (instant replay), DVR-перемотку, покадровый разбор, теги и телестрацию.",
+    uz: "Bir vaqtning o‘zida bir nechta kamerani yozib oladigan hamda instant replay, DVR orqaga o‘tkazish, kadrma-kadr tahlil, teglar va telestratsiyani taqdim etadigan Windows va Mac dasturi uchun kundalik qo‘llanma."
   },
   "Download PDF": {
     ru: "Сохранить как PDF",
@@ -103,25 +99,9 @@ NRI18n.addTranslations({
     ru: "Скачать программу",
     uz: "Dasturni yuklab olish"
   },
-  "A Windows 10 or Windows 11 computer One or more USB cameras, or a configured RTSP/IP camera Enough free disk space for recordings An active NeuroReplay license": {
-    ru: "<li>Компьютер с Windows 10 или Windows 11</li><li>Одна или несколько USB-камер либо настроенная RTSP/IP-камера</li><li>Достаточно свободного места на диске для записей</li><li>Активная лицензия NeuroReplay</li>",
-    uz: "<li>Windows 10 yoki Windows 11 o‘rnatilgan kompyuter</li><li>Bitta yoki bir nechta USB kamera yoki sozlangan RTSP/IP kamera</li><li>Yozuvlar uchun diskda yetarli bo‘sh joy</li><li>Faol NeuroReplay litsenziyasi</li>"
-  },
-  "In Windows, check Settings → Privacy & security → Camera and make sure desktop apps are allowed to use the camera.": {
-    ru: "В Windows откройте <b>Settings → Privacy &amp; security → Camera</b> и убедитесь, что классическим приложениям разрешён доступ к камере.",
-    uz: "Windows’da <b>Settings → Privacy &amp; security → Camera</b> bo‘limini oching va desktop ilovalarga kameradan foydalanishga ruxsat berilganiga ishonch hosil qiling."
-  },
   "Install and first launch": {
     ru: "Установка и первый запуск",
     uz: "O‘rnatish va birinchi ishga tushirish"
-  },
-  "Run the NeuroReplay-Setup.exe installer. Choose an install folder and click Next → Install. Open NeuroReplay from the Start menu or the desktop shortcut.": {
-    ru: "<li>Запустите установщик <code>NeuroReplay-Setup.exe</code>.</li><li>Выберите папку установки и нажмите <b>Next → Install</b>.</li><li>Откройте NeuroReplay из меню «Пуск» или с ярлыка на рабочем столе.</li>",
-    uz: "<li><code>NeuroReplay-Setup.exe</code> o‘rnatuvchi faylini ishga tushiring.</li><li>O‘rnatish papkasini tanlab, <b>Next → Install</b> tugmasini bosing.</li><li>NeuroReplay’ni Start menyusidan yoki ish stolidagi yorliqdan oching.</li>"
-  },
-  "If Windows shows an Unknown Publisher warning, the installer may be unsigned. Once you have confirmed the file came from the right source, choose More info → Run anyway.": {
-    ru: "Если Windows показывает предупреждение <code>Unknown Publisher</code>, установщик может быть без цифровой подписи. Убедившись, что файл получен из надёжного источника, выберите <b>More info → Run anyway</b>.",
-    uz: "Agar Windows <code>Unknown Publisher</code> ogohlantirishini ko‘rsatsa, o‘rnatuvchi raqamli imzosiz bo‘lishi mumkin. Fayl ishonchli manbadan olinganiga ishonch hosil qilgach, <b>More info → Run anyway</b> ni tanlang."
   },
   "Activate your license": {
     ru: "Активация лицензии",
@@ -476,5 +456,175 @@ NRI18n.addTranslations({
   "Same Wi-Fi, Windows network set to Private. Fully restart NeuroReplay on the computer, then refresh the iPad.": {
     ru: "Одна сеть Wi-Fi, сеть Windows — <b>частная (Private)</b>. Полностью перезапустите NeuroReplay на компьютере и обновите страницу на iPad.",
     uz: "Bitta Wi-Fi, Windows tarmog‘i <b>Private</b>. Kompyuterda NeuroReplay’ni to‘liq qayta ishga tushiring va iPad sahifasini yangilang."
+  },
+
+  // ── Requirements and install (Windows, macOS)
+  "Minimum": {
+    ru: "Минимум",
+    uz: "Minimal"
+  },
+  "Recommended": {
+    ru: "Рекомендуется",
+    uz: "Tavsiya etiladi"
+  },
+  "Operating system": {
+    ru: "Операционная система",
+    uz: "Operatsion tizim"
+  },
+  "Windows 10 / 11 (64-bit) or macOS 12 Monterey+": {
+    ru: "Windows 10 / 11 (64-бит) или macOS 12 Monterey+",
+    uz: "Windows 10 / 11 (64-bit) yoki macOS 12 Monterey+"
+  },
+  "Windows 11 or the latest macOS": {
+    ru: "Windows 11 или последняя macOS",
+    uz: "Windows 11 yoki eng so‘nggi macOS"
+  },
+  "Processor": {
+    ru: "Процессор",
+    uz: "Protsessor"
+  },
+  "4 cores (Intel Core i5 8th gen, AMD Ryzen 5) · Apple M1": {
+    ru: "4 ядра (Intel Core i5 8-го поколения, AMD Ryzen 5) · Apple M1",
+    uz: "4 yadro (Intel Core i5 8-avlod, AMD Ryzen 5) · Apple M1"
+  },
+  "6+ cores (Intel Core i7 10th gen+, AMD Ryzen 7) · Apple M2+": {
+    ru: "6+ ядер (Intel Core i7 10-го поколения+, AMD Ryzen 7) · Apple M2+",
+    uz: "6+ yadro (Intel Core i7 10-avlod+, AMD Ryzen 7) · Apple M2+"
+  },
+  "Memory (RAM)": {
+    ru: "Оперативная память",
+    uz: "Operativ xotira (RAM)"
+  },
+  "8 GB": {
+    ru: "8 ГБ",
+    uz: "8 GB"
+  },
+  "16 GB": {
+    ru: "16 ГБ",
+    uz: "16 GB"
+  },
+  "Graphics": {
+    ru: "Графика",
+    uz: "Grafika"
+  },
+  "Integrated graphics with H.264 encoding": {
+    ru: "Встроенная графика с кодированием H.264",
+    uz: "H.264 kodlashni qo‘llaydigan o‘rnatilgan grafika"
+  },
+  "Intel Quick Sync, NVIDIA NVENC or AMD VCN; any Mac": {
+    ru: "Intel Quick Sync, NVIDIA NVENC или AMD VCN; любой Mac",
+    uz: "Intel Quick Sync, NVIDIA NVENC yoki AMD VCN; istalgan Mac"
+  },
+  "Disk": {
+    ru: "Диск",
+    uz: "Disk"
+  },
+  "1 GB for the app + about 2 GB per camera per hour": {
+    ru: "1 ГБ для программы + около 2 ГБ на камеру в час",
+    uz: "Dastur uchun 1 GB + har bir kameraga soatiga ~2 GB"
+  },
+  "SSD with 200 GB+ free": {
+    ru: "SSD, свободно 200 ГБ+",
+    uz: "SSD, 200 GB+ bo‘sh joy"
+  },
+  "Cameras": {
+    ru: "Камеры",
+    uz: "Kameralar"
+  },
+  "1 USB (UVC) or RTSP/IP camera": {
+    ru: "1 USB (UVC) или RTSP/IP-камера",
+    uz: "1 ta USB (UVC) yoki RTSP/IP kamera"
+  },
+  "Up to 8; USB 3.0 for 1080p": {
+    ru: "До 8; для 1080p — USB 3.0",
+    uz: "8 tagacha; 1080p uchun USB 3.0"
+  },
+  "Display": {
+    ru: "Экран",
+    uz: "Ekran"
+  },
+  "1366 × 768": {
+    ru: "1366 × 768",
+    uz: "1366 × 768"
+  },
+  "1920 × 1080 or higher": {
+    ru: "1920 × 1080 и выше",
+    uz: "1920 × 1080 yoki undan yuqori"
+  },
+  "iPad / phone (optional)": {
+    ru: "iPad / телефон (необязательно)",
+    uz: "iPad / telefon (ixtiyoriy)"
+  },
+  "iPad or iPhone with Safari, on the same Wi-Fi as the computer": {
+    ru: "iPad или iPhone с Safari в той же сети Wi-Fi, что и компьютер",
+    uz: "Safari’li iPad yoki iPhone, kompyuter bilan bitta Wi-Fi’da"
+  },
+  "5 GHz Wi-Fi router, computer connected by cable": {
+    ru: "Роутер Wi-Fi 5 ГГц, компьютер подключён кабелем",
+    uz: "5 GHz Wi-Fi router, kompyuter kabel orqali ulangan"
+  },
+  "Internet": {
+    ru: "Интернет",
+    uz: "Internet"
+  },
+  "Not needed — recording, replay and the license all work offline": {
+    ru: "Не нужен — запись, повторы и лицензия работают офлайн",
+    uz: "Shart emas — yozib olish, takror va litsenziya oflayn ishlaydi"
+  },
+  "—": {
+    ru: "—",
+    uz: "—"
+  },
+  "System requirements": {
+    ru: "Системные требования",
+    uz: "Texnik talablar"
+  },
+  "On a computer with 4 cores or less than 6 GB of memory NeuroReplay lowers the resolution to 540p by itself to stay smooth. Recording size depends on quality: 0.7 GB (low), 1.8 GB (medium) or 3.6 GB (high) per camera per hour.": {
+    ru: "На компьютере с 4 ядрами или менее чем 6 ГБ памяти NeuroReplay сам снижает разрешение до 540p, чтобы работать плавно. Размер записи зависит от качества: 0,7 ГБ (низкое), 1,8 ГБ (среднее) или 3,6 ГБ (высокое) на камеру в час.",
+    uz: "4 yadroli yoki 6 GB dan kam xotirali kompyuterda NeuroReplay silliq ishlash uchun o‘lchamni o‘zi 540p ga tushiradi. Yozuv hajmi sifatga bog‘liq: har bir kameraga soatiga 0,7 GB (past), 1,8 GB (o‘rta) yoki 3,6 GB (yuqori)."
+  },
+  "You also need an active NeuroReplay license (see section 03).": {
+    ru: "Также нужна действующая лицензия NeuroReplay (см. раздел 03).",
+    uz: "Shuningdek, amaldagi NeuroReplay litsenziyasi kerak (03-bo‘limga qarang)."
+  },
+  "Windows": {
+    ru: "Windows",
+    uz: "Windows"
+  },
+  "Download NeuroReplay-Setup-Windows.exe with the Download for Windows button on the website. Run the file and pick the installer language: Mongolian, English, Russian or Uzbek. Accept the license agreement and choose to install only for me or for all users. Choose the install folder and click Install, then Finish. Open NeuroReplay from the Start menu or the desktop shortcut.": {
+    ru: "<li>Скачайте <code>NeuroReplay-Setup-Windows.exe</code> кнопкой <b>Скачать для Windows</b> на сайте.</li><li>Запустите файл и выберите язык установки: монгольский, английский, русский или узбекский.</li><li>Примите лицензионное соглашение и выберите установку <b>только для меня</b> или <b>для всех пользователей</b>.</li><li>Выберите папку установки и нажмите <b>Install</b>, затем <b>Finish</b>.</li><li>Откройте <b>NeuroReplay</b> из меню «Пуск» или с ярлыка на рабочем столе.</li>",
+    uz: "<li>Saytdagi <b>Windows uchun yuklab olish</b> tugmasi orqali <code>NeuroReplay-Setup-Windows.exe</code> ni yuklab oling.</li><li>Faylni ishga tushiring va o‘rnatish tilini tanlang: mo‘g‘ul, ingliz, rus yoki o‘zbek.</li><li>Litsenziya shartnomasini qabul qiling va <b>faqat men uchun</b> yoki <b>barcha foydalanuvchilar uchun</b> o‘rnatishni tanlang.</li><li>O‘rnatish papkasini tanlang va <b>Install</b>, so‘ng <b>Finish</b> ni bosing.</li><li><b>NeuroReplay</b> ni Start menyusidan yoki ish stolidagi yorliqdan oching.</li>"
+  },
+  "If Windows shows “Windows protected your PC” or Unknown Publisher, make sure the file came from the NeuroReplay website, then click More info → Run anyway.": {
+    ru: "Если Windows показывает <b>«Windows protected your PC»</b> или <code>Unknown Publisher</code>, убедитесь, что файл скачан с сайта NeuroReplay, и нажмите <b>More info → Run anyway</b>.",
+    uz: "Agar Windows <b>“Windows protected your PC”</b> yoki <code>Unknown Publisher</code> ni ko‘rsatsa, fayl NeuroReplay saytidan yuklanganini tekshiring va <b>More info → Run anyway</b> ni bosing."
+  },
+  "If no camera appears, check Settings → Privacy & security → Camera in Windows and allow desktop apps to use the camera.": {
+    ru: "Если камеры не видны, проверьте в Windows <b>Параметры → Конфиденциальность и защита → Камера</b> и разрешите доступ классическим приложениям.",
+    uz: "Kamera ko‘rinmasa, Windows’da <b>Settings → Privacy &amp; security → Camera</b> ni tekshiring va ish stoli dasturlariga ruxsat bering."
+  },
+  "Mac (macOS)": {
+    ru: "Mac (macOS)",
+    uz: "Mac (macOS)"
+  },
+  "Check your Mac: Apple menu → About This Mac. Chip: Apple M… means the Apple Silicon download, Processor: Intel means the Intel one. Open the downloaded .dmg and drag NeuroReplay into the Applications folder. The first time: in Applications, right-click NeuroReplay (or Control-click) → Open → Open again. After that it opens normally. When it asks for camera access, click Allow. If you use the iPad, allow network connections too.": {
+    ru: "<li>Проверьте Mac: меню Apple → <b>Об этом Mac</b>. <b>Чип: Apple M…</b> — скачивайте версию <b>Apple Silicon</b>, <b>Процессор: Intel</b> — версию <b>Intel</b>.</li><li>Откройте скачанный <code>.dmg</code> и перетащите <b>NeuroReplay</b> в папку <b>Applications</b>.</li><li><b>При первом запуске</b>: в Applications нажмите на NeuroReplay правой кнопкой (или Control + щелчок) → <b>Open</b> → снова <b>Open</b>. Дальше программа открывается как обычно.</li><li>Когда программа запросит доступ к камере, нажмите <b>Allow</b>. Если используете iPad, разрешите и сетевые подключения.</li>",
+    uz: "<li>Mac’ni tekshiring: Apple menyusi → <b>About This Mac</b>. <b>Chip: Apple M…</b> bo‘lsa <b>Apple Silicon</b>, <b>Processor: Intel</b> bo‘lsa <b>Intel</b> versiyasini yuklab oling.</li><li>Yuklab olingan <code>.dmg</code> faylni oching va <b>NeuroReplay</b> ni <b>Applications</b> papkasiga torting.</li><li><b>Birinchi marta</b>: Applications’da NeuroReplay ustida sichqonchaning o‘ng tugmasini bosing (yoki Control + bosish) → <b>Open</b> → yana <b>Open</b>. Keyin oddiy ochiladi.</li><li>Kameraga ruxsat so‘ralganda <b>Allow</b> ni bosing. iPad ishlatsangiz, tarmoq ulanishlariga ham ruxsat bering.</li>"
+  },
+  "If you see “NeuroReplay cannot be opened”, go to System Settings → Privacy & Security and click Open Anyway near the bottom. Camera access can be changed later in System Settings → Privacy & Security → Camera.": {
+    ru: "Если появляется <b>«NeuroReplay cannot be opened»</b>, откройте <b>Системные настройки → Конфиденциальность и безопасность</b> и нажмите <b>Open Anyway</b> внизу. Доступ к камере позже меняется в <b>Системные настройки → Конфиденциальность и безопасность → Камера</b>.",
+    uz: "Agar <b>“NeuroReplay cannot be opened”</b> chiqsa, <b>System Settings → Privacy &amp; Security</b> bo‘limiga o‘tib, pastdagi <b>Open Anyway</b> ni bosing. Kameraga ruxsatni keyinroq <b>System Settings → Privacy &amp; Security → Camera</b> da o‘zgartirasiz."
+  },
+  "Uninstall": {
+    ru: "Удаление",
+    uz: "O‘chirish"
+  },
+  "Windows: Settings → Apps → NeuroReplay → Uninstall. Mac: drag NeuroReplay from Applications to the Trash. Your recordings (Videos\\NeuroReplay / Movies/NeuroReplay) are kept.": {
+    ru: "<b>Windows</b>: Параметры → Приложения → NeuroReplay → <b>Удалить</b>. <b>Mac</b>: перетащите NeuroReplay из Applications в Корзину. Записи (<code>Videos\\NeuroReplay</code> / <code>Movies/NeuroReplay</code>) сохраняются.",
+    uz: "<b>Windows</b>: Settings → Apps → NeuroReplay → <b>Uninstall</b>. <b>Mac</b>: NeuroReplay’ni Applications’dan Savatga torting. Yozuvlar (<code>Videos\\NeuroReplay</code> / <code>Movies/NeuroReplay</code>) saqlanib qoladi."
+  },
+  "Requirements": {
+    ru: "Требования",
+    uz: "Talablar"
   }
 });

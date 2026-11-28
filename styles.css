@@ -383,6 +383,8 @@ section { padding: 104px 0; position: relative; }
 .dl-body h2 { font-size: clamp(27px, 3.3vw, 38px); font-weight: 700; line-height: 1.08; }
 .dl-body p { color: var(--muted); margin: 16px 0 28px; max-width: 32em; }
 .dl-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.dl-note, .dl-links { margin: 14px 0 0; font-size: 14px; color: var(--muted); }
+.dl-links a { color: var(--brand-ink); text-decoration: underline; text-underline-offset: 3px; }
 .dl-meta { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 24px; font-size: 13px; color: var(--faint); }
 .dl-meta b { color: var(--muted); font-weight: 600; }
 .dl-side { background: #070b16; padding: 44px; display: flex; flex-direction: column; justify-content: center; gap: 16px; position: relative; overflow: hidden; border-left: 1px solid var(--line); }

@@ -73,9 +73,19 @@
   if (manual && CONFIG.manualUrl) manual.setAttribute('href', CONFIG.manualUrl);
 
   (function () {
-    var dl = document.getElementById('downloadBtn');
-    var url = (CONFIG.downloadUrl || '').trim();
-    if (dl && url) { dl.setAttribute('href', url); dl.setAttribute('download', ''); }
+    var links = CONFIG.downloads || { windows: CONFIG.downloadUrl };
+    var set = function (id, url) {
+      var a = document.getElementById(id);
+      url = (url || '').trim();
+      if (!a || !url) return false;
+      a.setAttribute('href', url);
+      a.hidden = false;
+      return true;
+    };
+    set('downloadBtn', links.windows);   // without a URL it keeps pointing at the demo form
+    var mac = set('downloadMacArm', links.macArm) | set('downloadMacIntel', links.macIntel);
+    var note = document.getElementById('dlMacNote');
+    if (note && mac) note.hidden = false;
     if (CONFIG.version) { var v = document.getElementById('dlVersion'); if (v) { v.hidden = false; v.querySelector('.v').textContent = CONFIG.version; } }
     if (CONFIG.fileSize) { var s = document.getElementById('dlSize'); if (s) { s.hidden = false; s.querySelector('.v').textContent = CONFIG.fileSize; } }
   })();

@@ -4,6 +4,14 @@
    Changing English copy in index.html changes its key: update the key here too.
    Loaded after i18n.js (see the language registry there). */
 NRI18n.addTranslations({
+  "Installation guide": {
+    ru: "Инструкция по установке",
+    uz: "O‘rnatish bo‘yicha qo‘llanma"
+  },
+  "System requirements": {
+    ru: "Системные требования",
+    uz: "Texnik talablar"
+  },
   "Competition guide": {
     ru: "Руководство для соревнований",
     uz: "Musobaqa qo‘llanmasi"
@@ -687,13 +695,21 @@ NRI18n.addTranslations({
   },
 
   // ── Download
-  "Get NeuroReplay for Windows": {
-    ru: "Скачайте NeuroReplay для Windows",
-    uz: "NeuroReplay’ni Windows uchun yuklab oling"
+  "Get NeuroReplay for Windows and Mac": {
+    ru: "Скачайте NeuroReplay для Windows и Mac",
+    uz: "NeuroReplay’ni Windows va Mac uchun yuklab oling"
   },
-  "Download the installer and set it up on Windows 10/11. Activation needs a license — request a demo and we'll issue a key.": {
-    ru: "Скачайте установщик и установите на Windows 10/11. Для активации нужна лицензия — закажите демо, и мы выдадим ключ.",
-    uz: "O‘rnatuvchini yuklab oling va Windows 10/11 ga o‘rnating. Faollashtirish uchun litsenziya kerak — demo buyurtma qiling, biz kalit beramiz."
+  "Download the installer and set it up on Windows 10/11 or macOS 12+. Activation needs a license — request a demo and we'll issue a key.": {
+    ru: "Скачайте установщик и установите на Windows 10/11 или macOS 12+. Для активации нужна лицензия — закажите демо, и мы выдадим ключ.",
+    uz: "O‘rnatuvchini yuklab oling va Windows 10/11 yoki macOS 12+ ga o‘rnating. Faollashtirish uchun litsenziya kerak — demo buyurtma qiling, biz kalit beramiz."
+  },
+  "Mac: the first time, right-click the app and choose Open.": {
+    ru: "Mac: при первом запуске нажмите на программу правой кнопкой мыши и выберите <b>Open</b>.",
+    uz: "Mac: birinchi marta dasturni sichqonchaning o‘ng tugmasi bilan bosing va <b>Open</b> ni tanlang."
+  },
+  "Windows and Mac installers": {
+    ru: "Установщики для Windows и Mac",
+    uz: "Windows va Mac o‘rnatuvchilari"
   },
   "Download for Windows": {
     ru: "Скачать для Windows",
